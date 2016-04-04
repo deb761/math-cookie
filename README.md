@@ -1,10 +1,10 @@
 # Solstice
 Initial team repository
 # Team Members
-Deb Engelmeyer
-Fred Jaworski
-Dino Cismic
-Liz Fallin
+- Deb Engelmeyer
+- Fred Jaworski
+- Dino Cismic
+- Liz Fallin
 
 # Team Comments
 
