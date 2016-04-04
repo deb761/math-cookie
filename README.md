@@ -1,0 +1,2 @@
+# Solstice
+Initial team respository
