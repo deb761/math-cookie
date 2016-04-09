@@ -31,7 +31,17 @@ After submission, results are stored, including the problem and answer.
 
 The correct answer is shown under Oops.
 ###Place Value - Easiest
-There are three levels of Place Value screens.  The student will be presented with the easiest screens after mastering 1 digit addition and subtraction.
+There are three levels of Place Value screens, which are split into two difficulty levels.  These levels are 2-digit and
+3-digit place values.  The first two levels of screens will cover the 2-digit place value, and the 2nd and 3rd levels
+will cover the 3-digit place values.
+
+The student will be presented with the easiest screens after mastering 1 digit addition and subtraction, and will use
+2-digit numbers.
+The other screens will be presented after the student masters the easiest screens.
+
+The second section, in level 2, comes after adding/subtracting 2-digit and 1-digit numbers. This section is 3-digit place values.
+
+Each of these sections will have multiple rounds of progressively more difficult concepts.
 
 ![alt text](images/place-1.png "Easiest Place Value Screen")
 ###Place Value - Intermediate
