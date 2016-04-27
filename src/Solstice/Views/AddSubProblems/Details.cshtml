@@ -1,0 +1,48 @@
+@model Solstice.Models.AddSubProblem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AddSubProblem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Level)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Level)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Operator1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Operator1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Operator2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Operator2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProblemType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProblemType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Result)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Result)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.AddSubProblemID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

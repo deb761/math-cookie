@@ -1,0 +1,65 @@
+@model Solstice.Models.AddSubProblem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>AddSubProblem</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Level" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Level" class="form-control" />
+                <span asp-validation-for="Level" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Operator1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Operator1" class="form-control" />
+                <span asp-validation-for="Operator1" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Operator2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Operator2" class="form-control" />
+                <span asp-validation-for="Operator2" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProblemType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ProblemType" class="form-control"></select>
+                <span asp-validation-for="ProblemType" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Result" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Result" class="form-control" />
+                <span asp-validation-for="Result" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
