@@ -32,13 +32,9 @@ public partial class Login : System.Web.UI.Page
             ds.Tables.Add(dtCopy);
             string xmlFilename = Server.MapPath("~/App_Data/visitor.xml");
             ds.WriteXml(xmlFilename);
-            Server.Transfer("Welcome.aspx");
+            
         }
-        else
-        {
-            loginErrorLabel.Visible = true;
-            loginErrorLabel.Text.Insert(loginErrorLabel.Text.Length, "Please try logging in again");
-        }
+        
 
     }
 }
