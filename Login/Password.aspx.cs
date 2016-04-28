@@ -36,7 +36,7 @@ public partial class _Default : System.Web.UI.Page
             lstSuggestedPswdList.Items.Clear();
 
         // Create an array to hold 5 suggested passswords
-        string[] items = new string[5] { "", "", "", "", "" };
+        string[] items = new string[1] { "" };
         // Reverse birthYear
         char[] toReverse = birthYear.ToArray();
         Array.Reverse(toReverse);
@@ -46,10 +46,7 @@ public partial class _Default : System.Web.UI.Page
         if (lastName.Length >= 1 && color.Length > 2 && birthYear.Length == 4)
         {
             items[0] = color.Substring(0, 3) + birthYear + lastName.Substring(0, 2);
-            items[1] = lastName + color.Substring(0, 3) + birthYear;
-            items[2] = birthYearReversed + lastName.Substring(0, 2) + color;
-            items[3] = color.Substring(0, 3) + birthYearReversed + lastName;
-            items[4] = lastName + color.Substring(0, 3) + birthYearReversed;
+           
         }
         // Total of lastName, birthYear, and color is less than 8
         else
@@ -57,10 +54,7 @@ public partial class _Default : System.Web.UI.Page
             if((lastName.Length + color.Length + birthYear.Length) < 8)
             {
                 items[0] = color.Substring(0, 3) + birthYear + lastName.Substring(0, 2) + birthYearReversed.Substring(0,3);
-                items[1] = lastName + color.Substring(0, 3) + birthYear + birthYearReversed.Substring(0, 3);
-                items[2] = birthYearReversed + lastName.Substring(0, 2) + birthYear.Substring(0, 3) + color;
-                items[3] = color.Substring(0, 3) + birthYearReversed + lastName + birthYear.Substring(0, 3);
-                items[4] = birthYear.Substring(0, 3) + lastName + color.Substring(0, 3) + birthYearReversed;
+               
             }
         }
         // Add the array values into the listbox
