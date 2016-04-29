@@ -19,7 +19,6 @@ public partial class _Default : System.Web.UI.Page
     {
         string lastName = "";
         string birthYear = "";
-        string color = "";
         string space = " ";
 
         Validate();
@@ -27,7 +26,7 @@ public partial class _Default : System.Web.UI.Page
         {
             lastName = txtLastName.Text;
             birthYear = txtBirthYear.Text;
-            color = txtFavoriteColor.Text;
+           
         }
 
         
@@ -43,20 +42,11 @@ public partial class _Default : System.Web.UI.Page
         String birthYearReversed = new String(toReverse);
 
         // Total of lastName, birthYear, and color is more than 8
-        if (lastName.Length >= 1 && color.Length > 2 && birthYear.Length == 4)
-        {
-            items[0] = color.Substring(0, 3) + birthYear + lastName.Substring(0, 2);
+
+        items[0] = birthYear + lastName;
            
-        }
-        // Total of lastName, birthYear, and color is less than 8
-        else
-        {
-            if((lastName.Length + color.Length + birthYear.Length) < 8)
-            {
-                items[0] = color.Substring(0, 3) + birthYear + lastName.Substring(0, 2) + birthYearReversed.Substring(0,3);
-               
-            }
-        }
+        
+        
         // Add the array values into the listbox
         for (int i = 0; i < items.Length; i++)
         {
