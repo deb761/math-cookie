@@ -39,17 +39,7 @@
                     <asp:RangeValidator ID="vldBirthYearRange" runat="server" ErrorMessage="Birth year must be between 1900 and 2016!" ForeColor="Red" MaximumValue="2016" MinimumValue="1900" ControlToValidate="txtBirthYear"></asp:RangeValidator>
                 </td>
             </tr>
-            <tr>
-                <td class="auto-style20">Favorite Color: </td>
-                <td class="auto-style30"> <asp:TextBox ID="txtFavoriteColor" runat="server" Width="200px" CausesValidation="True"></asp:TextBox>
-                </td>
-                <td class="auto-style32">
-            <asp:RequiredFieldValidator ID="valFavColorRequired" runat="server" ControlToValidate="txtFavoriteColor" ErrorMessage="Favorite Color is Required!" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style23"></td>
-                <td class="auto-style24"></td>
-            </tr>
-        </table>
+            </table>
         </div>
         <br />
         <table class="auto-style25">
