@@ -1,0 +1,57 @@
+﻿using CryptSharp;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class SecretPasswordHash : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnHash_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
+            conn.Open();
+            string checkuser = "SELECT UserID, Login, Password FROM Users";
+            SqlCommand com = new SqlCommand(checkuser, conn);
+            SqlDataReader reader = com.ExecuteReader();
+            SqlConnection conn2 = new SqlConnection(ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
+            conn2.Open();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    //Hash user password
+                    string salt = Crypter.Blowfish.GenerateSalt(6);
+                    // login + userID
+                    string password = (string)reader.GetValue(1) + Convert.ToString(reader.GetValue(0));
+                    string crypted = Crypter.Blowfish.Crypt(key: Encoding.ASCII.GetBytes(password),
+                         salt: salt);
+                    string query = "UPDATE Users SET Password=@password WHERE (UserID=@userID)";
+                    SqlCommand com1 = new SqlCommand(cmdText: query, connection: conn2);
+                    com1.Parameters.Add(new SqlParameter("@userID", (int)reader.GetValue(0)));
+                    com1.Parameters.Add(new SqlParameter("@password", crypted + salt));
+                    com1.ExecuteNonQuery(); // Used for Insert, Update, Delete SQL Statements
+                }
+                conn.Close();
+                conn2.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            //lblCreateError.Visible = true;
+            //lblCreateError.Text = "Error: " + ex.ToString();
+        }
+    }
+}

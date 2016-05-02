@@ -13,14 +13,14 @@
         <asp:gridview runat="server" AllowSorting="True" CellPadding="4" 
             DataSourceID="TeacherDataSource" ForeColor="#333333" GridLines="None" 
             AutoGenerateColumns="False" ID="teacherGridView" DataKeyNames="UserID" 
-            OnRowCommand="ShowUserDetails">
+            OnRowCommand="ShowUserDetails" AllowPaging="True">
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
-                <asp:BoundField DataField="UserID" HeaderText="ID" SortExpression="UserID" Visible="False" />
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                <asp:CommandField ButtonType="Link" showeditbutton="true" ShowInsertButton="True" ShowSelectButton="True" />
+                <asp:CommandField ButtonType="Link" showeditbutton="true" 
+                    ShowDeleteButton="True" />
                 <asp:ButtonField ButtonType="Button" CommandName="Details" Text="..." />
             </Columns>
             <EditRowStyle BackColor="#999999" />
@@ -68,14 +68,15 @@
         </asp:SqlDataSource>
         <h1>Students</h1>  
         <asp:gridview runat="server" AllowSorting="True" CellPadding="4" DataSourceID="StudentDataSource"
-             ForeColor="#333333" GridLines="None" ID="studentGridView" AutoGenerateColumns="False" DataKeyNames="UserID" 
-            OnRowCommand="ShowUserDetails">
+             ForeColor="#333333" GridLines="None" ID="studentGridView" 
+            AutoGenerateColumns="False" DataKeyNames="UserID" 
+            OnRowCommand="ShowUserDetails" AllowPaging="True">
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                <asp:CommandField ButtonType="Link" showeditbutton="true" ShowInsertButton="True" ShowSelectButton="True" />
+                <asp:CommandField ButtonType="Link" showeditbutton="true" showdeletebutton="true" />
                 <asp:ButtonField ButtonType="Button" CommandName="Details" Text="..." />
             </Columns>
             <EditRowStyle BackColor="#999999" />
@@ -124,7 +125,7 @@
         <h1>Administrators</h1>  
         <asp:gridview runat="server" AllowSorting="True" CellPadding="4" DataSourceID="AdminDataSource"
              ForeColor="#333333" GridLines="None" ID="gridview2" OnRowCommand="ShowUserDetails"
-            AutoGenerateColumns="False" DataKeyNames="UserID">
+            AutoGenerateColumns="False" DataKeyNames="UserID" AllowPaging="True">
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
@@ -132,7 +133,7 @@
                     SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" 
                     SortExpression="LastName" />
-                <asp:CommandField ButtonType="Link" showeditbutton="true" ShowInsertButton="True" ShowSelectButton="True" />
+                <asp:CommandField ButtonType="Link" showeditbutton="true" />
                 <asp:ButtonField ButtonType="Button" CommandName="Details" Text="..." />
             </Columns>
             <EditRowStyle BackColor="#999999" />
