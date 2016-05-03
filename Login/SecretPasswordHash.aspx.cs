@@ -13,9 +13,7 @@ public partial class SecretPasswordHash : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
     }
-
     protected void btnHash_Click(object sender, EventArgs e)
     {
         try
