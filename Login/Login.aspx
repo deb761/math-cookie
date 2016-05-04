@@ -29,11 +29,12 @@
             <tr>
                 <td class="auto-style5">Password:</td>
                 <td class="auto-style8">
-            <asp:TextBox ID="txtPassword" runat="server" Width="200px" CausesValidation="True"></asp:TextBox>
+            <asp:TextBox ID="txtPassword" runat="server" Width="200px" CausesValidation="True" TextMode="Password"></asp:TextBox>
             
                 </td>
                 <td class="auto-style8">
                     <asp:RequiredFieldValidator ID="vldPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required!" ForeColor="Red"></asp:RequiredFieldValidator>
+                    <asp:Label ID="lblVldPassword" runat="server" Text="Invalid Password" ForeColor="Red" Visible="False"></asp:Label><br />    
             
                 </td>
             </tr>
@@ -42,7 +43,7 @@
         <p>
             <a href="NewAccount.aspx">Need a New Account?</a></p>
         <p>
-            <asp:Button ID="btnLogin" runat="server" Text="Login" Width="70px" OnClick="btnLogin_Click" CausesValidation="False" />
+            <asp:Button ID="btnLogin" runat="server" Text="Login" Width="70px" OnClick="btnLogin_Click" CausesValidation="True" />
         
             <asp:Label ID="loginErrorLabel" runat="server" Visible="False"></asp:Label>
             </p>
