@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 
 public enum ProblemType { Addition, Subtraction, PlaceValue }
+public enum UserType { Student, Teacher, Administrator }
 /// <summary>
 /// Summary description for Results
 /// </summary>
@@ -26,5 +27,29 @@ public static class Results
         com.Parameters.Add(new SqlParameter("@round", (int)page.Session["Round"]));
         com.ExecuteNonQuery(); // Used for Insert, Update, Delete SQL Statements
         conn.Close();
+    }
+    public static void SaveResultsLinq(Page page)
+    {
+        using (DataClassesDataContext context = new DataClassesDataContext())
+        {
+            Result result = new Result();
+            result.StudentID = (int)page.Session["StudentID"];
+            result.ProblemID = (int)page.Session["ProblemID"];
+            result.Answer = (int)page.Session["Answer"];
+            result.Level = (int)page.Session["Level"];
+            result.Round = (int)page.Session["Round"];
+
+            context.Results.InsertOnSubmit(result);
+            context.SubmitChanges();
+        }
+    }
+
+    public static void SaveResults(Result result)
+    {
+        using (DataClassesDataContext context = new DataClassesDataContext())
+        {
+            context.Results.InsertOnSubmit(result);
+            context.SubmitChanges();
+        }
     }
 }

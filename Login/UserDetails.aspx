@@ -4,7 +4,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Teacher Home</title>
+    <style>
+        .header { width: 15em; }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -14,124 +17,74 @@
                 ID="userDetailView" CellPadding="4" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <CommandRowStyle BackColor="#E2DED6" Font-Bold="True" />
-                <EditRowStyle BackColor="#999999" />
-                <FieldHeaderStyle BackColor="#E9ECF1" Font-Bold="True" />
+                <EditRowStyle BackColor="#999999" Width="15em" />
+                <FieldHeaderStyle BackColor="#E9ECF1" Font-Bold="True" Width="30em" Wrap="False" />
                 <Fields>
-                    <asp:BoundField DataField="UserID" HeaderText="UserID" InsertVisible="False"
-                        ReadOnly="True" SortExpression="UserID" />
-                    <asp:BoundField DataField="UserType" HeaderText="UserType"
+                    <asp:BoundField DataField="UserID" HeaderText="User ID" InsertVisible="False"
+                        ReadOnly="True" SortExpression="UserID" HeaderStyle-CssClass="header" >
+<HeaderStyle CssClass="header" Width="15em"></HeaderStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="UserType" HeaderText="User Type"
                         SortExpression="UserType" />
                     <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
-                    <asp:BoundField DataField="FirstName" HeaderText="FirstName"
+                    <asp:BoundField DataField="FirstName" HeaderText="First Name"
                         SortExpression="FirstName" />
-                    <asp:BoundField DataField="LastName" HeaderText="LastName"
+                    <asp:BoundField DataField="LastName" HeaderText="Last Name"
                         SortExpression="LastName" />
-                    <asp:CommandField ButtonType="Button" ShowDeleteButton="true" ShowEditButton="true" ShowInsertButton="true" />
+                    <asp:TemplateField HeaderText="Password" HeaderStyle-CssClass="pass">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                        </InsertItemTemplate>
+
+<HeaderStyle CssClass="pass"></HeaderStyle>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Confirm Password">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                        </InsertItemTemplate>
+                    </asp:TemplateField>
+                    <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowInsertButton="True" />
                 </Fields>
                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Width="15em" />
             </asp:DetailsView>
-            <h1>Form View</h1>
-            <asp:FormView ID="FormView1" runat="server" CellPadding="4"
-                DataKeyNames="UserID" DataSourceID="SolsticeDataSource" ForeColor="#333333">
-                <EditItemTemplate>
-                    UserID:
-                    <asp:Label ID="UserIDLabel1" runat="server" Text='<%# Eval("UserID") %>' />
-                    <br />
-                    UserType:
-                    <asp:TextBox ID="UserTypeTextBox" runat="server"
-                        Text='<%# Bind("UserType") %>' />
-                    <br />
-                    Login:
-                    <asp:TextBox ID="LoginTextBox" runat="server" Text='<%# Bind("Login") %>' />
-                    <br />
-                    FirstName:
-                    <asp:TextBox ID="FirstNameTextBox" runat="server"
-                        Text='<%# Bind("FirstName") %>' />
-                    <br />
-                    LastName:
-                    <asp:TextBox ID="LastNameTextBox" runat="server"
-                        Text='<%# Bind("LastName") %>' />
-                    <br />
-                    <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True"
-                        CommandName="Update" Text="Update" />
-                    &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server"
-                        CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-                </EditItemTemplate>
-                <EditRowStyle BackColor="#999999" />
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <InsertItemTemplate>
-                    UserType:
-                    <asp:TextBox ID="UserTypeTextBox" runat="server"
-                        Text='<%# Bind("UserType") %>' />
-                    <asp:RequiredFieldValidator ID="userTypeReqVal" runat="server" ErrorMessage="User Type is required"
-                        ControlToValidate="UserTypeTextBox">
-                    </asp:RequiredFieldValidator>
-                    <br />
-                    Login:
-                    <asp:TextBox ID="LoginTextBox" runat="server" Text='<%# Bind("Login") %>' />
-                    <asp:RequiredFieldValidator ID="loginReqVal" runat="server" ErrorMessage="Login is required"
-                        ControlToValidate="UserTypeTextBox">
-                    </asp:RequiredFieldValidator>
-                    <br />
-                    FirstName:
-                    <asp:TextBox ID="FirstNameTextBox" runat="server"
-                        Text='<%# Bind("FirstName") %>' />
-                    <asp:RequiredFieldValidator ID="firstNameReqVal" runat="server" ErrorMessage="First Name is required"
-                        ControlToValidate="FirstNameTextBox">
-                    </asp:RequiredFieldValidator>
-                    <br />
-                    LastName:
-                    <asp:TextBox ID="LastNameTextBox" runat="server"
-                        Text='<%# Bind("LastName") %>' />
-                    <asp:RequiredFieldValidator ID="lastNameReqVal" runat="server" ErrorMessage="Last Name is required"
-                        ControlToValidate="LastNameTextBox">
-                    </asp:RequiredFieldValidator>
-                    <br />
-                    Password:
-                    <asp:TextBox ID="passwordBox" runat="server"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="passwordReqVal" runat="server" ErrorMessage="Password is required"
-                        ControlToValidate="passwordBox">
-                    </asp:RequiredFieldValidator>
-                    <br />
-                    Confirm Password:
-                    <asp:TextBox ID="confirmPassBox" runat="server"></asp:TextBox>
-                    <asp:CompareValidator ID="passwordEqVal" runat="server" ErrorMessage="Passwords must match"
-                        ControlToValidate="confirmPassBox" ControlToCompare="passwordBox">
-                    </asp:CompareValidator>
-                    <br />
-                    <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True"
-                        CommandName="Insert" Text="Insert" />
-                    &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server"
-                        CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-                </InsertItemTemplate>
-                <ItemTemplate>
-                    UserID:
-                    <asp:Label ID="UserIDLabel" runat="server" Text='<%# Eval("UserID") %>' />
-                    <br />
-                    UserType:
-                    <asp:Label ID="UserTypeLabel" runat="server" Text='<%# Bind("UserType") %>' />
-                    <br />
-                    Login:
-                    <asp:Label ID="LoginLabel" runat="server" Text='<%# Bind("Login") %>' />
-                    <br />
-                    FirstName:
-                    <asp:Label ID="FirstNameLabel" runat="server" Text='<%# Bind("FirstName") %>' />
-                    <br />
-                    LastName:
-                    <asp:Label ID="LastNameLabel" runat="server" Text='<%# Bind("LastName") %>' />
-                    <br />
-                </ItemTemplate>
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-            </asp:FormView>
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
             <asp:SqlDataSource ID="SolsticeDataSource" runat="server"
                 ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
-                SelectCommand="SELECT [UserID], [UserType], [Login], [FirstName], [LastName] FROM [Users]"></asp:SqlDataSource>
+                SelectCommand="SELECT [UserID], [UserType], [Login], [FirstName], [LastName] FROM [Users]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Users] WHERE [UserID] = @original_UserID AND [UserType] = @original_UserType AND (([Login] = @original_Login) OR ([Login] IS NULL AND @original_Login IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL))" InsertCommand="INSERT INTO [Users] ([UserType], [Login], [FirstName], [LastName]) VALUES (@UserType, @Login, @FirstName, @LastName)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Users] SET [UserType] = @UserType, [Login] = @Login, [FirstName] = @FirstName, [LastName] = @LastName WHERE [UserID] = @original_UserID AND [UserType] = @original_UserType AND (([Login] = @original_Login) OR ([Login] IS NULL AND @original_Login IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL))">
+                <DeleteParameters>
+                    <asp:Parameter Name="original_UserID" Type="Int32" />
+                    <asp:Parameter Name="original_UserType" Type="Int32" />
+                    <asp:Parameter Name="original_Login" Type="String" />
+                    <asp:Parameter Name="original_FirstName" Type="String" />
+                    <asp:Parameter Name="original_LastName" Type="String" />
+                </DeleteParameters>
+                <InsertParameters>
+                    <asp:Parameter Name="UserType" Type="Int32" />
+                    <asp:Parameter Name="Login" Type="String" />
+                    <asp:Parameter Name="FirstName" Type="String" />
+                    <asp:Parameter Name="LastName" Type="String" />
+                </InsertParameters>
+                <UpdateParameters>
+                    <asp:Parameter Name="UserType" Type="Int32" />
+                    <asp:Parameter Name="Login" Type="String" />
+                    <asp:Parameter Name="FirstName" Type="String" />
+                    <asp:Parameter Name="LastName" Type="String" />
+                    <asp:Parameter Name="original_UserID" Type="Int32" />
+                    <asp:Parameter Name="original_UserType" Type="Int32" />
+                    <asp:Parameter Name="original_Login" Type="String" />
+                    <asp:Parameter Name="original_FirstName" Type="String" />
+                    <asp:Parameter Name="original_LastName" Type="String" />
+                </UpdateParameters>
+            </asp:SqlDataSource>
         </div>
     </form>
 </body>
