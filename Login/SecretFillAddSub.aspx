@@ -19,7 +19,18 @@
         <asp:BoundField DataField="ProblemType" HeaderText="ProblemType" SortExpression="ProblemType" />
     </Columns>
         </asp:gridview>    
-        <asp:SqlDataSource ID="AddSubDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="SELECT * FROM [AddSubProblems]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="AddSubDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="SELECT * FROM [UserTypes]" DeleteCommand="DELETE FROM [UserTypes] WHERE [UserTypeID] = @UserTypeID" InsertCommand="INSERT INTO [UserTypes] ([UserTypeName]) VALUES (@UserTypeName)" UpdateCommand="UPDATE [UserTypes] SET [UserTypeName] = @UserTypeName WHERE [UserTypeID] = @UserTypeID">
+            <DeleteParameters>
+                <asp:Parameter Name="UserTypeID" Type="Int32" />
+            </DeleteParameters>
+            <InsertParameters>
+                <asp:Parameter Name="UserTypeName" Type="String" />
+            </InsertParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="UserTypeName" Type="String" />
+                <asp:Parameter Name="UserTypeID" Type="Int32" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
     </div>
         <asp:Label ID="lblCreateError" runat="server" ForeColor="Red" Text="Label"></asp:Label>
     </form>
