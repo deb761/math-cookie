@@ -6,3 +6,4 @@ obj
 /*/obj
 # Ignore user settings
 /*.suo
+packages
