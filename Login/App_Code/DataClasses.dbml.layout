@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses">
+  <DataContextMoniker Name="/DataClassesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="e5545110-5546-4cb2-a08d-f7d574bd3208" absoluteBounds="3.625, 1.25, 2, 1.9631982421875">
+      <DataClassMoniker Name="/DataClassesDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dd5ebafa-4e82-479c-b468-144b9db41fab" absoluteBounds="3.64, 1.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="291da4c7-002a-4f1d-b54c-23d5502b31fa" absoluteBounds="1.25, 0.5, 2, 1.9631982421875">
+      <DataClassMoniker Name="/DataClassesDataContext/Result" />
+      <nestedChildShapes>
+        <elementListCompartment Id="70aa8a9d-f270-498d-8863-48ccd4947668" absoluteBounds="1.2650000000000001, 0.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b0d9ca30-e354-4841-a099-14e118136a23" absoluteBounds="0.5, 2.625, 2, 1.9631982421875">
+      <DataClassMoniker Name="/DataClassesDataContext/AddSubProblem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="99373a29-a74d-42be-8faa-eeb295a02d9b" absoluteBounds="0.51500000000000012, 3.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
