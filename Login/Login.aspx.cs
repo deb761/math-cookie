@@ -14,7 +14,7 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtUserName.Text = (string)Session["userName"];
+       
 
         if (IsPostBack)
         {
@@ -29,17 +29,23 @@ public partial class Login : System.Web.UI.Page
         if (userID != 0)
         {
             //Click on the login to add the user
-            DataTable dt = (DataTable)Application["visitorTable"];
-            dt.Rows.Add(new object[] { (string)Session["sessionID"], (string)Session["userName"], (System.DateTime)Session["logInTime"], (string)Session["ipAddress"] });
-            DataTable dtCopy = dt.Copy();
-            DataSet ds = new DataSet();
-
-            ds.Tables.Add(dtCopy);
-            string xmlFilename = Server.MapPath("~/App_Data/visitor.xml");
-            ds.WriteXml(xmlFilename);
-            
+            Session["UserID"] = userID;
         }
-        
+
+        switch ((UserType)Session["UserType"])
+        {
+
+            case UserType.Student:
+            Response.Redirect("GameScreen.aspx");
+                break;
+            case UserType.Teacher:
+            Response.Redirect("TeacherHome.aspx");
+                break;
+            case UserType.Administrator:
+            Response.Redirect("AdminHome.aspx");
+                break;
+
+    }
 
     }
     /// <summary>
@@ -56,7 +62,7 @@ public partial class Login : System.Web.UI.Page
         lblVldPassword.Visible = false;
 
         conn.Open();
-        string checkuser = "SELECT UserID, Password FROM Users WHERE Login=@username";
+        string checkuser = "SELECT UserID, Password, UserType FROM Users WHERE Login=@username";
         SqlCommand com = new SqlCommand(checkuser, conn);
         com.Parameters.AddWithValue("@username", txtUserName.Text);
         SqlDataReader reader = com.ExecuteReader();
@@ -72,7 +78,14 @@ public partial class Login : System.Web.UI.Page
                 string crypted = Crypter.Blowfish.Crypt(key: Encoding.ASCII.GetBytes(txtPassword.Text),
                     salt: salt);
                 if (hash == crypted)
-                    userID = (int)reader.GetValue(0);
+                {
+                   
+                     Session["UserType"] = (UserType)reader.GetValue(2);
+                   
+                     userID = (int)reader.GetValue(0);
+
+
+                }
             }
             if (userID == 0)
                 lblVldPassword.Visible = true;
