@@ -14,8 +14,6 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-       
-
         if (IsPostBack)
         {
             Validate();
@@ -36,16 +34,16 @@ public partial class Login : System.Web.UI.Page
         {
 
             case UserType.Student:
-            Response.Redirect("GameScreen.aspx");
+                Response.Redirect("GameScreen.aspx");
                 break;
             case UserType.Teacher:
-            Response.Redirect("TeacherHome.aspx");
+                Response.Redirect("TeacherHome.aspx");
                 break;
             case UserType.Administrator:
-            Response.Redirect("AdminHome.aspx");
+                Response.Redirect("AdminHome.aspx");
                 break;
 
-    }
+        }
 
     }
     /// <summary>
@@ -79,12 +77,9 @@ public partial class Login : System.Web.UI.Page
                     salt: salt);
                 if (hash == crypted)
                 {
-                   
-                     Session["UserType"] = (UserType)reader.GetValue(2);
-                   
-                     userID = (int)reader.GetValue(0);
+                    Session["UserType"] = (UserType)reader.GetValue(2);
 
-
+                    userID = (int)reader.GetValue(0);
                 }
             }
             if (userID == 0)
