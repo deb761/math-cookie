@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TestProblemSet.aspx.cs" Inherits="TestProblemSet" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TestProblemSet.aspx.cs" Inherits="Solstice.TestProblemSet" %>
 
 <!DOCTYPE html>
 

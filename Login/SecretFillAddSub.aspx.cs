@@ -8,10 +8,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Solstice.Models;
 
-public partial class SecretFillAddSub : System.Web.UI.Page
+public partial class SecretFillAddSub : ProtectedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Redirect(UserType.Super))
+            return;
+
         const int MaxLev1 = 10;
         //const int MaxLev2 = 100;
         try

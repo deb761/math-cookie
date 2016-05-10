@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="GameScreen.aspx.cs" Inherits="Login_GameScreen" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="GameScreen.aspx.cs" Inherits="Solstice.GameScreen" %>
 
 <!DOCTYPE html>
 

@@ -11,6 +11,7 @@
     <div>
         <h1>Class Overview</h1>
         <asp:GridView ID="GridView1" runat="server" DataSourceID="ResultDataSource"></asp:GridView>
+        <asp:Button ID="btnLogoff" runat="server" OnClick="btnLogoff_Click" Text="Logoff" />
         <asp:SqlDataSource ID="ResultDataSource" runat="server"></asp:SqlDataSource>
     </div>
     </form>

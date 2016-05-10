@@ -8,9 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
-using Solstice.Models;
 
-namespace Solstice.Models
+namespace Solstice
 {
      // A student problem contains the problem info and the student response
     public class StudentProblem
@@ -113,45 +112,43 @@ namespace Solstice.Models
             Result thisResult;
 
             // Open a connection to the DB
-            SqlConnection conn = new SqlConnection
-                (ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
-            conn.Open();
-
-            // Random number generator for problem IDs
-            Random r = new Random();
-
-            // Fill the ProblemList with problems, based on 
-            // the problem ID, which is randomly generated
-            for (int i = 0; i < NUM_PROBS_PER_ROUND; i++)
+            using (DataClassesDataContext dc = new DataClassesDataContext())
             {
-                // Random ID
-                // TODO random seed currently hardcoded to 0..55
-                int id = r.Next(LOWEST_PROBLEM_ID, (HIGHEST_PROBLEM_ID + 1));
+                //SqlConnection conn = new SqlConnection
+                //    (ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
+                //conn.Open();
 
-                // Set the sql string
-                string sql = @" SELECT AddSubProblemID, Level, Operator1, Operator2, Result, ProblemType " +
-                    "FROM AddSubProblems where AddSubProblemID = @pid";
+                // Random number generator for problem IDs
+                Random r = new Random();
 
-                SqlCommand comm = new SqlCommand(sql, conn);
-
-                comm.Parameters.AddWithValue("@pid", id.ToString());
-
-                using (var reader = comm.ExecuteReader())
+                // Fill the ProblemList with problems, based on 
+                // the problem ID, which is randomly generated
+                for (int i = 0; i < NUM_PROBS_PER_ROUND; i++)
                 {
-                    if (!reader.Read())
-                        throw new Exception("Error retrieving problem ID");
+                    // Random ID
+                    // TODO random seed currently hardcoded to 0..55
+                    int id = r.Next(LOWEST_PROBLEM_ID, (HIGHEST_PROBLEM_ID + 1));
+
+                    // Set the sql string
+                    var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
+                    thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
+
+                    //using (var reader = comm.ExecuteReader())
+                    //{
+                    //    if (!reader.Read())
+                    //        throw new Exception("Error retrieving problem ID");
 
                     // Get the problem for that id
                     // Create the AddSub problem, with AddSubProblemID = the newly generated id
-                    thisAddSubProb = new AddSubProblem(id);
+                    //thisAddSubProb = new AddSubProblem(id);
 
-                    // Fill in the AddSubProblem
-                    thisAddSubProb.AddSubProblemID = reader.GetInt32(0);
-                    thisAddSubProb.Level = reader.GetInt32(1);
-                    thisAddSubProb.Operator1 = reader.GetInt32(2);
-                    thisAddSubProb.Operator2 = reader.GetInt32(3);
-                    thisAddSubProb.Result = reader.GetInt32(4);
-                    thisAddSubProb.ProblemType = (ProblemType)reader.GetInt32(5);
+                    //// Fill in the AddSubProblem
+                    //thisAddSubProb.AddSubProblemID = reader.GetInt32(0);
+                    //thisAddSubProb.Level = reader.GetInt32(1);
+                    //thisAddSubProb.Operator1 = reader.GetInt32(2);
+                    //thisAddSubProb.Operator2 = reader.GetInt32(3);
+                    //thisAddSubProb.Result = reader.GetInt32(4);
+                    //thisAddSubProb.ProblemType = (ProblemType)reader.GetInt32(5);
 
                     // Create the new Result
                     thisResult = new Result();
@@ -169,7 +166,7 @@ namespace Solstice.Models
                 }
 
             }
-            conn.Close();
+            //conn.Close();
             return;
         }
 
