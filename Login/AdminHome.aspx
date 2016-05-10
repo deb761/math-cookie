@@ -313,7 +313,7 @@
             </UpdateParameters>
         </asp:SqlDataSource>
     </div>
-    </div>
+    </div> <asp:Button ID="btnLogOut" runat="server" OnClick="btnLogOut_Click" Text="Log Out" Width="215px" />
     </form>
 </body>
 </html>

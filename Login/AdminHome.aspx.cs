@@ -91,4 +91,9 @@ public partial class AdminHome : System.Web.UI.Page
     {
         UpdateGrids();
     }
+
+    protected void btnLogOut_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Logout.aspx");
+    }
 }
