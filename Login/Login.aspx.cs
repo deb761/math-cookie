@@ -32,7 +32,7 @@ public partial class Login : System.Web.UI.Page
 
         switch ((UserType)Session["UserType"])
         {
-
+            //Switch statement to see if the user is a student,admin,or teacher
             case UserType.Student:
                 Response.Redirect("GameScreen.aspx");
                 break;
@@ -77,6 +77,7 @@ public partial class Login : System.Web.UI.Page
                     salt: salt);
                 if (hash == crypted)
                 {
+                    //sets the UserType the value of 2
                     Session["UserType"] = (UserType)reader.GetValue(2);
 
                     userID = (int)reader.GetValue(0);
