@@ -90,7 +90,7 @@
                         ReadOnly="True" SortExpression="UserID" HeaderStyle-CssClass="header">
                         <HeaderStyle CssClass="header" Width="15em"></HeaderStyle>
                     </asp:BoundField>
-                    <asp:TemplateField HeaderText="User Type" SortExpression="UserType" ItemStyle-Wrap="False">
+                    <asp:TemplateField HeaderText="User Type" SortExpression="UserType">
                         <EditItemTemplate>
                             <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="UserTypeDataSource"
                                 DataValueField="UserTypeID" Width="90px" DataTextField="UserTypeName"
