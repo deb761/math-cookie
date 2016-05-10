@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 
+/// <summary>
+/// An enumeration that trackt problem type
+/// </summary>
 public enum ProblemType { Addition, Subtraction, PlaceValue }
-public enum UserType { Student, Teacher, Administrator }
+/// <summary>
+/// An enumeration that tracks user type
+/// </summary>
+public enum UserType { Student, Teacher, Administrator, Super }
 /// <summary>
 /// Summary description for Results
 /// </summary>
 public static class Results
 {
+    /// <summary>
+    /// Save the results of a problem using a SqlConnection
+    /// </summary>
+    /// <param name="page">Current page</param>
     public static void SaveResults(Page page)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
@@ -28,6 +34,10 @@ public static class Results
         com.ExecuteNonQuery(); // Used for Insert, Update, Delete SQL Statements
         conn.Close();
     }
+    /// <summary>
+    /// Save the results of a problem using LINQ to SQL and the Session dictionary
+    /// </summary>
+    /// <param name="page">Current Page</param>
     public static void SaveResultsLinq(Page page)
     {
         using (DataClassesDataContext context = new DataClassesDataContext())
@@ -43,7 +53,10 @@ public static class Results
             context.SubmitChanges();
         }
     }
-
+    /// <summary>
+    /// Save the results of a problem using LINQ to SQL and a result record
+    /// </summary>
+    /// <param name="result">Result object</param>
     public static void SaveResults(Result result)
     {
         using (DataClassesDataContext context = new DataClassesDataContext())
