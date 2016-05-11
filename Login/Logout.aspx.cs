@@ -9,7 +9,8 @@ public partial class Logout : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //to clear out the session and log the user off.
+        Session.Clear();
     }
 
     protected void btnLoginAgain_Click(object sender, EventArgs e)
