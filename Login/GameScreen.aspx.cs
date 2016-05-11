@@ -14,15 +14,15 @@ namespace Solstice
 {
     public partial class GameScreen : ProtectedPage
 	{
-        protected void Page_Load(object sender, EventArgs e)
-        {
+		protected void Page_Load(object sender, EventArgs e)
+		{
             if (Redirect(UserType.Student))
                 return;
 
-            if (!IsPostBack)
-            {
+				if (!IsPostBack)
+				{
                 // Initialize page
-                int studentID = (int)Session["UserID"];
+					int studentID = (int)Session["UserID"];
                 ProblemSet probSet = new ProblemSet(studentID, 1, ProblemType.Addition);
                 Session["CurProbSet"] = probSet;
                 int idx = 0;
@@ -33,8 +33,8 @@ namespace Solstice
                 Session["WrongAnswerCount"] = 0;
                 setWelcome();
                 setUI(probSet.ProblemList[0]);
-            }
-        }
+				}
+			}
 
 		/// <summary>
 		/// Submits student's answer and checks against stored answer.
@@ -88,11 +88,11 @@ namespace Solstice
                 // increment wrong answers
                 int x = (int)Session["WrongAnswerCount"];
                 Session["WrongAnswerCount"] = ++x;
-            }
+			}
 
 			// Store problem and student's answer as a Result object
 			Result result = new Result();
-            result.StudentID = (int)Session["UserID"];
+			result.StudentID = (int)Session["UserID"];
 			result.ProblemID = curProb.Problem.AddSubProblemID;
 			result.Answer = studentAnswer;
 			result.Level = curProb.Problem.Level;

@@ -15,7 +15,7 @@
     <form id="form1" runat="server">
     <div id="pageTitle">
         <h2><asp:Label runat="server" ID="lblScreenTitle" Text="Addition" ForeColor="#2F407F" Font-Size="Large"/></h2> 
-        <asp:Label runat="server" ID="lblProbIdx" Visible="false" />
+        <asp:Label runat="server" ID="lblProbIdx" Visible="false" />  
         <asp:Label runat="server" ID="lblGameOver" Visible="false" />
     </div>
     <div id="main">
@@ -31,12 +31,12 @@
             <asp:ImageButton runat="server" ID="btnContinue" AlternateText="Continue" OnClick="btnContinue_Click" ImageUrl="images/btnContinue.png" />
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlGame" Visible="false" Height="50%" Width="75%">
-            <span id="expression">
-                <asp:Image runat="server" ID="imgOrd1" />
-                <asp:Image runat="server" ID="imgOpSign" />
-                <asp:Image runat="server" ID="imgOrd2" />
-            </span>
-            <asp:TextBox runat="server" ID="txtStudentInput" MaxLength="3" Width="75px" Height="50px" BorderColor="Black" BorderWidth="5px" /><br />
+        <span id="expression">
+            <asp:Image runat="server" ID="imgOrd1" />
+            <asp:Image runat="server" ID="imgOpSign" />
+            <asp:Image runat="server" ID="imgOrd2" />
+        </span>
+        <asp:TextBox runat="server" ID="txtStudentInput" MaxLength="3" Width="75px" Height="50px" BorderColor="Black" BorderWidth="5px" /><br />
             <asp:ImageButton runat="server" ID="btnSubmit" AlternateText="Submit" OnClick="btnSubmit_Click" ImageUrl="images/btnSubmit.png"/>
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlFinal" Visible="false" Height="50%" Width="75%">

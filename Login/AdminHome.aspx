@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AdminHome.aspx.cs" Inherits="AdminHome" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AdminHome.aspx.cs" Inherits="Solstice.AdminHome" %>
 
 <!DOCTYPE html>
 
@@ -151,10 +151,11 @@
                 <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
                 <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Width="15em" />
             </asp:DetailsView>
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
             <asp:SqlDataSource ID="UserTypeDataSource" runat="server"
                     ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
-                    SelectCommand="SELECT * FROM [UserTypes] ORDER BY [UserTypeID]"></asp:SqlDataSource>
-            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+                    SelectCommand="SELECT * FROM [UserTypes] ORDER BY [UserTypeID]">
+            </asp:SqlDataSource>
             <asp:SqlDataSource ID="SolsticeDataSource" runat="server"
                 ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                 SelectCommand="SELECT [Users].*, UserTypeName FROM [Users] JOIN [UserTypes] ON UserTypeID = [Users].UserType WHERE ([UserID] = @UserID)"
@@ -179,7 +180,7 @@
                     <asp:Parameter Name="Password" Type="String" />
                 </InsertParameters>
                 <SelectParameters>
-                    <asp:SessionParameter DefaultValue="1" Name="UserID" SessionField="UserID" Type="Int32" />
+                    <asp:SessionParameter DefaultValue="1" Name="UserID" SessionField="SelUserID" Type="Int32" />
                 </SelectParameters>
                 <UpdateParameters>
                     <asp:Parameter Name="UserType" Type="Int32" />
@@ -313,6 +314,9 @@
             </UpdateParameters>
         </asp:SqlDataSource>
     </div>
+        <div class="block">
+            <asp:Button ID="btnLogoff" runat="server" OnClick="btnLogoff_Click" Text="Logoff" />
+        </div>
     </div>
     </form>
 </body>

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Solstice", ".", "{EC608F66-1DAE-42BB-A794-6186D6C541FD}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Solstice", ".", "{F43D3DF7-7311-45F1-BA33-5FC31652F1ED}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50340"
@@ -45,10 +45,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC608F66-1DAE-42BB-A794-6186D6C541FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC608F66-1DAE-42BB-A794-6186D6C541FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC608F66-1DAE-42BB-A794-6186D6C541FD}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC608F66-1DAE-42BB-A794-6186D6C541FD}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{F43D3DF7-7311-45F1-BA33-5FC31652F1ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43D3DF7-7311-45F1-BA33-5FC31652F1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F43D3DF7-7311-45F1-BA33-5FC31652F1ED}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43D3DF7-7311-45F1-BA33-5FC31652F1ED}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{EB7A8230-0125-42B6-86D2-F9731A31C8CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB7A8230-0125-42B6-86D2-F9731A31C8CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB7A8230-0125-42B6-86D2-F9731A31C8CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
