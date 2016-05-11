@@ -1,119 +1,219 @@
-﻿using System;
+﻿/************************
+Fred Jaworski
+BIT 286 Spring 2016
+Solstice Math Game
+************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SolsticeGameScreen
+namespace Solstice
 {
-	public partial class GameScreen : System.Web.UI.Page
+    public partial class GameScreen : ProtectedPage
 	{
-		private ProblemSet probSet;
-		private StudentProblem curProb;
-		private int curAnswer, curRound;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Redirect(UserType.Student))
+                return;
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			User.UserType uType = (User.UserType)Session["UserType"];
+            if (!IsPostBack)
+            {
+                // Initialize page
+                int studentID = (int)Session["UserID"];
+                ProblemSet probSet = new ProblemSet(studentID, 1, ProblemType.Addition);
+                Session["CurProbSet"] = probSet;
+                int idx = 0;
+                lblProbIdx.Text = idx.ToString();
+                lblGameOver.Text = "false";
+                Session["CurRound"] = 1;
+                Session["RightAnswerCount"] = 0;
+                Session["WrongAnswerCount"] = 0;
+                setWelcome();
+                setUI(probSet.ProblemList[0]);
+            }
+        }
 
-			if (uType == User.UserType.Student)
-			{
-				if (!IsPostBack)
-				{
-					int studentID = (int)Session["UserID"];
-					probSet = new ProblemSet(studentID, 1, ProblemType.Addition);
-					lblProbIdx.Text = "0";
-					curProb = probSet.ProblemList.Item[0];
-					curRound = 1;
-					setUI();
-				}
-			}
-			else if (uType == User.UserType.Teacher)
-			{
-				Response.Redirect("TeacherHome.aspx");
-			}
-			else
-			{
-				Response.Redirect("AdminHome.aspx");
-			}
-		}
-
+		/// <summary>
+		/// Submits student's answer and checks against stored answer.
+		/// Displays pop up with Correct/Incorrect and sets the UI for the next problem.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnSubmit_Click(object sender, ImageClickEventArgs e)
 		{
-			// get an increment index value from hidden label
+			// check that the user input is not blank
+			if (String.IsNullOrWhiteSpace(txtStudentInput.Text))
+				return; // return out if the input is blank
+
+			// get index value from hidden label
 			int idx;
 			Int32.TryParse(lblProbIdx.Text, out idx);
-			idx++;
 
 			// get student answer from textbox
 			int studentAnswer;
 			Int32.TryParse(txtStudentInput.Text, out studentAnswer);
+            txtStudentInput.Text = "";
 
-			if (studentAnswer == curAnswer)
+			ProblemSet probSet = (ProblemSet)Session["CurProbSet"];
+			StudentProblem curProb = probSet.ProblemList[idx];
+			// correct answer
+			if (studentAnswer == curProb.Problem.Result)
 			{
 				// add happy cookie image
-				// imgCookie.ImageUrl = "happyCookie.png";
+				imgCookie.ImageUrl = "images/cookie-happy.png";
 				imgCookie.AlternateText = "Happy Cookie";
+
+				//change the label text and color
+				lblAnswerResult.Text = "Correct!";
+                //lblAnswerResult.ForeColor = "#9BFF3A";
+
+                // increment right answers
+                int x = (int)Session["RightAnswerCount"];
+                Session["RightAnswerCount"] = ++x;
 			}
+			// incorrect answer
 			else
 			{
 				// add sad cookie image
-				// imgCookie.ImageUrl = "sadCookie.png";
+				imgCookie.ImageUrl = "images/cookie-sad.png";
 				imgCookie.AlternateText = "Sad Cookie";
-			}
 
+				//change the label text and color
+				lblAnswerResult.Text = "Incorrect!";
+                // lblAnswerResult.ForeColor = "#E52B14";
+
+                // increment wrong answers
+                int x = (int)Session["WrongAnswerCount"];
+                Session["WrongAnswerCount"] = ++x;
+            }
+
+			// Store problem and student's answer as a Result object
 			Result result = new Result();
-			result.ResultID = 0;
-			result.StudentID = (int)Session["UserID"];
-			result.ProblemID = curProb.AddSubProblemID;
+            result.StudentID = (int)Session["UserID"];
+			result.ProblemID = curProb.Problem.AddSubProblemID;
 			result.Answer = studentAnswer;
-			result.Level = curProb.Level;
-			result.Round = curRound;
+			result.Level = curProb.Problem.Level;
+			result.Round = (int)Session["CurRound"];
 
+			// Add the result to the list node
 			curProb.studentResult = result;
 
+            // bring up the results pop up panel
+            pnlGame.Visible = false;
+			pnlResults.Visible = true;
+
 			// check if we've reached the end of the list
-			if (idx == probSet.ProblemList.Count)
+			if (++idx >= probSet.ProblemList.Count)
 			{
+				// save the results to the DB
 				probSet.SaveResults();
+
+                lblGameOver.Text = "true";
+
+				// advance the round
+				int round = (int)Session["CurRound"];
+				Session["CurRound"] = ++round;
+
+                // switch panels to display
+                setFinal();
 			}
 			else
 			{
 				// store current index in hidden label
 				lblProbIdx.Text = idx.ToString();
-				curProb = probSet.ProblemList.Item[idx];
-			}
 
-			pnlResults.Visible = true;
-			setUI();
+				// move to the next problem
+				setUI(probSet.ProblemList[idx]);
+			}
 		}
 
-		private void setUI()
+		/// <summary>
+		/// Sets the UI for the game screen.
+		/// </summary>
+		private void setUI(StudentProblem curProb)
 		{
 			AddSubProblem prob = curProb.Problem;
-			curAnswer = prob.Result;
+			Session["CurAnswer"] = prob.Result;
 			string ord1 = prob.Operator1.ToString();
 			string ord2 = prob.Operator2.ToString();
 
+            // set the images for the UI
+            imgOpSign.ImageUrl = "images/signs/plus.png";
+            imgOrd1.ImageUrl = "images/nums/" + ord1 + ".png";
+            imgOrd2.ImageUrl = "images/nums/" + ord2 + ".png";
+
+            // set alternate text
 			imgOpSign.AlternateText = "+";
 			imgOrd1.AlternateText = ord1;
 			imgOrd2.AlternateText = ord2;
 		}
 
+		/// <summary>
+		/// Intializes the Welcome Popup
+		/// </summary>
+		private void setWelcome()
+		{
+			string name = (string)Session["FirstName"];
+			string probType = "+"; // temp until we include other types of problems
+			string lastRound = "0"; // temp until we keep track of round/levels passed
+
+			// Set the label text
+			lblWelcomeName.Text = "Welcome, " + name;
+			lblLastTime.Text = "Last, you made it to round " + lastRound;
+			lblThisTime.Text = "Today, you work on " + probType;
+		}
+
+        private void setFinal()
+        {
+            int right = (int)Session["RightAnswerCount"];
+            int wrong = (int)Session["WrongAnswerCount"];
+
+            lblRight.Text = "You got " + right.ToString() + " right!";
+            lblWrong.Text = "You got " + wrong.ToString() + " wrong";
+        }
+
+        private void goToFinal()
+        {
+            pnlGame.Visible = false;
+            pnlResults.Visible = false;
+            pnlWelcome.Visible = false;
+            pnlFinal.Visible = true;
+        }
+
+		/// <summary>
+		/// Closes the Welcome popup
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnReady_Click(object sender, ImageClickEventArgs e)
 		{
 			pnlWelcome.Visible = false;
+            pnlGame.Visible = true;
 		}
 
+		/// <summary>
+		/// Closes the Results popup
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnContinue_Click(object sender, ImageClickEventArgs e)
 		{
 			pnlResults.Visible = false;
+            pnlGame.Visible = true;
+
+            if (lblGameOver.Text == "true")
+            {
+                goToFinal();
+            }
 		}
 
 		protected void btnLogoff_Click(object sender, EventArgs e)
 		{
-
+            Session.Abandon();
+            Server.Transfer("Login.aspx");
 		}
 	}
 }
