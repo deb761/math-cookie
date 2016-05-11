@@ -19,11 +19,14 @@
     </div>
     <div id="main">
         <asp:Panel runat="server" ID="pnlWelcome" Visible="true" Height="50%" Width="75%">
-            <!--Info, images and text go here-->
+            <asp:Label runat="server" ID="lblWelcomeName" /><br />
+            <asp:Label runat="server" ID="lblLastTime" /><br />
+            <asp:Label runat="server" ID="lblThisTime" /><br />
             <asp:ImageButton runat="server" ID="btnReady" AlternateText="Ready!" OnClick="btnReady_Click" />
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlResults" Visible="false" Height="50%" Width="75%">
-            <asp:Image runat="server" ID="imgCookie" />
+            <asp:Label runat="server" ID="lblAnswerResult" /><br />
+            <asp:Image runat="server" ID="imgCookie" /><br />
             <asp:ImageButton runat="server" ID="btnContinue" AlternateText="Continue" OnClick="btnContinue_Click" />
         </asp:Panel>
         <span id="expression">

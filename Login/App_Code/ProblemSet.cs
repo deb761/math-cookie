@@ -114,10 +114,6 @@ namespace Solstice
             // Open a connection to the DB
             using (DataClassesDataContext dc = new DataClassesDataContext())
             {
-                //SqlConnection conn = new SqlConnection
-                //    (ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
-                //conn.Open();
-
                 // Random number generator for problem IDs
                 Random r = new Random();
 
@@ -132,23 +128,6 @@ namespace Solstice
                     // Set the sql string
                     var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
                     thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
-
-                    //using (var reader = comm.ExecuteReader())
-                    //{
-                    //    if (!reader.Read())
-                    //        throw new Exception("Error retrieving problem ID");
-
-                    // Get the problem for that id
-                    // Create the AddSub problem, with AddSubProblemID = the newly generated id
-                    //thisAddSubProb = new AddSubProblem(id);
-
-                    //// Fill in the AddSubProblem
-                    //thisAddSubProb.AddSubProblemID = reader.GetInt32(0);
-                    //thisAddSubProb.Level = reader.GetInt32(1);
-                    //thisAddSubProb.Operator1 = reader.GetInt32(2);
-                    //thisAddSubProb.Operator2 = reader.GetInt32(3);
-                    //thisAddSubProb.Result = reader.GetInt32(4);
-                    //thisAddSubProb.ProblemType = (ProblemType)reader.GetInt32(5);
 
                     // Create the new Result
                     thisResult = new Result();
@@ -166,8 +145,6 @@ namespace Solstice
                 }
 
             }
-            //conn.Close();
-            return;
         }
 
     }

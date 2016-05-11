@@ -1,13 +1,7 @@
 ﻿using CryptSharp;
 using System;
-using System.Data.SqlClient;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace Solstice
@@ -33,7 +27,7 @@ namespace Solstice
 
                 switch ((UserType)Session["UserType"])
                 {
-
+                    //Switch statement to see if the user is a student,admin,or teacher
                     case UserType.Student:
                         Response.Redirect("GameScreen.aspx");
                         break;
@@ -43,10 +37,8 @@ namespace Solstice
                     case UserType.Administrator:
                         Response.Redirect("AdminHome.aspx");
                         break;
-
                 }
             }
-
         }
         /// <summary>
         /// Length of the hash string from Blowfish encryption

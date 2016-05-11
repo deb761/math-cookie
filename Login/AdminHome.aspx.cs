@@ -1,15 +1,11 @@
 ﻿using CryptSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Solstice
 {
-    public partial class AdminHome : System.Web.UI.Page
+    public partial class AdminHome : ProtectedPage
     {
         /// <summary>
         /// Make sure a user is logged in and that he/she has
@@ -36,7 +32,11 @@ namespace Solstice
                     break;
             }
         }
-
+        /// <summary>
+        /// Update the user displayed in the user details area
+        /// </summary>
+        /// <param name="sender">not used</param>
+        /// <param name="e">not used</param>
         protected void ShowUserDetails(object sender, GridViewCommandEventArgs e)
         {
             string currentCommand = e.CommandName;
@@ -114,11 +114,15 @@ namespace Solstice
         {
             UpdateGrids();
         }
-
+        /// <summary>
+        /// Take the user to the logout page
+        /// </summary>
+        /// <param name="sender">not used</param>
+        /// <param name="e">not used</param>
         protected void btnLogoff_Click(object sender, EventArgs e)
         {
             Session.Abandon();
-            Server.Transfer("Login.aspx");
+            Response.Redirect("Logout.aspx");
         }
     }
 }

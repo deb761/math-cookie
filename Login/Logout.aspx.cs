@@ -14,6 +14,7 @@ public partial class Logout : System.Web.UI.Page
 
     protected void btnLoginAgain_Click(object sender, EventArgs e)
     {
+        //when the button is clicked to log out of the site, and to transfer to new webpage to show that user is logged out. 
         Response.Redirect("Login.aspx");
     }
 }

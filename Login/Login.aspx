@@ -22,7 +22,7 @@
                         <asp:TextBox ID="txtUserName" runat="server" Width="200px"></asp:TextBox>
                     </td>
                     <td class="auto-style6">
-                       <%-- <asp:RequiredFieldValidator ID="vldUserName" runat="server" ControlToValidate="txtUserName" ErrorMessage="Username is required! Please see your administrator" ForeColor="Red"></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="vldUserName" runat="server" ControlToValidate="txtUserName" ErrorMessage="Username is required! Please see your administrator" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -32,7 +32,7 @@
             
                     </td>
                     <td class="auto-style8">
-                       <%-- <asp:RequiredFieldValidator ID="vldPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required!" ForeColor="Red"></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="vldPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required!" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:Label ID="lblVldPassword" runat="server" Text="Invalid Password,  Please see your administrator" ForeColor="Red" Visible="False"></asp:Label><br />
 
                     </td>
