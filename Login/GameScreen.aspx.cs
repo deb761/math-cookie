@@ -212,8 +212,8 @@ namespace Solstice
 
 		protected void btnLogoff_Click(object sender, EventArgs e)
 		{
-            Session.Abandon();
-            Server.Transfer("Login.aspx");
+            
+            Server.Transfer("logout.aspx");
 		}
 	}
 }
