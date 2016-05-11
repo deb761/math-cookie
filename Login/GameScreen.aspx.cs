@@ -14,24 +14,27 @@ namespace Solstice
 {
     public partial class GameScreen : ProtectedPage
 	{
-        protected void Page_Load(object sender, EventArgs e)
-        {
+		protected void Page_Load(object sender, EventArgs e)
+		{
             if (Redirect(UserType.Student))
                 return;
 
-            if (!IsPostBack)
-            {
+				if (!IsPostBack)
+				{
                 // Initialize page
-                int studentID = (int)Session["UserID"];
+					int studentID = (int)Session["UserID"];
                 ProblemSet probSet = new ProblemSet(studentID, 1, ProblemType.Addition);
                 Session["CurProbSet"] = probSet;
                 int idx = 0;
                 lblProbIdx.Text = idx.ToString();
+                lblGameOver.Text = "false";
                 Session["CurRound"] = 1;
+                Session["RightAnswerCount"] = 0;
+                Session["WrongAnswerCount"] = 0;
                 setWelcome();
                 setUI(probSet.ProblemList[0]);
-            }
-        }
+				}
+			}
 
 		/// <summary>
 		/// Submits student's answer and checks against stored answer.
@@ -52,6 +55,7 @@ namespace Solstice
 			// get student answer from textbox
 			int studentAnswer;
 			Int32.TryParse(txtStudentInput.Text, out studentAnswer);
+            txtStudentInput.Text = "";
 
 			ProblemSet probSet = (ProblemSet)Session["CurProbSet"];
 			StudentProblem curProb = probSet.ProblemList[idx];
@@ -59,23 +63,31 @@ namespace Solstice
 			if (studentAnswer == curProb.Problem.Result)
 			{
 				// add happy cookie image
-				imgCookie.ImageUrl = "images/happy-cookie.png";
+				imgCookie.ImageUrl = "images/cookie-happy.png";
 				imgCookie.AlternateText = "Happy Cookie";
 
 				//change the label text and color
 				lblAnswerResult.Text = "Correct!";
-				//lblAnswerResult.Color = "#9BFF3A";
+                //lblAnswerResult.ForeColor = "#9BFF3A";
+
+                // increment right answers
+                int x = (int)Session["RightAnswerCount"];
+                Session["RightAnswerCount"] = ++x;
 			}
 			// incorrect answer
 			else
 			{
 				// add sad cookie image
-				imgCookie.ImageUrl = "images/sad-cookie.png";
+				imgCookie.ImageUrl = "images/cookie-sad.png";
 				imgCookie.AlternateText = "Sad Cookie";
 
 				//change the label text and color
 				lblAnswerResult.Text = "Incorrect!";
-				//lblAnswerResult.Color = "#E52B14";
+                // lblAnswerResult.ForeColor = "#E52B14";
+
+                // increment wrong answers
+                int x = (int)Session["WrongAnswerCount"];
+                Session["WrongAnswerCount"] = ++x;
 			}
 
 			// Store problem and student's answer as a Result object
@@ -89,7 +101,8 @@ namespace Solstice
 			// Add the result to the list node
 			curProb.studentResult = result;
 
-			// bring up the results pop up panel
+            // bring up the results pop up panel
+            pnlGame.Visible = false;
 			pnlResults.Visible = true;
 
 			// check if we've reached the end of the list
@@ -98,9 +111,14 @@ namespace Solstice
 				// save the results to the DB
 				probSet.SaveResults();
 
+                lblGameOver.Text = "true";
+
 				// advance the round
 				int round = (int)Session["CurRound"];
 				Session["CurRound"] = ++round;
+
+                // switch panels to display
+                setFinal();
 			}
 			else
 			{
@@ -122,6 +140,12 @@ namespace Solstice
 			string ord1 = prob.Operator1.ToString();
 			string ord2 = prob.Operator2.ToString();
 
+            // set the images for the UI
+            imgOpSign.ImageUrl = "images/signs/plus.png";
+            imgOrd1.ImageUrl = "images/nums/" + ord1 + ".png";
+            imgOrd2.ImageUrl = "images/nums/" + ord2 + ".png";
+
+            // set alternate text
 			imgOpSign.AlternateText = "+";
 			imgOrd1.AlternateText = ord1;
 			imgOrd2.AlternateText = ord2;
@@ -142,6 +166,23 @@ namespace Solstice
 			lblThisTime.Text = "Today, you work on " + probType;
 		}
 
+        private void setFinal()
+        {
+            int right = (int)Session["RightAnswerCount"];
+            int wrong = (int)Session["WrongAnswerCount"];
+
+            lblRight.Text = "You got " + right.ToString() + " right!";
+            lblWrong.Text = "You got " + wrong.ToString() + " wrong";
+        }
+
+        private void goToFinal()
+        {
+            pnlGame.Visible = false;
+            pnlResults.Visible = false;
+            pnlWelcome.Visible = false;
+            pnlFinal.Visible = true;
+        }
+
 		/// <summary>
 		/// Closes the Welcome popup
 		/// </summary>
@@ -150,6 +191,7 @@ namespace Solstice
 		protected void btnReady_Click(object sender, ImageClickEventArgs e)
 		{
 			pnlWelcome.Visible = false;
+            pnlGame.Visible = true;
 		}
 
 		/// <summary>
@@ -160,6 +202,12 @@ namespace Solstice
 		protected void btnContinue_Click(object sender, ImageClickEventArgs e)
 		{
 			pnlResults.Visible = false;
+            pnlGame.Visible = true;
+
+            if (lblGameOver.Text == "true")
+            {
+                goToFinal();
+            }
 		}
 
 		protected void btnLogoff_Click(object sender, EventArgs e)
