@@ -8,6 +8,15 @@
     <style type="text/css">
        
         
+        .auto-style1 {
+            width: 256px;
+        }
+        .auto-style2 {
+            width: 256px;
+            height: 317px;
+        }
+       
+        
     </style>
 </head>
 <body>
@@ -45,5 +54,7 @@
             <asp:Label ID="loginErrorLabel" runat="server" Visible="False"></asp:Label>
         </p>
     </form>
+    <p>
+        <img alt="Cookie" class="auto-style2" src="images/cookie-happy.png" /></p>
 </body>
 </html>
