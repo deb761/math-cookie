@@ -7,7 +7,8 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for GetProblems
+/// Additional methods for DataClassesDataContext, which is auto-generated using
+/// LINQ to SQL
 /// </summary>
 public partial class DataClassesDataContext : System.Data.Linq.DataContext
 {

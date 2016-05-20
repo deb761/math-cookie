@@ -129,6 +129,13 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), studentID);
 		return ((ISingleResult<GetLastRoundResult>)(result.ReturnValue));
 	}
+	
+	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMissedProblems")]
+	public ISingleResult<GetMissedProblemsResult> GetMissedProblems([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> studentID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> probTypeID)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), studentID, probTypeID);
+		return ((ISingleResult<GetMissedProblemsResult>)(result.ReturnValue));
+	}
 }
 
 [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
@@ -1028,6 +1035,68 @@ public partial class GetLastRoundResult
 			if ((this._Count != value))
 			{
 				this._Count = value;
+			}
+		}
+	}
+}
+
+public partial class GetMissedProblemsResult
+{
+	
+	private System.Nullable<int> _Last;
+	
+	private System.Nullable<int> _Count;
+	
+	private int _ProblemID;
+	
+	public GetMissedProblemsResult()
+	{
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Last", DbType="Int")]
+	public System.Nullable<int> Last
+	{
+		get
+		{
+			return this._Last;
+		}
+		set
+		{
+			if ((this._Last != value))
+			{
+				this._Last = value;
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Count", DbType="Int")]
+	public System.Nullable<int> Count
+	{
+		get
+		{
+			return this._Count;
+		}
+		set
+		{
+			if ((this._Count != value))
+			{
+				this._Count = value;
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemID", DbType="Int NOT NULL")]
+	public int ProblemID
+	{
+		get
+		{
+			return this._ProblemID;
+		}
+		set
+		{
+			if ((this._ProblemID != value))
+			{
+				this._ProblemID = value;
 			}
 		}
 	}
