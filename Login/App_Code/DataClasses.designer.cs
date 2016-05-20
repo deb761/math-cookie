@@ -122,6 +122,13 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), probType, level);
 		return ((ISingleResult<GetProblemIDsResult>)(result.ReturnValue));
 	}
+	
+	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLastRound")]
+	public ISingleResult<GetLastRoundResult> GetLastRound([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> studentID)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), studentID);
+		return ((ISingleResult<GetLastRoundResult>)(result.ReturnValue));
+	}
 }
 
 [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
@@ -959,6 +966,68 @@ public partial class GetProblemIDsResult
 			if ((this._AddSubProblemID != value))
 			{
 				this._AddSubProblemID = value;
+			}
+		}
+	}
+}
+
+public partial class GetLastRoundResult
+{
+	
+	private int _Level;
+	
+	private int _Round;
+	
+	private System.Nullable<int> _Count;
+	
+	public GetLastRoundResult()
+	{
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Level]", Storage="_Level", DbType="Int NOT NULL")]
+	public int Level
+	{
+		get
+		{
+			return this._Level;
+		}
+		set
+		{
+			if ((this._Level != value))
+			{
+				this._Level = value;
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Round", DbType="Int NOT NULL")]
+	public int Round
+	{
+		get
+		{
+			return this._Round;
+		}
+		set
+		{
+			if ((this._Round != value))
+			{
+				this._Round = value;
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Count", DbType="Int")]
+	public System.Nullable<int> Count
+	{
+		get
+		{
+			return this._Count;
+		}
+		set
+		{
+			if ((this._Count != value))
+			{
+				this._Count = value;
 			}
 		}
 	}

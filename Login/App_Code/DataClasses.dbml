@@ -53,4 +53,12 @@
       <Column Name="AddSubProblemID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetLastRound" Method="GetLastRound">
+    <Parameter Name="studentID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetLastRoundResult">
+      <Column Name="[Level]" Member="Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

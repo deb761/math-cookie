@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -38,5 +39,29 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
             // loading needed nor possible, hence the ToList()
             return this.Translate<AddSubProblem>(reader).ToList();
         }
+    }
+    /// <summary>
+    /// Find out what level and round a student should start at when starting a game.
+    /// </summary>
+    /// <param name="studentID"></param>
+    /// <returns>A result element with level, round, and count</returns>
+    public GetLastRoundResult GetCurrentRound(int studentID)
+    {
+        GetLastRoundResult roundTable = (GetLastRoundResult)GetLastRound(studentID).ReturnValue;
+        if (roundTable.Count == Solstice.ProblemSet.NUM_PROBS_PER_ROUND)
+        {
+            if (roundTable.Round == Solstice.ProblemSet.NUM_ROUNDS_PER_LEVEL)
+            {
+                roundTable.Level++;
+                roundTable.Round = 1;
+            }
+            else
+            {
+                roundTable.Round++;
+            }
+            roundTable.Count = 0;
+        }
+
+        return roundTable;
     }
 }

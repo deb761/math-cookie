@@ -41,6 +41,7 @@ namespace Solstice
         // Default of 10 problems per round
         // TODO Allow for teacher increase or decrease in number of problems
         public const int NUM_PROBS_PER_ROUND = 10;
+        public const int NUM_ROUNDS_PER_LEVEL = 3;
 
         // For first level, there are 100 possible problems, 0..9 and 0..9
         // Edit 5/5: We are only using addition problems with answers 0..9: there are 55 total problems
