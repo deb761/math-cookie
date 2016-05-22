@@ -44,6 +44,9 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   partial void InsertSchoolYear(SchoolYear instance);
   partial void UpdateSchoolYear(SchoolYear instance);
   partial void DeleteSchoolYear(SchoolYear instance);
+  partial void InsertClassStudent(ClassStudent instance);
+  partial void UpdateClassStudent(ClassStudent instance);
+  partial void DeleteClassStudent(ClassStudent instance);
   #endregion
 	
 	public DataClassesDataContext() : 
@@ -116,6 +119,14 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
+	public System.Data.Linq.Table<ClassStudent> ClassStudents
+	{
+		get
+		{
+			return this.GetTable<ClassStudent>();
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetProblemIDs")]
 	public ISingleResult<GetProblemIDsResult> GetProblemIDs([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> probType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> level)
 	{
@@ -156,6 +167,8 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Password;
 	
+	private EntitySet<ClassStudent> _ClassStudents;
+	
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -176,6 +189,7 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	public User()
 	{
+		this._ClassStudents = new EntitySet<ClassStudent>(new Action<ClassStudent>(this.attach_ClassStudents), new Action<ClassStudent>(this.detach_ClassStudents));
 		OnCreated();
 	}
 	
@@ -299,6 +313,19 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ClassStudent", Storage="_ClassStudents", ThisKey="UserID", OtherKey="UserID")]
+	public EntitySet<ClassStudent> ClassStudents
+	{
+		get
+		{
+			return this._ClassStudents;
+		}
+		set
+		{
+			this._ClassStudents.Assign(value);
+		}
+	}
+	
 	public event PropertyChangingEventHandler PropertyChanging;
 	
 	public event PropertyChangedEventHandler PropertyChanged;
@@ -317,6 +344,18 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 		{
 			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
+	}
+	
+	private void attach_ClassStudents(ClassStudent entity)
+	{
+		this.SendPropertyChanging();
+		entity.User = this;
+	}
+	
+	private void detach_ClassStudents(ClassStudent entity)
+	{
+		this.SendPropertyChanging();
+		entity.User = null;
 	}
 }
 
@@ -698,6 +737,8 @@ public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _ClassName;
 	
+	private EntitySet<ClassStudent> _ClassStudents;
+	
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -714,6 +755,7 @@ public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	public Class()
 	{
+		this._ClassStudents = new EntitySet<ClassStudent>(new Action<ClassStudent>(this.attach_ClassStudents), new Action<ClassStudent>(this.detach_ClassStudents));
 		OnCreated();
 	}
 	
@@ -797,6 +839,19 @@ public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_ClassStudent", Storage="_ClassStudents", ThisKey="ClassID", OtherKey="ClassID")]
+	public EntitySet<ClassStudent> ClassStudents
+	{
+		get
+		{
+			return this._ClassStudents;
+		}
+		set
+		{
+			this._ClassStudents.Assign(value);
+		}
+	}
+	
 	public event PropertyChangingEventHandler PropertyChanging;
 	
 	public event PropertyChangedEventHandler PropertyChanged;
@@ -815,6 +870,18 @@ public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
 		{
 			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
+	}
+	
+	private void attach_ClassStudents(ClassStudent entity)
+	{
+		this.SendPropertyChanging();
+		entity.Class = this;
+	}
+	
+	private void detach_ClassStudents(ClassStudent entity)
+	{
+		this.SendPropertyChanging();
+		entity.Class = null;
 	}
 }
 
@@ -927,6 +994,174 @@ public partial class SchoolYear : INotifyPropertyChanging, INotifyPropertyChange
 				this._End = value;
 				this.SendPropertyChanged("End");
 				this.OnEndChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ClassStudents")]
+public partial class ClassStudent : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _ClassID;
+	
+	private int _UserID;
+	
+	private EntityRef<Class> _Class;
+	
+	private EntityRef<User> _User;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnClassIDChanging(int value);
+    partial void OnClassIDChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    #endregion
+	
+	public ClassStudent()
+	{
+		this._Class = default(EntityRef<Class>);
+		this._User = default(EntityRef<User>);
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClassID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+	public int ClassID
+	{
+		get
+		{
+			return this._ClassID;
+		}
+		set
+		{
+			if ((this._ClassID != value))
+			{
+				if (this._Class.HasLoadedOrAssignedValue)
+				{
+					throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+				}
+				this.OnClassIDChanging(value);
+				this.SendPropertyChanging();
+				this._ClassID = value;
+				this.SendPropertyChanged("ClassID");
+				this.OnClassIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+	public int UserID
+	{
+		get
+		{
+			return this._UserID;
+		}
+		set
+		{
+			if ((this._UserID != value))
+			{
+				if (this._User.HasLoadedOrAssignedValue)
+				{
+					throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+				}
+				this.OnUserIDChanging(value);
+				this.SendPropertyChanging();
+				this._UserID = value;
+				this.SendPropertyChanged("UserID");
+				this.OnUserIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_ClassStudent", Storage="_Class", ThisKey="ClassID", OtherKey="ClassID", IsForeignKey=true)]
+	public Class Class
+	{
+		get
+		{
+			return this._Class.Entity;
+		}
+		set
+		{
+			Class previousValue = this._Class.Entity;
+			if (((previousValue != value) 
+						|| (this._Class.HasLoadedOrAssignedValue == false)))
+			{
+				this.SendPropertyChanging();
+				if ((previousValue != null))
+				{
+					this._Class.Entity = null;
+					previousValue.ClassStudents.Remove(this);
+				}
+				this._Class.Entity = value;
+				if ((value != null))
+				{
+					value.ClassStudents.Add(this);
+					this._ClassID = value.ClassID;
+				}
+				else
+				{
+					this._ClassID = default(int);
+				}
+				this.SendPropertyChanged("Class");
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ClassStudent", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+	public User User
+	{
+		get
+		{
+			return this._User.Entity;
+		}
+		set
+		{
+			User previousValue = this._User.Entity;
+			if (((previousValue != value) 
+						|| (this._User.HasLoadedOrAssignedValue == false)))
+			{
+				this.SendPropertyChanging();
+				if ((previousValue != null))
+				{
+					this._User.Entity = null;
+					previousValue.ClassStudents.Remove(this);
+				}
+				this._User.Entity = value;
+				if ((value != null))
+				{
+					value.ClassStudents.Add(this);
+					this._UserID = value.UserID;
+				}
+				else
+				{
+					this._UserID = default(int);
+				}
+				this.SendPropertyChanged("User");
 			}
 		}
 	}

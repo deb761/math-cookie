@@ -83,27 +83,24 @@ namespace Solstice
         private void StoreResultsInDB()
         {
             // Open a connection to the DB
-            SqlConnection conn = new SqlConnection
-                (ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
-            conn.Open();
-
-            // Create a new row in the Results table, for the current student result
-            for (int i = 0; i < ProblemList.Count; i++)
+            using (DataClassesDataContext dc = new DataClassesDataContext())
             {
-                // Set the sql string
-                string query = "INSERT INTO Results (StudentID, ProblemID, Answer, Level, Round) " +
-                    "VALUES (@student, @problem, @answer, @level, @round)";
-                SqlCommand com = new SqlCommand(cmdText: query, connection: conn);
+                // Create a new row in the Results table, for the current student result
+                foreach (StudentProblem problem in ProblemList)
+                {
+                    // Set the sql string
+                    Result result = new Result();
 
-                // Add row and execute
-                com.Parameters.Add(new SqlParameter("@student", this.sid));
-                com.Parameters.Add(new SqlParameter("@problem", ProblemList[i].Problem.AddSubProblemID));
-                com.Parameters.Add(new SqlParameter("@answer", ProblemList[i].studentResult.Answer));
-                com.Parameters.Add(new SqlParameter("@level", ProblemList[i].Problem.Level));
-                com.Parameters.Add(new SqlParameter("@round", ProblemList[i].studentResult.Round));
-                com.ExecuteNonQuery(); // Used for Insert, Update, Delete SQL Statements
+                    // Add row and execute
+                    result.StudentID = this.sid;
+                    result.ProblemID = problem.Problem.AddSubProblemID;
+                    result.Answer = problem.studentResult.Answer;
+                    result.Level = problem.Problem.Level;
+                    result.Round = problem.studentResult.Round;
+                    dc.Results.InsertOnSubmit(result);
+                }
+                dc.SubmitChanges();
             }
-            conn.Close();
         }
 
         // Randomly fill problem list with problems from the appropriate level and problem type
