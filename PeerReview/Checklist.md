@@ -23,3 +23,7 @@ output: html_document
 2. Methods do only one thing
 3. Methods are less than 50 lines of code
 4. No nesting greater than 3
+
+# Reference
+
+Goth, S. R. (2015, July 31). Code Review Checklist – To Perform Effective Code Reviews. Retrieved May 23, 2016, from http://www.evoketechnologies.com/blog/code-review-checklist-perform-effective-code-reviews/
