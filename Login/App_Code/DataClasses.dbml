@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SolsticeAPI_db" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|solstice.mdf;Initial Catalog=solstice;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SolsticeAPI_dbConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=solstice-server.database.windows.net;Initial Catalog=SolsticeAPI_db;Persist Security Info=True;User ID=solstice" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SolsticeAPI_dbConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserType" Type="global::UserType" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="global::UserTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Login" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
@@ -28,7 +28,7 @@
       <Column Name="Operator1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Operator2" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Result" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ProblemType" Type="global::ProblemType" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProblemType" Type="global::ProblemTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Classes" Member="Classes">
@@ -54,6 +54,18 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Class_ClassStudent" Member="Class" ThisKey="ClassID" OtherKey="ClassID" Type="Class" IsForeignKey="true" />
       <Association Name="User_ClassStudent" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserTypes" Member="UserTypes">
+    <Type Name="UserType">
+      <Column Name="UserTypeID" Type="global::UserTypeEnum" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserTypeName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProblemTypes" Member="ProblemTypes">
+    <Type Name="ProblemType">
+      <Column Name="ProblemTypeID" Type="global::ProblemTypeEnum" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProblemTypeName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Function Name="dbo.GetProblemIDs" Method="GetProblemIDs">

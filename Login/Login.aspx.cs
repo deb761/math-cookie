@@ -25,19 +25,19 @@ namespace Solstice
                 //Click on the login to add the user
                 Session["UserID"] = userID;
 
-                switch ((UserType)Session["UserType"])
+                switch ((UserTypeEnum)Session["UserType"])
                 {
                     //Switch statement to see if the user is a student,admin,or teacher
-                    case UserType.Student:
+                    case UserTypeEnum.Student:
                         Response.Redirect("GameScreen.aspx");
                         break;
-                    case UserType.Teacher:
+                    case UserTypeEnum.Teacher:
                         Response.Redirect("TeacherHome.aspx");
                         break;
-                    case UserType.Administrator:
+                    case UserTypeEnum.Administrator:
                         Response.Redirect("AdminHome.aspx");
                         break;
-                    case UserType.Super:
+                    case UserTypeEnum.Super:
                         Response.Redirect("SecretSeedDatabase.aspx");
                         break;
                 }

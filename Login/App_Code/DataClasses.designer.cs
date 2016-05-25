@@ -47,10 +47,16 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   partial void InsertClassStudent(ClassStudent instance);
   partial void UpdateClassStudent(ClassStudent instance);
   partial void DeleteClassStudent(ClassStudent instance);
+  partial void InsertUserType(UserType instance);
+  partial void UpdateUserType(UserType instance);
+  partial void DeleteUserType(UserType instance);
+  partial void InsertProblemType(ProblemType instance);
+  partial void UpdateProblemType(ProblemType instance);
+  partial void DeleteProblemType(ProblemType instance);
   #endregion
 	
 	public DataClassesDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString1"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}
@@ -127,6 +133,22 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
+	public System.Data.Linq.Table<UserType> UserTypes
+	{
+		get
+		{
+			return this.GetTable<UserType>();
+		}
+	}
+	
+	public System.Data.Linq.Table<ProblemType> ProblemTypes
+	{
+		get
+		{
+			return this.GetTable<ProblemType>();
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetProblemIDs")]
 	public ISingleResult<GetProblemIDsResult> GetProblemIDs([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> probType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> level)
 	{
@@ -157,7 +179,7 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private int _UserID;
 	
-	private global::UserType _UserType;
+	private global::UserTypeEnum _UserType;
 	
 	private string _Login;
 	
@@ -175,7 +197,7 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnCreated();
     partial void OnUserIDChanging(int value);
     partial void OnUserIDChanged();
-    partial void OnUserTypeChanging(global::UserType value);
+    partial void OnUserTypeChanging(global::UserTypeEnum value);
     partial void OnUserTypeChanged();
     partial void OnLoginChanging(string value);
     partial void OnLoginChanged();
@@ -214,7 +236,7 @@ public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	}
 	
 	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="Int NOT NULL", CanBeNull=false)]
-	public global::UserType UserType
+	public global::UserTypeEnum UserType
 	{
 		get
 		{
@@ -557,7 +579,7 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
 	
 	private int _Result;
 	
-	private global::ProblemType _ProblemType;
+	private global::ProblemTypeEnum _ProblemType;
 	
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -573,7 +595,7 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
     partial void OnOperator2Changed();
     partial void OnResultChanging(int value);
     partial void OnResultChanged();
-    partial void OnProblemTypeChanging(global::ProblemType value);
+    partial void OnProblemTypeChanging(global::ProblemTypeEnum value);
     partial void OnProblemTypeChanged();
     #endregion
 	
@@ -683,7 +705,7 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
 	}
 	
 	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemType", DbType="Int NOT NULL", CanBeNull=false)]
-	public global::ProblemType ProblemType
+	public global::ProblemTypeEnum ProblemType
 	{
 		get
 		{
@@ -1162,6 +1184,178 @@ public partial class ClassStudent : INotifyPropertyChanging, INotifyPropertyChan
 					this._UserID = default(int);
 				}
 				this.SendPropertyChanged("User");
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserTypes")]
+public partial class UserType : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private global::UserTypeEnum _UserTypeID;
+	
+	private string _UserTypeName;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserTypeIDChanging(global::UserTypeEnum value);
+    partial void OnUserTypeIDChanged();
+    partial void OnUserTypeNameChanging(string value);
+    partial void OnUserTypeNameChanged();
+    #endregion
+	
+	public UserType()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserTypeID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", CanBeNull=false, IsPrimaryKey=true, IsDbGenerated=true)]
+	public global::UserTypeEnum UserTypeID
+	{
+		get
+		{
+			return this._UserTypeID;
+		}
+		set
+		{
+			if ((this._UserTypeID != value))
+			{
+				this.OnUserTypeIDChanging(value);
+				this.SendPropertyChanging();
+				this._UserTypeID = value;
+				this.SendPropertyChanged("UserTypeID");
+				this.OnUserTypeIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserTypeName", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+	public string UserTypeName
+	{
+		get
+		{
+			return this._UserTypeName;
+		}
+		set
+		{
+			if ((this._UserTypeName != value))
+			{
+				this.OnUserTypeNameChanging(value);
+				this.SendPropertyChanging();
+				this._UserTypeName = value;
+				this.SendPropertyChanged("UserTypeName");
+				this.OnUserTypeNameChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ProblemTypes")]
+public partial class ProblemType : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private global::ProblemTypeEnum _ProblemTypeID;
+	
+	private string _ProblemTypeName;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProblemTypeIDChanging(global::ProblemTypeEnum value);
+    partial void OnProblemTypeIDChanged();
+    partial void OnProblemTypeNameChanging(string value);
+    partial void OnProblemTypeNameChanged();
+    #endregion
+	
+	public ProblemType()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemTypeID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", CanBeNull=false, IsPrimaryKey=true, IsDbGenerated=true)]
+	public global::ProblemTypeEnum ProblemTypeID
+	{
+		get
+		{
+			return this._ProblemTypeID;
+		}
+		set
+		{
+			if ((this._ProblemTypeID != value))
+			{
+				this.OnProblemTypeIDChanging(value);
+				this.SendPropertyChanging();
+				this._ProblemTypeID = value;
+				this.SendPropertyChanged("ProblemTypeID");
+				this.OnProblemTypeIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemTypeName", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+	public string ProblemTypeName
+	{
+		get
+		{
+			return this._ProblemTypeName;
+		}
+		set
+		{
+			if ((this._ProblemTypeName != value))
+			{
+				this.OnProblemTypeNameChanging(value);
+				this.SendPropertyChanging();
+				this._ProblemTypeName = value;
+				this.SendPropertyChanged("ProblemTypeName");
+				this.OnProblemTypeNameChanged();
 			}
 		}
 	}

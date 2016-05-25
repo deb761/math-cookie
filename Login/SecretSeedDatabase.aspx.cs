@@ -11,13 +11,24 @@ using System.Web.UI.WebControls;
 
 public partial class SecretSeedDatabase : ProtectedPage
 {
+    /// <summary>
+    /// Redirect all users other than the super user
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Redirect(UserType.Super))
+        if (Redirect(UserTypeEnum.Super))
             return;
 
     }
+    /// <summary>
+    /// The database
+    /// </summary>
     DataClassesDataContext db;
+    /// <summary>
+    /// Create a new database.  If one exists already, destroy it first.
+    /// </summary>
     public void CreateDatabase()
     {
         db = new DataClassesDataContext(Server.MapPath("App_Data/solstice.mdf"));
@@ -28,18 +39,37 @@ public partial class SecretSeedDatabase : ProtectedPage
         }
         db.CreateDatabase();
     }
+    /// <summary>
+    /// Seed the new database
+    /// </summary>
     private void SeedDatabase()
     {
+        AddEnums();
         AddUsers();
     }
-
+    /// <summary>
+    /// Fill the tables that represent enumerations
+    /// </summary>
     private void AddEnums()
     {
-        for (UserType utype = UserType.Student; utype <= UserType.Super; ++utype)
+        for (UserTypeEnum utype = UserTypeEnum.Student; utype <= UserTypeEnum.Super; utype++)
         {
-            //db.UserTypes
+            UserType usert = new UserType();
+            usert.UserTypeName = utype.ToString();
+            db.UserTypes.InsertOnSubmit(usert);
         }
+        for (ProblemTypeEnum ptype = ProblemTypeEnum.Addition; ptype <= ProblemTypeEnum.PlaceValue; ptype++)
+        {
+            ProblemType probt = new ProblemType();
+            probt.ProblemTypeName = ptype.ToString();
+            db.ProblemTypes.InsertOnSubmit(probt);
+        }
+        db.SubmitChanges();
     }
+    /// <summary>
+    /// Add users to the database, starting with the admin users,
+    /// then teachers and students
+    /// </summary>
     private void AddUsers()
     {
         List<User> users = LoadUsers("admins.json");
@@ -68,7 +98,11 @@ public partial class SecretSeedDatabase : ProtectedPage
         db.Users.InsertAllOnSubmit(users);
         db.SubmitChanges();
     }
-
+    /// <summary>
+    /// Load user definitions from a json file
+    /// </summary>
+    /// <param name="path">path to the file</param>
+    /// <returns></returns>
     private List<User> LoadUsers(string path)
     {
         List<User> users = null;
@@ -78,22 +112,25 @@ public partial class SecretSeedDatabase : ProtectedPage
         }
         return users;
     }
-
+    /// <summary>
+    /// Add classes to the database
+    /// </summary>
     private void AddClasses()
     {
         // Create a class year
         SchoolYear year = new SchoolYear();
         year.Name = "2015-2016";
-        year.Start = DateTime.Parse("8-15-2015");
-        year.End = DateTime.Parse("5-15-2016");
+        year.Start = DateTime.Parse("9-1-2015");
+        year.End = DateTime.Parse("5-30-2016");
         db.SchoolYears.InsertOnSubmit(year);
         db.SubmitChanges();
 
         // Create a class for each teacher
         // Get the teachers and students with their IDs
-        var teachers = db.Users.Where(x => x.UserType == UserType.Teacher);
-        User[] students = db.Users.Where(x => x.UserType == UserType.Student).ToArray();
+        var teachers = db.Users.Where(x => x.UserType == UserTypeEnum.Teacher);
+        User[] students = db.Users.Where(x => x.UserType == UserTypeEnum.Student).ToArray();
         int nextStudent = 0;
+        int studentsPerClass = students.Length / teachers.Count();
 
         foreach (User teacher in teachers)
         {
@@ -106,7 +143,7 @@ public partial class SecretSeedDatabase : ProtectedPage
             // Get the class ID
             clss = db.Classes.Where(x => x.TeacherID == teacher.UserID).First();
             // Assign students to the class
-            for (int idx = 0; idx < students.Length / teachers.Count(); nextStudent++, idx++)
+            for (int idx = 0; idx < studentsPerClass; nextStudent++, idx++)
             {
                 User student = students[nextStudent];
                 ClassStudent tie = new ClassStudent();
@@ -115,8 +152,65 @@ public partial class SecretSeedDatabase : ProtectedPage
                 db.ClassStudents.InsertOnSubmit(tie);
             }
         }
+        db.SubmitChanges();
     }
+    private void AddProblems()
+    {
+        //AddLevel1Problems();
+    }
+    /// <summary>
+    /// Add the problems for a level
+    /// </summary>
+    /// <param name="rules">Rules for the level</param>
+    private void AddLevel1Problems(LevelRules rules)
+    {
+        // Add level 1 problems
+        for (int op1 = 0; op1 < rules.MaxVal1; op1++)
+        {
+            for (int op2 = 0; op2 < rules.MaxVal2; op2++)
+            {
+                int sum = op1 + op2;
+                if (sum < rules.MaxResult)
+                {
+                    AddRecord(rules.Level, op1, op2, sum, ProblemTypeEnum.Addition);
+                }
+            }
+        }
+        // subtraction
+        for (int op1 = 0; op1 < rules.MaxVal2; op1++)
+        {
+            for (int op2 = 0; op2 <= op1; op2++)
+            {
+                int result = op1 - op2;
+                AddRecord(rules.Level, op1, op2, result, ProblemTypeEnum.Subtraction);
+            }
+        }
 
+    }
+    /// <summary>
+    /// Add an AddSubProblem to the database
+    /// </summary>
+    /// <param name="level">Problem level</param>
+    /// <param name="op1">First Operand</param>
+    /// <param name="op2">Second Operand</param>
+    /// <param name="result">Result</param>
+    /// <param name="prob">Problem type</param>
+    private void AddRecord(int level, int op1, int op2, int result, ProblemTypeEnum prob)
+    {
+        {
+            AddSubProblem problem = new AddSubProblem();
+            problem.ProblemType = prob;
+            problem.Level = level;
+            problem.Operator1 = op1;
+            problem.Operator1 = op2;
+            problem.Result = result;
+            db.AddSubProblems.InsertOnSubmit(problem);
+        }
+    }    /// <summary>
+         /// Create and seed the database when the user clicks seed
+         /// </summary>
+         /// <param name="sender">not used</param>
+         /// <param name="e">not used</param>
     protected void btnSeed_Click(object sender, EventArgs e)
     {
         CreateDatabase();

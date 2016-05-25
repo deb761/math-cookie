@@ -53,7 +53,7 @@ namespace Solstice
         // Rounds are populated based on level and problem type (addition, subtraction, place value)
         private int sid;
         private int level;
-        private ProblemType probType;
+        private ProblemTypeEnum probType;
 
         // The list of Student Problems. 
         // Each Problem contains the AddSubProblem (data related to the problem),
@@ -62,7 +62,7 @@ namespace Solstice
 
         // Create a problem set, based on the student, level, and problem type
         // TODO Need to add missed problems to this set
-        public ProblemSet(int studentID, int Level, ProblemType probType)
+        public ProblemSet(int studentID, int Level, ProblemTypeEnum probType)
         {
             this.sid = studentID;
             this.level = Level;
