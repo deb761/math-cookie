@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Solstice.Models
+//namespace Solstice.Models
+namespace Solstice
 {
     public enum ProblemType { Addition, Subtraction, PlaceValue }
 
@@ -27,15 +28,15 @@ namespace Solstice.Models
             AddSubProblemID = id;
         }
 
-        public AddSubProblem(int id, int level, int operator1, int operator2, int result, ProblemType probType)
-        {
-            this.AddSubProblemID = id;
-            this.Level = level;
-            this.Operator1 = operator1;
-            this.Operator2 = operator2;
-            this.Result = result;
-            this.ProblemType = probType;
-        }
+        //public AddSubProblem(int id, int level, int operator1, int operator2, int result, ProblemType probType)
+        //{
+        //    this.AddSubProblemID = id;
+        //    this.Level = level;
+        //    this.Operator1 = operator1;
+        //    this.Operator2 = operator2;
+        //    this.Result = result;
+        //    this.ProblemType = probType;
+        //}
 
         //    // Get a single problem based on the problemid
         //    public AddSubProblem(int id)
