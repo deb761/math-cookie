@@ -1,15 +1,54 @@
 ﻿[
-
   {
     "Level": 1,
     "MinVal1": 0,
     "MaxVal1": 10,
     "MinVal2": 0,
     "MaxVal2": 10,
-    "MaxResult" : 10,
+    "MaxResult": 10,
     "PlaceVal": 0,
-    "NumRounds": 3,
-    "ProbsPerRound": 10
+    "Rounds": [
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      }
+    ]
   },
   {
     "Level": 2,
@@ -19,8 +58,48 @@
     "MaxVal2": 100,
     "MaxResult": 100,
     "PlaceVal": 1,
-    "NumRounds": 3,
-    "ProbsPerRound": 10
+    "Rounds": [
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      }
+    ]
   },
   {
     "Level": 3,
