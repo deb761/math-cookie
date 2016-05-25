@@ -1,6 +1,10 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 /// <summary>
 /// An enumeration that trackt problem type
@@ -13,8 +17,36 @@ public enum UserType { Student, Teacher, Administrator, Super }
 /// <summary>
 /// Summary description for Results
 /// </summary>
-public static class Results
+// public class Results
+public class Results
 {
+    /// <summary>
+    /// Return the list of review problems for a given student, level, and lesson
+    /// </summary>
+    private List<Results> ReviewList = new List<Results>();
+
+    public List<Results> GetReviewList(int sid, int level, int lesson)
+    {
+
+        // Populate list based on student ID, level, and lesson
+        // TODO Need to convert this to LINQ
+        // TODO Do we want to randomize?
+        var problemQuery = "SELECT * FROM RESULTS WHERE STUDENTID = " + sid.ToString() +
+            " AND LEVEL = " + level.ToString() + " AND LESSON = " + lesson.ToString();
+
+        // Fill the ProblemList with problems, based on 
+        // the problem ID, which is randomly generated
+        foreach (Result res in problemQuery)
+        {
+            // Add to the review list
+            ReviewList.Add(res);
+
+        }
+
+        return ReviewList;
+    }
+
+
     /// <summary>
     /// Save the results of a problem using a SqlConnection
     /// </summary>

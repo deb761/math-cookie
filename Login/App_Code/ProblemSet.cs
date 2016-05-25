@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace Solstice
 {
-     // A student problem contains the problem info and the student response
+    // A student problem contains the problem info and the student response
     public class StudentProblem
     {
         // Constructor
@@ -105,6 +105,7 @@ namespace Solstice
         // TODO Currently hard coded for the first 55 problems, which are Addition Level 1
         // TODO Create a SQL query which gets a list of all IDs for the appropriate ProblemType and Level
         // TODO Then generate random IDs based on that list
+
         private void PopulateProblemList()
         {
             //int id;
@@ -114,38 +115,87 @@ namespace Solstice
             // Open a connection to the DB
             using (DataClassesDataContext dc = new DataClassesDataContext())
             {
-                // Random number generator for problem IDs
-                Random r = new Random();
+
+
+                // RELEASE 2:
+                // Remove the 0..55 range, and replace
+                // it with a random selection where Level = desired level
+                // NEWID() provides a randomization function.
+                // See MSDN, Selecting Rows Randomly from a Large Table
+                // https://msdn.microsoft.com/en-us/library/cc441928.aspx
+                //
+
+                // TODO Need to check LINQ
+                var problemQuery = "SELECT TOP " + NUM_PROBS_PER_ROUND.ToString() +
+                " FROM AddSubProblems WHERE Level = " + this.level.ToString() +
+                " ORDER BY NEWID()";
 
                 // Fill the ProblemList with problems, based on 
                 // the problem ID, which is randomly generated
-                for (int i = 0; i < NUM_PROBS_PER_ROUND; i++)
+                foreach (var prob in problemQuery)
                 {
-                    // Random ID
-                    // TODO random seed currently hardcoded to 0..55
-                    int id = r.Next(LOWEST_PROBLEM_ID, (HIGHEST_PROBLEM_ID + 1));
+                    //    // Set the sql string
+                    //    var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
+                    //    thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
 
-                    // Set the sql string
-                    var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
-                    thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
+                    //    // Create the new Result
+                    //    thisResult = new Result();
 
-                    // Create the new Result
-                    thisResult = new Result();
+                    //    // Pre-set values in the new Result
+                    //    thisResult.ProblemID = id;
+                    //    thisResult.Level = thisAddSubProb.Level;
 
-                    // Pre-set values in the new Result
-                    thisResult.ProblemID = id;
-                    thisResult.Level = thisAddSubProb.Level;
+                    //    // Create a new StudentProblem
+                    //    StudentProblem sp =
+                    //        new StudentProblem(thisAddSubProb, thisResult);
 
-                    // Create a new StudentProblem
-                    StudentProblem sp =
-                        new StudentProblem(thisAddSubProb, thisResult);
+                    //    // Add to problem list
+                    //    ProblemList.Add(sp);
 
-                    // Add to problem list
-                    ProblemList.Add(sp);
                 }
-
             }
         }
+
+
+
+
+
+
+
+                //// Random number generator for problem IDs
+                //Random r = new Random();
+                //
+                //// Fill the ProblemList with problems, based on 
+                //// the problem ID, which is randomly generated
+                //for (int i = 0; i < NUM_PROBS_PER_ROUND; i++)
+                //{
+                //    // Random ID
+                //    // TODO random seed currently hardcoded to 0..55
+                //    int id = r.Next(LOWEST_PROBLEM_ID, (HIGHEST_PROBLEM_ID + 1));
+
+                //    // Set the sql string
+                //    var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
+                //    thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
+
+                //    // Create the new Result
+                //    thisResult = new Result();
+
+                //    // Pre-set values in the new Result
+                //    thisResult.ProblemID = id;
+                //    thisResult.Level = thisAddSubProb.Level;
+
+                //    // Create a new StudentProblem
+                //    StudentProblem sp =
+                //        new StudentProblem(thisAddSubProb, thisResult);
+
+                //    // Add to problem list
+                //    ProblemList.Add(sp);
+                //}
+
+
+
+
+
 
     }
 }
