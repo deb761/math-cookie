@@ -10,7 +10,8 @@
     <form id="form1" runat="server">
     <div>
     <h1>Welcome, Super User!</h1>
-        <asp:Button ID="btnSeed" runat="server" Text="Seed Database" OnClick="btnSeed_Click" />
+        <asp:Button ID="btnUpdate" runat="server" Text="Update DB for Release2" OnClick="btnUpdate_Click" />
+        <asp:Button ID="btnSeed" runat="server" Text="Seed Database" OnClick="btnSeed_Click" Enabled="False" />
     </div>
     </form>
 </body>
