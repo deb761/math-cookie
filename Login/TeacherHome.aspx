@@ -10,9 +10,10 @@
     <form id="form1" runat="server">
     <div>
         <h1>Class Overview</h1>
-        <asp:Label ID="Label1" runat="server" Text="Class"></asp:Label>
-        <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="ResultDataSource" DataTextField="ClassName" DataValueField="ClassID">
+        <h2><asp:Label ID="Label1" runat="server" Text="Class"></asp:Label>
+        <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="ResultDataSource" DataTextField="ClassName" DataValueField="ClassID" Font-Size="Large">
         </asp:DropDownList>
+        </h2>
         <asp:GridView ID="classOverview" runat="server" DataSourceID="SqlDataSource1" AllowSorting="True"
             AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" DataKeyNames="UserID"
             OnSelectedIndexChanged="classOverview_SelectedIndexChanged">
@@ -49,7 +50,7 @@
                 <asp:Parameter DefaultValue="1" Name="yearID" Type="Int32" />
             </SelectParameters>
         </asp:SqlDataSource>
-        <h2><asp:Label ID="lblDetails" runat="server" Text="Class">Student Details</asp:Label></h2>
+        <h2><asp:Label ID="lblDetails" runat="server" Text="No Student Selected"></asp:Label></h2>
         <asp:GridView ID="detailsView" runat="server" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataSourceID="DetailDataSource" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
