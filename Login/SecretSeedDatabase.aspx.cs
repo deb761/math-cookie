@@ -243,16 +243,15 @@ public partial class SecretSeedDatabase : ProtectedPage
     /// <param name="prob">Problem type</param>
     private void AddRecord(int level, int op1, int op2, int result, ProblemTypeEnum prob)
     {
-        {
-            AddSubProblem problem = new AddSubProblem();
-            problem.ProblemType = prob;
-            problem.Level = level;
-            problem.Operator1 = op1;
-            problem.Operator1 = op2;
-            problem.Result = result;
-            db.AddSubProblems.InsertOnSubmit(problem);
-        }
-    }    /// <summary>
+        AddSubProblem problem = new AddSubProblem();
+        problem.ProblemType = (int)prob;
+        problem.Level = level;
+        problem.Operator1 = op1;
+        problem.Operator2 = op2;
+        problem.Result = result;
+        db.AddSubProblems.InsertOnSubmit(problem);
+    }
+    /// <summary>
          /// Create and seed the database when the user clicks seed
          /// </summary>
          /// <param name="sender">not used</param>
@@ -269,5 +268,13 @@ public partial class SecretSeedDatabase : ProtectedPage
         //AddStudents();
         //AddClasses();
         AddProblems();
+    }
+
+    protected void btnProblems_Click(object sender, EventArgs e)
+    {
+        lblNotify.Text = "Adding problems, this will take a while";
+        db = new DataClassesDataContext();
+        AddProblems();
+        lblNotify.Text = "Done adding problems!";
     }
 }
