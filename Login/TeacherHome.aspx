@@ -20,6 +20,9 @@
                 <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
                 <asp:BoundField DataField="Level" HeaderText="Level" ReadOnly="True" SortExpression="Level" />
+                <asp:BoundField DataField="Missed" HeaderText="Missed" ReadOnly="True" SortExpression="Missed">
+                <ItemStyle Wrap="False" />
+                </asp:BoundField>
                 <asp:CommandField ShowSelectButton="True" />
             </Columns>
             <EditRowStyle BackColor="#2461BF" />
