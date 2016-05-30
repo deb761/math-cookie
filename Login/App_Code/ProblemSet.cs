@@ -11,10 +11,14 @@ using System.Configuration;
 
 namespace Solstice
 {
-    // A student problem contains the problem info and the student response
+    /// <summary>
+    /// A student problem contains the problem info and the student response
+    /// </summary>
     public class StudentProblem
     {
-        // Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>        
         public StudentProblem(AddSubProblem p, Result r)
         {
             Problem = p;
@@ -37,6 +41,7 @@ namespace Solstice
         // Default of 10 problems per round
         // TODO Allow for teacher increase or decrease in number of problems
         public const int NUM_PROBS_PER_ROUND = 10;
+        public const int NUM_ROUNDS_PER_LEVEL = 3;
 
         // For first level, there are 100 possible problems, 0..9 and 0..9
         // Edit 5/5: We are only using addition problems with answers 0..9: there are 55 total problems
@@ -48,7 +53,7 @@ namespace Solstice
         // Rounds are populated based on level and problem type (addition, subtraction, place value)
         private int sid;
         private int level;
-        private ProblemType probType;
+        private ProblemTypeEnum probType;
 
         // The list of Student Problems. 
         // Each Problem contains the AddSubProblem (data related to the problem),
@@ -57,7 +62,7 @@ namespace Solstice
 
         // Create a problem set, based on the student, level, and problem type
         // TODO Need to add missed problems to this set
-        public ProblemSet(int studentID, int Level, ProblemType probType)
+        public ProblemSet(int studentID, int Level, ProblemTypeEnum probType)
         {
             this.sid = studentID;
             this.level = Level;
@@ -78,27 +83,24 @@ namespace Solstice
         private void StoreResultsInDB()
         {
             // Open a connection to the DB
-            SqlConnection conn = new SqlConnection
-                (ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString);
-            conn.Open();
-
+            using (DataClassesDataContext dc = new DataClassesDataContext())
+            {
             // Create a new row in the Results table, for the current student result
-            for (int i = 0; i < ProblemList.Count; i++)
+                foreach (StudentProblem problem in ProblemList)
             {
                 // Set the sql string
-                string query = "INSERT INTO Results (StudentID, ProblemID, Answer, Level, Round) " +
-                    "VALUES (@student, @problem, @answer, @level, @round)";
-                SqlCommand com = new SqlCommand(cmdText: query, connection: conn);
+                    Result result = new Result();
 
                 // Add row and execute
-                com.Parameters.Add(new SqlParameter("@student", this.sid));
-                com.Parameters.Add(new SqlParameter("@problem", ProblemList[i].Problem.AddSubProblemID));
-                com.Parameters.Add(new SqlParameter("@answer", ProblemList[i].studentResult.Answer));
-                com.Parameters.Add(new SqlParameter("@level", ProblemList[i].Problem.Level));
-                com.Parameters.Add(new SqlParameter("@round", ProblemList[i].studentResult.Round));
-                com.ExecuteNonQuery(); // Used for Insert, Update, Delete SQL Statements
+                    result.StudentID = this.sid;
+                    result.ProblemID = problem.Problem.AddSubProblemID;
+                    result.Answer = problem.studentResult.Answer;
+                    result.Level = problem.Problem.Level;
+                    result.Round = problem.studentResult.Round;
+                    dc.Results.InsertOnSubmit(result);
+                }
+                dc.SubmitChanges();
             }
-            conn.Close();
         }
 
         // Randomly fill problem list with problems from the appropriate level and problem type
@@ -108,8 +110,7 @@ namespace Solstice
 
         private void PopulateProblemList()
         {
-            //int id;
-            AddSubProblem thisAddSubProb;
+            AddSubProblem thisAddSubProb = null;
             Result thisResult;
 
             // Open a connection to the DB
@@ -138,6 +139,11 @@ namespace Solstice
                     //    var temp = dc.AddSubProblems.Where(x => x.AddSubProblemID == id).First();
                     //    thisAddSubProb = (AddSubProblem)(dc.AddSubProblems.Where(x => x.AddSubProblemID == id)).First();
 
+                    // Set the sql string
+                    var probq = dc.AddSubProblems.Where(x => x.AddSubProblemID == id);
+                    if (probq.Count() > 0)
+                    {
+                        thisAddSubProb = (AddSubProblem)probq.First();
                     //    // Create the new Result
                     //    thisResult = new Result();
 
@@ -153,6 +159,8 @@ namespace Solstice
                     //    ProblemList.Add(sp);
 
                 }
+                }
+
             }
         }
 
