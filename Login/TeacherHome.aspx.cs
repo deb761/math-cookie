@@ -44,4 +44,32 @@ public partial class TeacherHome : ProtectedPage
         }
         lblDetails.Text = String.Format("Student Details for {0} {1}", student.FirstName, student.LastName);
     }
+    // Process the row command: New or Delete
+    protected void classOverview_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "New")
+        { }
+        else if (e.CommandName == "Delete")
+        { }
+        else
+        {
+            classOverview_SelectedIndexChanged(sender, e);
+        }
+    }
+
+    protected void classOverview_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+        //    LinkButton btn = (LinkButton)e.Row..FindControl("LinkButton1");
+        //    btn.Attributes.Add("onclick", "javascript:return " +
+        //    "confirm('Are you sure you want to delete this record " +
+        //    DataBinder.Eval(e.Row.DataItem, "CategoryID") + "')");
+        //}
+    }
+
+    protected void classOverview_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
 }
