@@ -30,7 +30,7 @@
                         <asp:Label ID="Label1" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
                     </ItemTemplate>
                     <footertemplate>
-                        <asp:DropDownList ID="studentDropDown" runat="server" DataSourceID="UserDataSource" DataTextField="Name" DataValueField="UserID">
+                        <asp:DropDownList ID="ddlStudent" runat="server" DataSourceID="UserDataSource" DataTextField="Name" DataValueField="UserID" OnSelectedIndexChanged="ddlStudent_SelectedIndexChanged">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                             SelectCommand="SELECT Users.UserID, Users.FirstName + ' ' + Users.LastName AS Name FROM Users INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID WHERE (ClassStudents.ClassID &lt;&gt; @classID) ORDER BY Name">

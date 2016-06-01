@@ -72,15 +72,46 @@ public partial class TeacherHome : ProtectedPage
     {
 
     }
-
+    /// <summary>
+    /// Add the student selected in the drop down list to the class.
+    /// Obtain the class ID from the Class drop down list and the 
+    /// student's user ID from the student drop down list
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnAdd_Click(object sender, EventArgs e)
     {
         using (DataClassesDataContext dc = new DataClassesDataContext())
         {
-            ClassStudent cs = new ClassStudent();
-            cs.ClassID = int.Parse(ddlClass.SelectedItem.Value);
-            cs.UserID = int.Parse(studentDropDown.)
-            dc.ClassStudents.InsertOnSubmit(cs);
+            if (selectedStudentID != 0)
+            {
+                ClassStudent cs = new ClassStudent();
+                cs.ClassID = int.Parse(ddlClass.SelectedItem.Value);
+                cs.UserID = selectedStudentID;
+                dc.ClassStudents.InsertOnSubmit(cs);
+                // There is a possibility that the record will be invalid,
+                // so add a try-catch block here
+                try
+                {
+                    dc.SubmitChanges();
+                    classOverview.DataBind();
+                }
+                catch { }
+            }
         }
+    }
+    /// <summary>
+    /// The ID of the student selected in the class details footer dropdown
+    /// </summary>
+    private int selectedStudentID;
+    /// <summary>
+    /// Store the selected student ID in a field because the dropdownlist is not
+    /// visible from its ID
+    /// </summary>
+    /// <param name="sender">DropDownList is class details footer</param>
+    /// <param name="e">event data, not used</param>
+    protected void ddlStudent_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        selectedStudentID = int.Parse((sender as DropDownList).SelectedItem.Value);
     }
 }
