@@ -11,18 +11,35 @@
     <div>
         <h1>Class Overview</h1>
         <h2><asp:Label ID="Label1" runat="server" Text="Class"></asp:Label>
-        <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="ResultDataSource" DataTextField="ClassName" DataValueField="ClassID" Font-Size="Large">
+        <asp:DropDownList ID="ddlClass" runat="server" DataSourceID="ResultDataSource" DataTextField="ClassName" DataValueField="ClassID" Font-Size="Large">
         </asp:DropDownList>
         </h2>
-        <asp:GridView ID="classOverview" runat="server" DataSourceID="SqlDataSource1" AllowSorting="True"
+        <asp:GridView ID="classOverview" runat="server" DataSourceID="OverviewDataSource" AllowSorting="True"
             AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" DataKeyNames="UserID"
+            showfooter="True" 
             OnSelectedIndexChanged="classOverview_SelectedIndexChanged" OnRowDataBound="classOverview_RowDataBound" OnRowDeleting="classOverview_RowDeleting">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 <asp:BoundField DataField="UserID" HeaderText="UserID" SortExpression="UserID" InsertVisible="False" ReadOnly="True" Visible="False" />
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
-                <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
+                <asp:TemplateField HeaderText="Name" SortExpression="Name">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Name") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="Label1" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
+                    </ItemTemplate>
+                    <footertemplate>
+                        <asp:DropDownList ID="studentDropDown" runat="server" DataSourceID="UserDataSource" DataTextField="Name" DataValueField="UserID">
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
+                            SelectCommand="SELECT Users.UserID, Users.FirstName + ' ' + Users.LastName AS Name FROM Users INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID WHERE (ClassStudents.ClassID &lt;&gt; @classID) ORDER BY Name">
+                            <SelectParameters>
+                                <asp:ControlParameter ControlID="ddlClass" Name="classID" PropertyName="SelectedValue" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </footertemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField="Level" HeaderText="Level" ReadOnly="True" SortExpression="Level">
                 </asp:BoundField>
                 <asp:BoundField DataField="Missed" HeaderText="Missed" ReadOnly="True" SortExpression="Missed" />
@@ -32,6 +49,9 @@
                         <asp:LinkButton ID="deletebtn" runat="server" CommandName="Delete"
                             Text="Delete" OnClientClick="return confirm('Are you sure?');" />
                     </ItemTemplate>
+                    <footertemplate>
+                        <asp:LinkButton ID="btnAdd" runat="server" CausesValidation="False" CommandName="New" Text="Add" OnClick="btnAdd_Click"></asp:LinkButton>
+                    </footertemplate>
                 </asp:TemplateField>
             </Columns>
             <EditRowStyle BackColor="#2461BF" />
@@ -45,20 +65,20 @@
             <SortedDescendingCellStyle BackColor="#E9EBEF" />
             <SortedDescendingHeaderStyle BackColor="#4870BE" />
         </asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
+        <asp:SqlDataSource ID="OverviewDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
             SelectCommand="GetClassSummary" SelectCommandType="StoredProcedure"
             DeleteCommand="DELETE FROM ClassStudents WHERE (ClassID = @classID) AND (UserID = @userID)"
             InsertCommand="INSERT INTO ClassStudents(UserID, ClassID) VALUES (@userID, @classID)">
             <DeleteParameters>
-                <asp:ControlParameter ControlID="DropDownList1" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
+                <asp:ControlParameter ControlID="ddlClass" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
                 <asp:ControlParameter ControlID="classOverview" DefaultValue="1" Name="userID" PropertyName="SelectedValue" Type="Int32" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="userID" />
-                <asp:ControlParameter ControlID="DropDownList1" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
+                <asp:ControlParameter ControlID="ddlClass" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
             </InsertParameters>
             <SelectParameters>
-                <asp:ControlParameter ControlID="DropDownList1" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
+                <asp:ControlParameter ControlID="ddlClass" DefaultValue="1" Name="classID" PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:SqlDataSource>
         <asp:SqlDataSource ID="ResultDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="GetTeacherClasses" SelectCommandType="StoredProcedure">

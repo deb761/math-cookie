@@ -72,4 +72,15 @@ public partial class TeacherHome : ProtectedPage
     {
 
     }
+
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        using (DataClassesDataContext dc = new DataClassesDataContext())
+        {
+            ClassStudent cs = new ClassStudent();
+            cs.ClassID = int.Parse(ddlClass.SelectedItem.Value);
+            cs.UserID = int.Parse(studentDropDown.)
+            dc.ClassStudents.InsertOnSubmit(cs);
+        }
+    }
 }
