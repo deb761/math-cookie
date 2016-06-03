@@ -113,20 +113,11 @@ namespace Solstice
             // from the Rows collection of the GridView control.
             GridViewRow row = classOverview.Rows[e.RowIndex];
 
-            // Get the controls that contain the updated values. In this
-            // example, the updated values are contained in the TextBox 
-            // controls declared in the edit item templates of each TemplateField 
-            // column fields in the GridView control.
+            // Get the controls that contain the updated values. Because they are in a TemplateField 
+            // they are not defined as fields, so we need to FindControl.
             TextBox txtPassword = (TextBox)row.FindControl("txtPassword");
+            // Set the new value of the password field to the hash of the password textbox
             e.NewValues["Password"] = Security.HashPassword(txtPassword.Text);
-            //using (DataClassesDataContext dc = new DataClassesDataContext())
-            //{
-            //    User student = dc.Users.Where(x => x.UserID == (int)e.Keys["UserID"]).First();
-
-
-            //    string hash = Security.HashPassword(txtPassword.Text);
-            //    student.Password = hash;
-            //}
         }
     }
 }

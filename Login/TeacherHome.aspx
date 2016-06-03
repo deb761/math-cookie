@@ -21,11 +21,18 @@
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 <asp:BoundField DataField="UserID" HeaderText="UserID" SortExpression="UserID" InsertVisible="False" ReadOnly="True" Visible="False" />
-                <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
+                <asp:TemplateField HeaderText="Login" SortExpression="Login">
+                    <EditItemTemplate>
+                        <asp:Label ID="lblLogin" runat="server" Text='<%# Bind("Login") %>' ForeColor="White"></asp:Label>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="Label3" runat="server" Text='<%# Bind("Login") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="Name" SortExpression="Name">
                     <EditItemTemplate>
                         <asp:Label ID="Label3" runat="server" Text="Password" ForeColor="White"></asp:Label>
-                        <asp:TextBox ID="txtPassword" runat="server" Text='<%# Bind("Name") %>'></asp:TextBox>
+                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required" ForeColor="White"></asp:RequiredFieldValidator>
                     </EditItemTemplate>
                     <ItemTemplate>
@@ -45,12 +52,11 @@
                     </footertemplate>
                     <ItemStyle Width="100px" />
                 </asp:TemplateField>
-                <asp:BoundField DataField="Level" HeaderText="Level" ReadOnly="True" SortExpression="Level">
-                </asp:BoundField>
+                <asp:BoundField DataField="Level" HeaderText="Level" SortExpression="Level" ReadOnly="True" />
                 <asp:TemplateField HeaderText="Missed" SortExpression="Missed">
                     <EditItemTemplate>
                         <asp:Label ID="Label4" runat="server" Text="Confirm" ForeColor="White"></asp:Label>
-                        <asp:TextBox ID="txtConfirm" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtConfirm" runat="server" TextMode="Password"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtConfirm" ErrorMessage="Confirm Password" ForeColor="White"></asp:RequiredFieldValidator>
                         <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtConfirm" ControlToCompare="txtPassword" ErrorMessage="Passwords must match" ForeColor="White"></asp:CompareValidator>
                     </EditItemTemplate>
