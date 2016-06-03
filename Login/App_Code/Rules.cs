@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
-using System.Web.UI;
-using Newtonsoft.Json;
 using System.Web;
 
 /// <summary>
@@ -93,6 +89,5 @@ public static class Rules
                 Levels[level.Level] = level;
             }
         }
-
     }
 }

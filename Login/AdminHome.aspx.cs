@@ -1,4 +1,4 @@
-﻿using CryptSharp;
+﻿//using CryptSharp;
 using System;
 using System.Text;
 using System.Web.UI.WebControls;
@@ -49,11 +49,8 @@ namespace Solstice
             if (IsValid)
             {
                 TextBox boxPassword = userDetailView.FindControl("boxPassword") as TextBox;
-                //Hash user password
-                string salt = Crypter.Blowfish.GenerateSalt(6);
-                string crypted = Crypter.Blowfish.Crypt(key: Encoding.ASCII.GetBytes(boxPassword.Text),
-                    salt: salt);
-                e.NewValues["Password"] = crypted + salt;
+                //Hash user password              
+                e.NewValues["Password"] = Security.HashPassword(boxPassword.Text);
             }
         }
         /// <summary>
@@ -85,12 +82,10 @@ namespace Solstice
             {
                 TextBox boxPassword = userDetailView.FindControl("boxPassword") as TextBox;
                 //Hash user password
-                string salt = Crypter.Blowfish.GenerateSalt(6);
-                string crypted = Crypter.Blowfish.Crypt(key: Encoding.ASCII.GetBytes(boxPassword.Text),
-                    salt: salt);
-                e.Values["Password"] = crypted;
+                e.Values["Password"] = Security.HashPassword(boxPassword.Text);
             }
         }
+
         /// <summary>
         /// Update the gridviews when a user is inserted.
         /// </summary>
