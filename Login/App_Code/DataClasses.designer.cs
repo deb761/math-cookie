@@ -35,9 +35,6 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   partial void InsertResult(Result instance);
   partial void UpdateResult(Result instance);
   partial void DeleteResult(Result instance);
-  partial void InsertAddSubProblem(AddSubProblem instance);
-  partial void UpdateAddSubProblem(AddSubProblem instance);
-  partial void DeleteAddSubProblem(AddSubProblem instance);
   partial void InsertClass(Class instance);
   partial void UpdateClass(Class instance);
   partial void DeleteClass(Class instance);
@@ -53,10 +50,13 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   partial void InsertProblemType(ProblemType instance);
   partial void UpdateProblemType(ProblemType instance);
   partial void DeleteProblemType(ProblemType instance);
+  partial void InsertAddSubProblem(AddSubProblem instance);
+  partial void UpdateAddSubProblem(AddSubProblem instance);
+  partial void DeleteAddSubProblem(AddSubProblem instance);
   #endregion
 	
 	public DataClassesDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString1"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}
@@ -101,14 +101,6 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
-	public System.Data.Linq.Table<AddSubProblem> AddSubProblems
-	{
-		get
-		{
-			return this.GetTable<AddSubProblem>();
-		}
-	}
-	
 	public System.Data.Linq.Table<Class> Classes
 	{
 		get
@@ -146,6 +138,14 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		get
 		{
 			return this.GetTable<ProblemType>();
+		}
+	}
+	
+	public System.Data.Linq.Table<AddSubProblem> AddSubProblems
+	{
+		get
+		{
+			return this.GetTable<AddSubProblem>();
 		}
 	}
 	
@@ -538,188 +538,6 @@ public partial class Result : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Round = value;
 				this.SendPropertyChanged("Round");
 				this.OnRoundChanged();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
-[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AddSubProblems")]
-public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _AddSubProblemID;
-	
-	private int _Level;
-	
-	private int _Operator1;
-	
-	private int _Operator2;
-	
-	private int _Result;
-	
-	private global::ProblemTypeEnum _ProblemType;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnAddSubProblemIDChanging(int value);
-    partial void OnAddSubProblemIDChanged();
-    partial void OnLevelChanging(int value);
-    partial void OnLevelChanged();
-    partial void OnOperator1Changing(int value);
-    partial void OnOperator1Changed();
-    partial void OnOperator2Changing(int value);
-    partial void OnOperator2Changed();
-    partial void OnResultChanging(int value);
-    partial void OnResultChanged();
-    partial void OnProblemTypeChanging(global::ProblemTypeEnum value);
-    partial void OnProblemTypeChanged();
-    #endregion
-	
-	public AddSubProblem()
-	{
-		OnCreated();
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AddSubProblemID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int AddSubProblemID
-	{
-		get
-		{
-			return this._AddSubProblemID;
-		}
-		set
-		{
-			if ((this._AddSubProblemID != value))
-			{
-				this.OnAddSubProblemIDChanging(value);
-				this.SendPropertyChanging();
-				this._AddSubProblemID = value;
-				this.SendPropertyChanged("AddSubProblemID");
-				this.OnAddSubProblemIDChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Level]", Storage="_Level", DbType="Int NOT NULL")]
-	public int Level
-	{
-		get
-		{
-			return this._Level;
-		}
-		set
-		{
-			if ((this._Level != value))
-			{
-				this.OnLevelChanging(value);
-				this.SendPropertyChanging();
-				this._Level = value;
-				this.SendPropertyChanged("Level");
-				this.OnLevelChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Operator1", DbType="Int NOT NULL")]
-	public int Operator1
-	{
-		get
-		{
-			return this._Operator1;
-		}
-		set
-		{
-			if ((this._Operator1 != value))
-			{
-				this.OnOperator1Changing(value);
-				this.SendPropertyChanging();
-				this._Operator1 = value;
-				this.SendPropertyChanged("Operator1");
-				this.OnOperator1Changed();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Operator2", DbType="Int NOT NULL")]
-	public int Operator2
-	{
-		get
-		{
-			return this._Operator2;
-		}
-		set
-		{
-			if ((this._Operator2 != value))
-			{
-				this.OnOperator2Changing(value);
-				this.SendPropertyChanging();
-				this._Operator2 = value;
-				this.SendPropertyChanged("Operator2");
-				this.OnOperator2Changed();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Result", DbType="Int NOT NULL")]
-	public int Result
-	{
-		get
-		{
-			return this._Result;
-		}
-		set
-		{
-			if ((this._Result != value))
-			{
-				this.OnResultChanging(value);
-				this.SendPropertyChanging();
-				this._Result = value;
-				this.SendPropertyChanged("Result");
-				this.OnResultChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemType", DbType="Int NOT NULL", CanBeNull=false)]
-	public global::ProblemTypeEnum ProblemType
-	{
-		get
-		{
-			return this._ProblemType;
-		}
-		set
-		{
-			if ((this._ProblemType != value))
-			{
-				this.OnProblemTypeChanging(value);
-				this.SendPropertyChanging();
-				this._ProblemType = value;
-				this.SendPropertyChanged("ProblemType");
-				this.OnProblemTypeChanged();
 			}
 		}
 	}
@@ -1356,6 +1174,188 @@ public partial class ProblemType : INotifyPropertyChanging, INotifyPropertyChang
 				this._ProblemTypeName = value;
 				this.SendPropertyChanged("ProblemTypeName");
 				this.OnProblemTypeNameChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AddSubProblems")]
+public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _AddSubProblemID;
+	
+	private int _Level;
+	
+	private int _Operator1;
+	
+	private int _Operator2;
+	
+	private int _Result;
+	
+	private int _ProblemType;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAddSubProblemIDChanging(int value);
+    partial void OnAddSubProblemIDChanged();
+    partial void OnLevelChanging(int value);
+    partial void OnLevelChanged();
+    partial void OnOperator1Changing(int value);
+    partial void OnOperator1Changed();
+    partial void OnOperator2Changing(int value);
+    partial void OnOperator2Changed();
+    partial void OnResultChanging(int value);
+    partial void OnResultChanged();
+    partial void OnProblemTypeChanging(int value);
+    partial void OnProblemTypeChanged();
+    #endregion
+	
+	public AddSubProblem()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AddSubProblemID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int AddSubProblemID
+	{
+		get
+		{
+			return this._AddSubProblemID;
+		}
+		set
+		{
+			if ((this._AddSubProblemID != value))
+			{
+				this.OnAddSubProblemIDChanging(value);
+				this.SendPropertyChanging();
+				this._AddSubProblemID = value;
+				this.SendPropertyChanged("AddSubProblemID");
+				this.OnAddSubProblemIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Level]", Storage="_Level", DbType="Int NOT NULL")]
+	public int Level
+	{
+		get
+		{
+			return this._Level;
+		}
+		set
+		{
+			if ((this._Level != value))
+			{
+				this.OnLevelChanging(value);
+				this.SendPropertyChanging();
+				this._Level = value;
+				this.SendPropertyChanged("Level");
+				this.OnLevelChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Operator1", DbType="Int NOT NULL")]
+	public int Operator1
+	{
+		get
+		{
+			return this._Operator1;
+		}
+		set
+		{
+			if ((this._Operator1 != value))
+			{
+				this.OnOperator1Changing(value);
+				this.SendPropertyChanging();
+				this._Operator1 = value;
+				this.SendPropertyChanged("Operator1");
+				this.OnOperator1Changed();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Operator2", DbType="Int NOT NULL")]
+	public int Operator2
+	{
+		get
+		{
+			return this._Operator2;
+		}
+		set
+		{
+			if ((this._Operator2 != value))
+			{
+				this.OnOperator2Changing(value);
+				this.SendPropertyChanging();
+				this._Operator2 = value;
+				this.SendPropertyChanged("Operator2");
+				this.OnOperator2Changed();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Result", DbType="Int NOT NULL")]
+	public int Result
+	{
+		get
+		{
+			return this._Result;
+		}
+		set
+		{
+			if ((this._Result != value))
+			{
+				this.OnResultChanging(value);
+				this.SendPropertyChanging();
+				this._Result = value;
+				this.SendPropertyChanged("Result");
+				this.OnResultChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemType", DbType="Int NOT NULL")]
+	public int ProblemType
+	{
+		get
+		{
+			return this._ProblemType;
+		}
+		set
+		{
+			if ((this._ProblemType != value))
+			{
+				this.OnProblemTypeChanging(value);
+				this.SendPropertyChanging();
+				this._ProblemType = value;
+				this.SendPropertyChanged("ProblemType");
+				this.OnProblemTypeChanged();
 			}
 		}
 	}

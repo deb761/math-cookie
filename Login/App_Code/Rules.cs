@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
-using System.Web.UI;
-using Newtonsoft.Json;
 using System.Web;
 
 /// <summary>
@@ -15,6 +11,21 @@ public enum ProblemTypeEnum { Addition, Subtraction, PlaceValue }
 /// An enumeration that tracks user type
 /// </summary>
 public enum UserTypeEnum { Student, Teacher, Administrator, Super }
+/// <summary>
+/// A class to define a round
+/// </summary>
+public class Round
+{
+    /// <summary>
+    /// The types of problems in a round.  If more than one problem type is listed,
+    /// the problems will be evenly divided by type and randomly mixed.
+    /// </summary>
+    public ProblemTypeEnum[] ProbTypes { get; set; }
+    /// <summary>
+    /// Total number of problems in the round
+    /// </summary>
+    public int NumProblems { get; set; }
+}
 /// <summary>
 /// This class defines the rules for a level
 /// </summary>
@@ -49,13 +60,9 @@ public class LevelRules
     /// </summary>
     public bool PlaceVal { get; set; }
     /// <summary>
-    /// Number of rounds in the level
+    /// Rounds in the level
     /// </summary>
-    public int NumRounds { get; set; }
-    /// <summary>
-    /// Number of problems in each round
-    /// </summary>
-    public int ProbsPerRound { get; set; }
+    public Round[] Rounds { get; set; }
 }
 /// <summary>
 /// This class is used to provide general problem definition and creation
@@ -82,6 +89,5 @@ public static class Rules
                 Levels[level.Level] = level;
             }
         }
-
     }
 }

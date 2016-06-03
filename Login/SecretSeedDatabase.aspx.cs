@@ -2,9 +2,13 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -20,7 +24,6 @@ public partial class SecretSeedDatabase : ProtectedPage
     {
         if (Redirect(UserTypeEnum.Super))
             return;
-
     }
     /// <summary>
     /// The database
@@ -31,13 +34,34 @@ public partial class SecretSeedDatabase : ProtectedPage
     /// </summary>
     public void CreateDatabase()
     {
-        db = new DataClassesDataContext(Server.MapPath("App_Data/solstice.mdf"));
+        string dbpath = Server.MapPath("App_Data/solstice.mdf");
+        db = new DataClassesDataContext(dbpath);
+        string connString = db.Connection.ConnectionString;
         if (db.DatabaseExists())
         {
             Console.WriteLine("Deleting old database...");
+            //db.Connection.Close();
             db.DeleteDatabase();
         }
-        db.CreateDatabase();
+        try
+        {
+            // open a connection to the database 
+            db.CreateDatabase();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            db.Connection.Close();
+            string SQL = "DROP database [" + "Solstice" + "];";
+
+            SqlConnection conn = new SqlConnection(connString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(SQL, conn);
+            cmd.ExecuteNonQuery();
+            // try again
+            db.CreateDatabase();
+        }
     }
     /// <summary>
     /// Seed the new database
@@ -45,7 +69,10 @@ public partial class SecretSeedDatabase : ProtectedPage
     private void SeedDatabase()
     {
         AddEnums();
-        AddUsers();
+        AddAdminTeachers();
+        AddStudents();
+        AddClasses();
+        AddProblems();
     }
     /// <summary>
     /// Fill the tables that represent enumerations
@@ -67,10 +94,9 @@ public partial class SecretSeedDatabase : ProtectedPage
         db.SubmitChanges();
     }
     /// <summary>
-    /// Add users to the database, starting with the admin users,
-    /// then teachers and students
+    /// Add the administrators and teachers to the database
     /// </summary>
-    private void AddUsers()
+    private void AddAdminTeachers()
     {
         List<User> users = LoadUsers("admins.json");
         List<User> teachers = LoadUsers("teachers.json");
@@ -79,17 +105,26 @@ public partial class SecretSeedDatabase : ProtectedPage
             teach.Login = teach.FirstName.ToLower();
             users.Add(teach);
         }
+        db.Users.InsertAllOnSubmit(users);
+        db.SubmitChanges();
+    }
+    /// <summary>
+    /// Add students that are not already in the database to it
+    /// </summary>
+    private void AddStudents()
+    {
         List<User> students = LoadUsers("students.json");
+        List<User> users = new List<global::User>();
         foreach (User kid in students)
         {
             kid.Login = kid.FirstName.ToLower();
-            users.Add(kid);
+            if (db.Users.Where(x => x.Login == kid.Login).Count() == 0)
+                users.Add(kid);
         }
 
         foreach (User user in users)
         {
             string salt = Crypter.Blowfish.GenerateSalt(6);
-            // login + userID
             string password = user.Login;
             string crypted = Crypter.Blowfish.Crypt(key: Encoding.ASCII.GetBytes(password),
                  salt: salt);
@@ -102,7 +137,7 @@ public partial class SecretSeedDatabase : ProtectedPage
     /// Load user definitions from a json file
     /// </summary>
     /// <param name="path">path to the file</param>
-    /// <returns></returns>
+    /// <returns>List of users</returns>
     private List<User> LoadUsers(string path)
     {
         List<User> users = null;
@@ -154,20 +189,31 @@ public partial class SecretSeedDatabase : ProtectedPage
         }
         db.SubmitChanges();
     }
+    /// <summary>
+    /// Add defined level problems to the database
+    /// </summary>
     private void AddProblems()
     {
-        //AddLevel1Problems();
+        List<LevelRules> levels = null;
+        using (StreamReader rdr = new StreamReader(Server.MapPath("App_Data/rules.json")))
+        {
+            levels = JsonConvert.DeserializeObject<List<LevelRules>>(rdr.ReadToEnd());
+        }
+        foreach (LevelRules level in levels)
+        {
+            AddLevelProblems(level);
+        }
     }
     /// <summary>
     /// Add the problems for a level
     /// </summary>
     /// <param name="rules">Rules for the level</param>
-    private void AddLevel1Problems(LevelRules rules)
+    private void AddLevelProblems(LevelRules rules)
     {
-        // Add level 1 problems
-        for (int op1 = 0; op1 < rules.MaxVal1; op1++)
+        // Add level problems
+        for (int op1 = rules.MinVal1; op1 < rules.MaxVal1; op1++)
         {
-            for (int op2 = 0; op2 < rules.MaxVal2; op2++)
+            for (int op2 = rules.MinVal2; op2 < rules.MaxVal2; op2++)
             {
                 int sum = op1 + op2;
                 if (sum < rules.MaxResult)
@@ -177,15 +223,15 @@ public partial class SecretSeedDatabase : ProtectedPage
             }
         }
         // subtraction
-        for (int op1 = 0; op1 < rules.MaxVal2; op1++)
+        for (int op1 = rules.MinVal2; op1 < rules.MaxVal2; op1++)
         {
-            for (int op2 = 0; op2 <= op1; op2++)
+            for (int op2 = rules.MinVal1; op2 <= op1 && op2 <= rules.MaxVal1; op2++)
             {
                 int result = op1 - op2;
                 AddRecord(rules.Level, op1, op2, result, ProblemTypeEnum.Subtraction);
             }
         }
-
+        db.SubmitChanges();
     }
     /// <summary>
     /// Add an AddSubProblem to the database
@@ -197,16 +243,15 @@ public partial class SecretSeedDatabase : ProtectedPage
     /// <param name="prob">Problem type</param>
     private void AddRecord(int level, int op1, int op2, int result, ProblemTypeEnum prob)
     {
-        {
-            AddSubProblem problem = new AddSubProblem();
-            problem.ProblemType = prob;
-            problem.Level = level;
-            problem.Operator1 = op1;
-            problem.Operator1 = op2;
-            problem.Result = result;
-            db.AddSubProblems.InsertOnSubmit(problem);
-        }
-    }    /// <summary>
+        AddSubProblem problem = new AddSubProblem();
+        problem.ProblemType = (int)prob;
+        problem.Level = level;
+        problem.Operator1 = op1;
+        problem.Operator2 = op2;
+        problem.Result = result;
+        db.AddSubProblems.InsertOnSubmit(problem);
+    }
+    /// <summary>
          /// Create and seed the database when the user clicks seed
          /// </summary>
          /// <param name="sender">not used</param>
@@ -215,5 +260,21 @@ public partial class SecretSeedDatabase : ProtectedPage
     {
         CreateDatabase();
         SeedDatabase();
+    }
+
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        db = new DataClassesDataContext();
+        //AddStudents();
+        //AddClasses();
+        AddProblems();
+    }
+
+    protected void btnProblems_Click(object sender, EventArgs e)
+    {
+        lblNotify.Text = "Adding problems, this will take a while";
+        db = new DataClassesDataContext();
+        AddProblems();
+        lblNotify.Text = "Done adding problems!";
     }
 }
