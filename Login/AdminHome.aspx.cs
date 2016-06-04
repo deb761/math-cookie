@@ -103,7 +103,7 @@ namespace Solstice
         protected void btnLogoff_Click(object sender, EventArgs e)
         {
             Session.Abandon();
-            Response.Redirect("Logout.aspx");
+            Response.Redirect("Login.aspx");
         }
     }
 }

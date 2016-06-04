@@ -33,7 +33,10 @@ namespace Solstice
             int studentID = (int)Session["UserID"];
             DataClassesDataContext dcdContext = new DataClassesDataContext();
             GetLastRoundResult lastRound = dcdContext.GetCurrentRound(studentID);
-            ProblemTypeEnum probType = DetermineProbType(lastRound.Level);
+            Round round = Rules.Levels[lastRound.Level].Rounds[lastRound.Round - 1];
+            // use the first value here, as ProblemSet needs to be modified to handle more than
+            // one problem type
+            ProblemTypeEnum probType = round.ProbTypes[0];
             ProblemSet probSet = new ProblemSet(studentID, lastRound.Level, probType);
             Session["LastRound"] = lastRound;
             Session["CurProbSet"] = probSet;
