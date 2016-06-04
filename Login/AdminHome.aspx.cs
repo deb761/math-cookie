@@ -25,9 +25,11 @@ namespace Solstice
         /// <param name="e">not used</param>
         protected void ShowUserDetails(object sender, GridViewCommandEventArgs e)
         {
-            string currentCommand = e.CommandName;
-            int currentRowIndex = Int32.Parse(e.CommandArgument.ToString());
-            int UserID = (int)(sender as GridView).DataKeys[currentRowIndex].Value;
+            if (e.CommandName == "Select")
+            {
+                int currentRowIndex = Int32.Parse(e.CommandArgument.ToString());
+                int UserID = (int)(sender as GridView).DataKeys[currentRowIndex].Value;
+            }
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace Solstice
         protected void btnLogoff_Click(object sender, EventArgs e)
         {
             Session.Abandon();
-            Response.Redirect("Logout.aspx");
+            Response.Redirect("Login.aspx");
         }
     }
 }

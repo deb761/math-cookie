@@ -40,7 +40,7 @@
             </table>
         </div>
         <p>
-            <asp:Button ID="btnLogin" runat="server" Text="Login" Width="70px" OnClick="btnLogin_Click" />
+            <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" />
 
             <asp:Label ID="loginErrorLabel" runat="server" Visible="False"></asp:Label>
         </p>

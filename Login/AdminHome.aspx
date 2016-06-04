@@ -15,15 +15,20 @@
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="AdminHome.aspx">Users</a></li>
+            <li><a href="AdminClasses.aspx">Classes</a></li>
+        </ul>
+    </nav>
     <form id="form1" runat="server">
     <div>
         <div class="block">
         <h1>Teachers</h1>
-        <asp:gridview runat="server" AllowSorting="True" CellPadding="4" 
-            DataSourceID="TeacherDataSource" ForeColor="#333333" GridLines="None" 
+        <asp:gridview runat="server" AllowSorting="True" 
+            DataSourceID="TeacherDataSource" 
             AutoGenerateColumns="False" ID="teacherGridView" DataKeyNames="UserID" 
             OnRowCommand="ShowUserDetails" AllowPaging="True" OnSelectedIndexChanged="userGridView_SelectedIndexChanged" Width="372px">
-            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
@@ -32,16 +37,6 @@
                     ShowDeleteButton="True" />
                 <asp:CommandField ShowSelectButton="True" />
             </Columns>
-            <EditRowStyle BackColor="#999999" />
-            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#E9E7E2" />
-            <SortedAscendingHeaderStyle BackColor="#506C8C" />
-            <SortedDescendingCellStyle BackColor="#FFFDF8" />
-            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:gridview>  
         <asp:SqlDataSource ID="TeacherDataSource" runat="server"
             ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" 
@@ -80,15 +75,13 @@
             <h1>User Details</h1>
             <asp:DetailsView runat="server" Height="50px" Width="125px" AutoGenerateRows="False"
                 DataKeyNames="UserID" DataSourceID="SolsticeDataSource"
-                ID="userDetailView" CellPadding="4" ForeColor="#333333" GridLines="None" OnItemUpdating="userDetailView_ItemUpdating" OnItemUpdated="userDetailView_ItemUpdated" OnItemInserted="userDetailView_ItemInserted" OnItemInserting="userDetailView_ItemInserting">
-                <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
-                <CommandRowStyle BackColor="#E2DED6" Font-Bold="True" />
-                <EditRowStyle BackColor="#999999" Width="15em" />
-                <FieldHeaderStyle BackColor="#E9ECF1" Font-Bold="True" Width="30em" Wrap="False" />
+                ID="userDetailView" OnItemUpdating="userDetailView_ItemUpdating" OnItemUpdated="userDetailView_ItemUpdated" OnItemInserted="userDetailView_ItemInserted" OnItemInserting="userDetailView_ItemInserting">
+                <EditRowStyle Width="15em" />
+                <FieldHeaderStyle Width="30em" Wrap="False" />
                 <Fields>
                     <asp:BoundField DataField="UserID" HeaderText="User ID" InsertVisible="False"
                         ReadOnly="True" SortExpression="UserID" HeaderStyle-CssClass="header">
-                        <HeaderStyle CssClass="header" Width="15em"></HeaderStyle>
+                        <HeaderStyle CssClass="gridheader" Width="15em"></HeaderStyle>
                     </asp:BoundField>
                     <asp:TemplateField HeaderText="User Type" SortExpression="UserType">
                         <EditItemTemplate>
@@ -112,7 +105,7 @@
                         SortExpression="FirstName" />
                     <asp:BoundField DataField="LastName" HeaderText="Last Name"
                         SortExpression="LastName" />
-                    <asp:TemplateField HeaderText="Password" HeaderStyle-CssClass="pass" HeaderStyle-VerticalAlign="Top">
+                    <asp:TemplateField HeaderText="Password" >
                         <EditItemTemplate>
                             <asp:TextBox ID="boxPassword" runat="server" TextMode="Password"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password is required"
@@ -128,7 +121,7 @@
                             <asp:CompareValidator ID="CompareValidator2" runat="server" ErrorMessage="Passwords must match" ControlToValidate="boxPassword" ControlToCompare="boxConfirm"></asp:CompareValidator>
                         </InsertItemTemplate>
 
-                        <HeaderStyle CssClass="pass"></HeaderStyle>
+                        <HeaderStyle CssClass="gridheader"></HeaderStyle>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Confirm Password" HeaderStyle-VerticalAlign="Top">
                         <EditItemTemplate>
@@ -143,13 +136,12 @@
                                 ControlToValidate="boxConfirm">
                             </asp:RequiredFieldValidator>
                         </InsertItemTemplate>
+
+<HeaderStyle VerticalAlign="Top"></HeaderStyle>
                     </asp:TemplateField>
                     <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowInsertButton="True" />
                 </Fields>
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Width="15em" />
+                <RowStyle Width="15em" />
             </asp:DetailsView>
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
             <asp:SqlDataSource ID="UserTypeDataSource" runat="server"
@@ -199,11 +191,9 @@
         </div>
         <div class="block">
         <h1>Students</h1>  
-        <asp:gridview runat="server" AllowSorting="True" CellPadding="4" DataSourceID="StudentDataSource"
-            ForeColor="#333333" GridLines="None" ID="studentGridView"
+        <asp:gridview runat="server" AllowSorting="True" DataSourceID="StudentDataSource" ID="studentGridView"
             AutoGenerateColumns="False" DataKeyNames="UserID" 
             OnRowCommand="ShowUserDetails" AllowPaging="True" CssClass="block" OnSelectedIndexChanged="userGridView_SelectedIndexChanged">
-            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
@@ -211,16 +201,6 @@
                 <asp:CommandField ButtonType="Link" showeditbutton="true" showdeletebutton="true" />
                 <asp:CommandField ShowSelectButton="True" />
             </Columns>
-            <EditRowStyle BackColor="#999999" />
-            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#E9E7E2" />
-            <SortedAscendingHeaderStyle BackColor="#506C8C" />
-            <SortedDescendingCellStyle BackColor="#FFFDF8" />
-            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:gridview>    
         <asp:SqlDataSource ID="StudentDataSource" runat="server"
             ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" 
@@ -257,10 +237,8 @@
         </div>
         <div class="block">
         <h1>Administrators</h1>  
-        <asp:gridview runat="server" AllowSorting="True" CellPadding="4" DataSourceID="AdminDataSource"
-            ForeColor="#333333" GridLines="None" ID="adminGridView" OnRowCommand="ShowUserDetails"
+        <asp:gridview runat="server" AllowSorting="True" DataSourceID="AdminDataSource" ID="adminGridView" OnRowCommand="ShowUserDetails"
             AutoGenerateColumns="False" DataKeyNames="UserID" AllowPaging="True" OnSelectedIndexChanged="userGridView_SelectedIndexChanged">
-            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" 
@@ -270,16 +248,6 @@
                 <asp:CommandField ButtonType="Link" showeditbutton="true" />
                 <asp:CommandField ShowSelectButton="True" />
             </Columns>
-            <EditRowStyle BackColor="#999999" />
-            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#E9E7E2" />
-            <SortedAscendingHeaderStyle BackColor="#506C8C" />
-            <SortedDescendingCellStyle BackColor="#FFFDF8" />
-            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:gridview>    
         <asp:SqlDataSource ID="AdminDataSource" runat="server" 
             ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" 
@@ -314,7 +282,7 @@
             </UpdateParameters>
         </asp:SqlDataSource>
     </div>
-        <div class="block">
+        <div class="gridheader">
             <asp:Button ID="btnLogoff" runat="server" OnClick="btnLogoff_Click" Text="Logoff" />
         </div>
     </div>
