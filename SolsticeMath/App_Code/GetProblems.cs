@@ -45,22 +45,38 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
     /// Find out what level and round a student should start at when starting a game.
     /// </summary>
     /// <param name="studentID"></param>
-    /// <returns>A result element with level, round, and count</returns>
+    /// <returns>A result element with level, round, and count of problems to quiz
+    /// for the current round</returns>
     public GetLastRoundResult GetCurrentRound(int studentID)
     {
-        GetLastRoundResult roundTable = (GetLastRoundResult)GetLastRound(studentID).ReturnValue;
-        if (roundTable.Count == Solstice.ProblemSet.NUM_PROBS_PER_ROUND)
+        GetLastRoundResult roundTable = null;
+        var result = GetLastRound(studentID);
+        foreach (GetLastRoundResult round in result)
         {
-            if (roundTable.Round == Solstice.ProblemSet.NUM_ROUNDS_PER_LEVEL)
+            roundTable = round;
+            LevelRules rules = Rules.Levels[round.Level];
+            // The rounds for a table are in a 0-indexed array, the
+            // tracking of rounds is 1-indexed, so subtrack one
+            if (roundTable.Count >= rules.Rounds[round.Round - 1].NumProblems)
             {
-                roundTable.Level++;
-                roundTable.Round = 1;
+                if (roundTable.Round >= rules.Rounds.Length)
+                {
+                    roundTable.Level++;
+                    roundTable.Round = 1;
+                }
+                else
+                {
+                    roundTable.Round++;
+                }
+                roundTable.Count = rules.Rounds[roundTable.Round - 1].NumProblems;
             }
-            else
-            {
-                roundTable.Round++;
-            }
-            roundTable.Count = 0;
+        }
+        if (roundTable == null) // no results found for this student
+        {
+            roundTable = new GetLastRoundResult();
+            roundTable.Level = 1;
+            roundTable.Round = 1;
+            roundTable.Count = Rules.Levels[1].Rounds[0].NumProblems;
         }
 
         return roundTable;
