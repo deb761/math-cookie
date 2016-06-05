@@ -22,7 +22,7 @@
                 <asp:BoundField DataField="UserID" HeaderText="UserID" SortExpression="UserID" InsertVisible="False" ReadOnly="True" Visible="False" />
                 <asp:TemplateField HeaderText="Login" SortExpression="Login">
                     <EditItemTemplate>
-                        <asp:Label ID="lblLogin" runat="server" Text='<%# Bind("Login") %>' ForeColor="White"></asp:Label>
+                        <asp:Label ID="lblLogin" runat="server" Text='<%# Bind("Login") %>'></asp:Label>
                     </EditItemTemplate>
                     <ItemTemplate>
                         <asp:Label ID="Label3" runat="server" Text='<%# Bind("Login") %>'></asp:Label>

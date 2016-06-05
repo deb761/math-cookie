@@ -56,7 +56,7 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   #endregion
 	
 	public DataClassesDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString1"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}
@@ -1215,7 +1215,7 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
 	
 	private int _Result;
 	
-	private int _ProblemType;
+	private global::ProblemTypeEnum _ProblemType;
 	
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1231,7 +1231,7 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
     partial void OnOperator2Changed();
     partial void OnResultChanging(int value);
     partial void OnResultChanged();
-    partial void OnProblemTypeChanging(int value);
+    partial void OnProblemTypeChanging(global::ProblemTypeEnum value);
     partial void OnProblemTypeChanged();
     #endregion
 	
@@ -1340,8 +1340,8 @@ public partial class AddSubProblem : INotifyPropertyChanging, INotifyPropertyCha
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemType", DbType="Int NOT NULL")]
-	public int ProblemType
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProblemType", DbType="Int NOT NULL", CanBeNull=false)]
+	public global::ProblemTypeEnum ProblemType
 	{
 		get
 		{

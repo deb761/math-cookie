@@ -65,7 +65,7 @@
       <Column Name="Operator1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Operator2" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Result" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ProblemType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProblemType" Type="global::ProblemTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Function Name="dbo.GetProblemIDs" Method="GetProblemIDs">
