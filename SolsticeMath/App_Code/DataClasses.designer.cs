@@ -56,7 +56,7 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
   #endregion
 	
 	public DataClassesDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SolsticeAPI_dbConnectionString1"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}
