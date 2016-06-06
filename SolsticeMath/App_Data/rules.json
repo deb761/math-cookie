@@ -7,58 +7,46 @@
     "MaxVal2": 10,
     "MaxResult": 10,
     "PlaceVal": 0,
-    "Lessons": [
+    "Rounds": [
       {
-        "Rounds": [
-          {
-            "ProbTypes": [ "Addition" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Addition" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Addition" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Addition" ],
-            "NumProblems": 10
-          }
-        ]
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
       },
       {
-        "Rounds": [
-          {
-            "ProbTypes": [ "Subtraction" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Subtraction" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Subtraction" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Subtraction" ],
-            "NumProblems": 10
-          }
-        ]
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
       },
       {
-        "Rounds": [
-          {
-            "ProbTypes": [ "Addition", "Subtraction" ],
-            "NumProblems": 10
-          },
-          {
-            "ProbTypes": [ "Addition", "Subtraction" ],
-            "NumProblems": 10
-          }
-        ]
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
       }
     ]
   },
