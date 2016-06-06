@@ -18,7 +18,7 @@
     <nav>
         <ul>
             <li><a href="AdminHome.aspx">Users</a></li>
-            <li><a href="UserDetails.aspx">Classes</a></li>
+            <li><a href="ClassView.aspx">Class View</a></li>
             
         </ul>
     </nav>

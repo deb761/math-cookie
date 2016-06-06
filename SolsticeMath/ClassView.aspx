@@ -4,9 +4,26 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+        <title>Admin Home</title>
+    <style>
+        .block {
+            display: inline-block;
+            margin: 20px;
+            vertical-align: top;
+            /*width: 372px;*/
+        }
+    </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="AdminHome.aspx">Users</a></li>
+            <li><a href="ClassView.aspx">Class View</a></li>
+            
+        </ul>
+    </nav>
+    
+
     <form id="form1" runat="server">
     <div>
     <h2>Classes </h2>
