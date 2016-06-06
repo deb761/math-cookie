@@ -45,40 +45,110 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
     /// Find out what level and round a student should start at when starting a game.
     /// </summary>
     /// <param name="studentID"></param>
-    /// <returns>A result element with level, round, and count of problems to quiz
+    /// <returns>A result element with level, round number, and round rules of problems to quiz
     /// for the current round</returns>
-    public GetLastRoundResult GetCurrentRound(int studentID)
+    public CurrentRound GetCurrentRound(int studentID)
     {
-        GetLastRoundResult roundTable = null;
+        CurrentRound currRound = null;
         var result = GetLastRound(studentID);
-        foreach (GetLastRoundResult round in result)
+        foreach (GetLastRoundResult roundResult in result)
         {
-            roundTable = round;
-            LevelRules rules = Rules.Levels[round.Level];
-            // The rounds for a table are in a 0-indexed array, the
-            // tracking of rounds is 1-indexed, so subtrack one
-            if (roundTable.Count >= rules.Rounds[round.Round - 1].NumProblems)
-            {
-                if (roundTable.Round >= rules.Rounds.Length)
-                {
-                    roundTable.Level++;
-                    roundTable.Round = 1;
-                }
-                else
-                {
-                    roundTable.Round++;
-                }
-                roundTable.Count = rules.Rounds[roundTable.Round - 1].NumProblems;
-            }
+            currRound = new CurrentRound(roundResult);
         }
-        if (roundTable == null) // no results found for this student
+        if (currRound == null) // no results found for this student
         {
-            roundTable = new GetLastRoundResult();
-            roundTable.Level = 1;
-            roundTable.Round = 1;
-            roundTable.Count = Rules.Levels[1].Rounds[0].NumProblems;
+            currRound = new CurrentRound();
         }
 
-        return roundTable;
+        return currRound;
+    }
+}
+/// <summary>
+/// Put the data related to a students current round in a class
+/// </summary>
+public class CurrentRound
+{
+    /// <summary>
+    /// Level the student is on
+    /// </summary>
+    public int Level { get; set; }
+    /// <summary>
+    /// Round within the level the student is on
+    /// </summary>
+    public int RoundNum { get; set; }
+    /// <summary>
+    /// Round rules for the current round
+    /// </summary>
+    public Round Round { get; set; }
+    /// <summary>
+    /// True when the student has finished all levels
+    /// </summary>
+    public bool Complete { get; set; }
+    /// <summary>
+    /// Default Constructor, sets values to 0 and null
+    /// </summary>
+    public CurrentRound()
+    {
+        Level = 1;
+        RoundNum = 1;
+        Round = Rules.Levels[Level].Rounds[0];
+        Complete = false;
+    }
+    /// <summary>
+    /// Initialze current round using values from GetLastRoundResult
+    /// </summary>
+    /// <param name="roundResult">Results of last round the student worked</param>
+    public CurrentRound(GetLastRoundResult roundResult)
+    {
+        Level = roundResult.Level;
+        RoundNum = roundResult.Round;
+        LevelRules rules = Rules.Levels[Level];
+        // If the student has for some reason completed more rounds
+        // than exist for the level, increment the level
+        if (RoundNum > rules.Rounds.Length)
+        {
+            NextRound();
+            return;
+        }
+        // See if the student has completed a round
+        else if (roundResult.Count >= Round.NumProblems)
+        {
+            NextRound();
+        }
+        else
+        {
+            Round = rules.Rounds[RoundNum - 1];
+        }
+    }
+    /// <summary>
+    /// Increment the Current Round to the next, incrementing the level if
+    /// the student has finished it, and marking the student as complete if
+    /// all levels are complete
+    /// </summary>
+    public void NextRound()
+    {
+        LevelRules rules = Rules.Levels[Level];
+        // If the student has for some reason completed more rounds
+        // than exist for the level, increment the level
+        if (RoundNum >= rules.Rounds.Length)
+        {
+            // We expect that the highest level number will match the count of levels
+            if (Level >= Rules.Levels.Count)
+            {
+                Complete = true;
+                return;
+            }
+
+            Level++;
+            RoundNum = 1;
+            Round = Rules.Levels[Level].Rounds[0];
+        }
+        else
+        {
+            RoundNum++;
+        }
+
+
+        Round = rules.Rounds[RoundNum - 1];
     }
 }

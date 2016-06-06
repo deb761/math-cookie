@@ -14,6 +14,11 @@ namespace Solstice
 {
     public partial class GameScreen : ProtectedPage
 	{
+        /// <summary>
+        /// Redirect if no-one is logged in, or this is the wrong user type.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		protected void Page_Load(object sender, EventArgs e)
 		{
             if (Redirect(UserTypeEnum.Student))
@@ -32,18 +37,16 @@ namespace Solstice
         {
             int studentID = (int)Session["UserID"];
             DataClassesDataContext dcdContext = new DataClassesDataContext();
-            GetLastRoundResult lastRound = dcdContext.GetCurrentRound(studentID);
-            Round round = Rules.Levels[lastRound.Level].Rounds[lastRound.Round - 1];
+            CurrentRound round = dcdContext.GetCurrentRound(studentID);
             // use the first value here, as ProblemSet needs to be modified to handle more than
             // one problem type
-            ProblemTypeEnum probType = round.ProbTypes[0];
-            ProblemSet probSet = new ProblemSet(studentID, lastRound.Level, probType);
-            Session["LastRound"] = lastRound;
+            ProblemTypeEnum probType = round.Round.ProbTypes[0];
+            ProblemSet probSet = new ProblemSet(studentID, round.Level, probType);
             Session["CurProbSet"] = probSet;
             Session["CurProbSetType"] = probType;
             Session["ProblemIdx"] = 0;
             Session["GameOver"] = false;
-            Session["CurRound"] = lastRound.Round;
+            Session["CurRound"] = round;
             Session["RightAnswerCount"] = 0;
             Session["WrongAnswerCount"] = 0;
             setWelcome();
@@ -148,7 +151,7 @@ namespace Solstice
             result.ProblemID = curProb.Problem.AddSubProblemID;
             result.Answer = studentAnswer;
             result.Level = curProb.Problem.Level;
-            result.Round = (int)Session["CurRound"];
+            result.Round = ((CurrentRound)Session["CurRound"]).RoundNum;
 
             // Add the result to the list node
             curProb.studentResult = result;           
@@ -175,11 +178,11 @@ namespace Solstice
                 Session["GameOver"] = true;
 
                 // advance the round
-                int round = (int)Session["CurRound"];
-                Session["CurRound"] = ++round;
+                ((CurrentRound)Session["CurRound"]).NextRound();
 
                 // switch panels to display
                 setFinal();
+                goToFinal();
             }
             else
             {
@@ -228,20 +231,16 @@ namespace Solstice
 		/// </summary>
 		private void setWelcome()
 		{
-            // Get problem type and last round data from Session variables
-            ProblemTypeEnum probType = (ProblemTypeEnum)Session["CurProbSetType"];
-            GetLastRoundResult lastRound = (GetLastRoundResult)Session["LastRound"];
+            // Get problem type and current round data from Session variables
+            CurrentRound curRound = (CurrentRound)Session["CurRound"];
 
             // Pass variables to strings for displaying in Panel
 			string name = (string)Session["FirstName"];
-            string type =
-                probType == ProblemTypeEnum.Addition ? "addition" : "subtraction";
-			string round = lastRound.Level.ToString();
 
 			// Set the label text
 			lblWelcomeName.Text = "Welcome, " + name;
-			lblLastTime.Text = "Last, you made it to round " + round;
-			lblThisTime.Text = "Today, you work on " + type;
+			lblLastTime.Text = String.Format("You made it to level {0} round {1}", curRound.Level, + curRound.RoundNum);
+			lblThisTime.Text = "Today, you work on " + curRound.Round.ProbTypes[0].ToString();
 		}
 
         /// <summary>
