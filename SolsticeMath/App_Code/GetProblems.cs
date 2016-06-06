@@ -103,6 +103,7 @@ public class CurrentRound
         Level = roundResult.Level;
         RoundNum = roundResult.Round;
         LevelRules rules = Rules.Levels[Level];
+        Round = rules.Rounds[roundResult.Round - 1];
         // If the student has for some reason completed more rounds
         // than exist for the level, increment the level
         if (RoundNum > rules.Rounds.Length)

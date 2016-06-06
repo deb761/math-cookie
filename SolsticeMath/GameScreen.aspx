@@ -8,9 +8,9 @@
     <style>
         #form1 {
             border: thick black solid;
-            margin-left: 5%;
-            padding-left: 5%;
-            width: 55%;
+            margin: 0 5%;
+            padding: 0 5%;
+            width: 75%;
         }
         #txtStudentInput {
             border: thick black solid;
@@ -84,14 +84,14 @@
     <form id="form1" runat="server">
     <div id="pageTitle">
         <h2><asp:Label runat="server" ID="lblScreenTitle" Text="Addition"/></h2> 
-        <asp:Label runat="server" ID="lblProbIdx" Visible="false" />  
-        <asp:Label runat="server" ID="lblGameOver" Visible="false" />
+        <h3><asp:Label runat="server" ID="lblProbIdx" Visible="false" /></h3>  
+        <h3><asp:Label runat="server" ID="lblGameOver" Visible="false" /></h3>
     </div>
     <div id="main">
         <asp:Panel CssClass="pnlPopups" runat="server" ID="pnlWelcome" Visible="true" Height="50%" Width="75%">
-            <asp:Label runat="server" ID="lblWelcomeName" /><br />
-            <asp:Label runat="server" ID="lblLastTime" /><br />
-            <asp:Label runat="server" ID="lblThisTime" /><br />
+            <h1><asp:Label runat="server" ID="lblWelcomeName" /></h1>
+            <h2><asp:Label runat="server" ID="lblLastTime" /></h2>
+            <h2><asp:Label runat="server" ID="lblThisTime" /></h2>
             <asp:Button runat="server" CssClass="btnPopups" ID="btnReady" Text="Ready!" OnClick="btnReady_Click" />
         </asp:Panel>
         <asp:Panel CssClass="pnlPopups" runat="server" ID="pnlResults" Visible="false" Height="50%" Width="75%">
@@ -109,8 +109,8 @@
         <asp:Button runat="server" ID="btnSubmit" Text="Submit" OnClick="btnSubmit_Click" />
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlFinal" Visible="false" Height="50%" Width="75%">
-            <asp:Label runat="server" ID="lblRight" /><br />
-            <asp:Label runat="server" ID="lblWrong" />
+            <h2><asp:Label runat="server" ID="lblRight" /></h2>
+            <h2><asp:Label runat="server" ID="lblWrong" /></h2>
         </asp:Panel>
     </div>
     <asp:Button runat="server" ID="btnLogoff" Text="Logoff" OnClick="btnLogoff_Click" />
