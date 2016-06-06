@@ -42,22 +42,43 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
         }
     }
     /// <summary>
+    /// Get the problems of a particular type that a student needs to be retested on
+    /// </summary>
+    /// <param name="studentID">student ID</param>
+    /// <param name="probType">Problem Type</param>
+    /// <returns>List of problem IDs to retest</returns>
+    public List<int> GetRetestProblems(int studentID, ProblemTypeEnum probType)
+    {
+        List<int> missed = new List<int>();
+        var missedProbs = GetMissedProblems(studentID, (int)probType);
+        foreach (GetMissedProblemsResult result in missedProbs)
+        {
+            var lastRightResult = LastTimeRight(studentID: studentID, problemID: result.ProblemID);
+            foreach (LastTimeRightResult last in lastRightResult)
+            {
+                if (last.Last < result.Last)
+                    missed.Add(result.ProblemID);
+            }
+        }
+        return missed;
+    }
+    /// <summary>
     /// Find out what level and round a student should start at when starting a game.
     /// </summary>
     /// <param name="studentID"></param>
     /// <returns>A result element with level, round number, and round rules of problems to quiz
     /// for the current round</returns>
-    public CurrentLesson GetCurrentRound(int studentID)
+    public CurrentRound GetCurrentRound(int studentID)
     {
-        CurrentLesson currLesson = null;
+        CurrentRound currLesson = null;
         var result = GetLastRound(studentID);
         foreach (GetLastRoundResult roundResult in result)
         {
-            currLesson = new CurrentLesson(roundResult);
+            currLesson = new CurrentRound(roundResult);
         }
         if (currLesson == null) // no results found for this student
         {
-            currLesson = new CurrentLesson();
+            currLesson = new CurrentRound();
         }
 
         return currLesson;
@@ -66,7 +87,7 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 /// <summary>
 /// Put the data related to a students current lesson in a class
 /// </summary>
-public class CurrentLesson
+public class CurrentRound
 {
     /// <summary>
     /// Level the student is on
@@ -79,7 +100,7 @@ public class CurrentLesson
     /// <summary>
     /// Round rules for the current round
     /// </summary>
-    public Lesson Lesson { get; set; }
+    public Round Round { get; set; }
     /// <summary>
     /// True when the student has finished all levels
     /// </summary>
@@ -87,23 +108,22 @@ public class CurrentLesson
     /// <summary>
     /// Default Constructor, sets values to 0 and null
     /// </summary>
-    public CurrentLesson()
+    public CurrentRound()
     {
         Level = 1;
         LessonNum = 1;
-        Lesson = Rules.Levels[Level].Lessons[0];
+        Round = Rules.Levels[Level].Rounds[0];
         Complete = false;
     }
     /// <summary>
     /// Initialze current lesson using values from GetLastRoundResult
     /// </summary>
     /// <param name="roundResult">Results of last round the student worked</param>
-    public CurrentLesson(GetLastRoundResult roundResult)
+    public CurrentRound(GetLastRoundResult roundResult)
     {
         Level = roundResult.Level;
         LessonNum = roundResult.Round;
         LevelRules rules = Rules.Levels[Level];
-        Lesson = rules.Rounds[roundResult.Round - 1];
         // If the student has for some reason completed more rounds
         // than exist for the level, increment the level
         if (LessonNum > rules.Rounds.Length)
@@ -112,13 +132,17 @@ public class CurrentLesson
             return;
         }
         // See if the student has completed a round
-        else if (roundResult.Count >= Lesson.NumProblems)
-        {
-            NextRound();
-        }
         else
         {
-            Lesson = rules.Rounds[LessonNum - 1];
+            Round = rules.Rounds[roundResult.Round - 1];
+            if (roundResult.Count >= Round.NumProblems)
+            {
+                NextRound();
+            }
+            else
+            {
+                Round = rules.Rounds[LessonNum - 1];
+            }
         }
     }
     /// <summary>
@@ -142,14 +166,13 @@ public class CurrentLesson
 
             Level++;
             LessonNum = 1;
-            Lesson = Rules.Levels[Level].Rounds[0];
+            Round = Rules.Levels[Level].Rounds[0];
         }
         else
         {
             LessonNum++;
         }
 
-
-        Lesson = rules.Rounds[LessonNum - 1];
+        Round = rules.Rounds[LessonNum - 1];
     }
 }
