@@ -19,6 +19,7 @@
         <ul>
             <li><a href="AdminHome.aspx">Users</a></li>
             <li><a href="UserDetails.aspx">Classes</a></li>
+            
         </ul>
     </nav>
     <form id="form1" runat="server">
