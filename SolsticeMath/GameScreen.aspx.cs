@@ -16,6 +16,7 @@ namespace Solstice
 	{
         /// <summary>
         /// Redirect if no-one is logged in, or this is the wrong user type.
+        /// Setup student info on first load.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -27,7 +28,16 @@ namespace Solstice
 			if (!IsPostBack)
 			{
                 SetSession();
-			}
+                Page.SetFocus(btnReady);
+            }
+            else if (pnlGame.Visible)
+            {
+                Page.SetFocus(txtStudentInput);
+            }
+            else if (pnlResults.Visible)
+            {
+                Page.SetFocus(btnContinue);
+            }
 		}
 
         /// <summary>
@@ -41,9 +51,8 @@ namespace Solstice
             // use the first value here, as ProblemSet needs to be modified to handle more than
             // one problem type
             ProblemTypeEnum probType = round.Round.ProbTypes[0];
-            ProblemSet probSet = new ProblemSet(studentID, round.Level, probType);
+            ProblemSet probSet = new ProblemSet(studentID, round.Level, round.Round);
             Session["CurProbSet"] = probSet;
-            Session["CurProbSetType"] = probType;
             Session["ProblemIdx"] = 0;
             Session["GameOver"] = false;
             Session["CurRound"] = round;
@@ -168,6 +177,7 @@ namespace Solstice
             // bring up the results pop up panel
             pnlGame.Visible = false;
             pnlResults.Visible = true;
+            Page.SetFocus(btnContinue);
 
             // check if we've reached the end of the list
             if (++idx >= probSet.ProblemList.Count)
@@ -241,7 +251,8 @@ namespace Solstice
 			lblWelcomeName.Text = "Welcome, " + name;
 			lblLastTime.Text = String.Format("You made it to level {0} round {1}", curRound.Level, + curRound.RoundNum);
 			lblThisTime.Text = "Today, you work on " + curRound.Round.ProbTypes[0].ToString();
-		}
+            lblScreenTitle.Text = curRound.Round.ProbTypes[0].ToString();
+        }
 
         /// <summary>
         /// Sets up the final results panel
@@ -266,6 +277,7 @@ namespace Solstice
             pnlResults.Visible = false;
             pnlWelcome.Visible = false;
             pnlFinal.Visible = true;
+            Page.SetFocus(btnLogoff);
         }
 
 		/// <summary>
@@ -277,6 +289,7 @@ namespace Solstice
 		{
 			pnlWelcome.Visible = false;
             pnlGame.Visible = true;
+            Page.SetFocus(txtStudentInput);
 		}
 
 		/// <summary>
@@ -288,6 +301,7 @@ namespace Solstice
 		{
 			pnlResults.Visible = false;
             pnlGame.Visible = true;
+            Page.SetFocus(txtStudentInput);
 
             if (lblGameOver.Text == "true")
             {
@@ -295,10 +309,9 @@ namespace Solstice
             }
 		}
 
-		protected void btnLogoff_Click(object sender, EventArgs e)
-		{
-            
+        protected void btnLogoff_Click(object sender, EventArgs e)
+        {
             Server.Transfer("login.aspx");
-		}
+        }
 	}
 }
