@@ -1,0 +1,77 @@
+﻿body {
+    background-color: #ebd391;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+nav, footer {
+    background-color : maroon;
+}
+nav li {
+    color : antiquewhite;
+    font-size: 2em;
+    display: inline-block;
+    margin: 10px 0 10px 40px;
+}
+nav a {
+    color: linen;
+    text-decoration: none;
+}
+nav ul {
+    list-style: none;
+}
+/* Colors for the main content */
+h1, h2, h3 {
+    color: maroon;
+    font-family: 'Comic Sans MS';
+}
+/* Gridview formatting */
+.gridview {
+    background-color: ivory;
+    border: 1px solid maroon;
+}
+td, th {
+    padding: 4px;
+}
+.gridheader {
+    background-color: maroon;
+    color: ivory;
+    font-weight: bold;
+}
+.gridrow {
+    background-color: ghostwhite;
+}
+.gridalt {
+    background-color: ivory;
+}
+.grid-ascending-cell {
+    background-color: antiquewhite;
+}
+.grid-ascending-header {
+    background-color:indianred;
+}
+.grid-descending-cell {
+    background-color: antiquewhite;
+}
+.grid-descending-header {
+    background-color:indianred;
+}
+.gridheader a {
+    color:ivory;
+    /*text-decoration: none;*/
+}
+a {
+    color:maroon;
+}
+.detailview {
+    padding: 4px;
+    color: #333333;
+}
+.edit-row {
+    background-color: #FAE7B5;
+}
+/* Button formatting */
+.button {
+    margin: 10px;
+    font-size: 2em;
+    font-family: 'Comic Sans MS', sans-serif;
+    color:maroon;
+}
