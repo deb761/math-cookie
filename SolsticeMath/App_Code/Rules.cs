@@ -62,6 +62,16 @@ public class LevelRules
     /// <summary>
     /// Rounds in the level
     /// </summary>
+    public Lesson[] Lessons { get; set; }
+}
+/// <summary>
+/// A lesson is the set of rounds a student would perform in one Game session
+/// </summary>
+public class Lesson
+{
+    /// <summary>
+    /// Rounds in the lesson
+    /// </summary>
     public Round[] Rounds { get; set; }
 }
 /// <summary>
