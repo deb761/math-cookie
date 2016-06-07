@@ -96,7 +96,7 @@ public class CurrentRound
     /// <summary>
     /// Lesson within the level the student is on
     /// </summary>
-    public int LessonNum { get; set; }
+    public int RoundNum { get; set; }
     /// <summary>
     /// Round rules for the current round
     /// </summary>
@@ -111,7 +111,7 @@ public class CurrentRound
     public CurrentRound()
     {
         Level = 1;
-        LessonNum = 1;
+        RoundNum = 1;
         Round = Rules.Levels[Level].Rounds[0];
         Complete = false;
     }
@@ -122,11 +122,11 @@ public class CurrentRound
     public CurrentRound(GetLastRoundResult roundResult)
     {
         Level = roundResult.Level;
-        LessonNum = roundResult.Round;
+        RoundNum = roundResult.Round;
         LevelRules rules = Rules.Levels[Level];
         // If the student has for some reason completed more rounds
         // than exist for the level, increment the level
-        if (LessonNum > rules.Rounds.Length)
+        if (RoundNum > rules.Rounds.Length)
         {
             NextRound();
             return;
@@ -141,7 +141,7 @@ public class CurrentRound
             }
             else
             {
-                Round = rules.Rounds[LessonNum - 1];
+                Round = rules.Rounds[RoundNum - 1];
             }
         }
     }
@@ -155,7 +155,7 @@ public class CurrentRound
         LevelRules rules = Rules.Levels[Level];
         // If the student has for some reason completed more rounds
         // than exist for the level, increment the level
-        if (LessonNum >= rules.Rounds.Length)
+        if (RoundNum >= rules.Rounds.Length)
         {
             // We expect that the highest level number will match the count of levels
             if (Level >= Rules.Levels.Count)
@@ -165,14 +165,14 @@ public class CurrentRound
             }
 
             Level++;
-            LessonNum = 1;
+            RoundNum = 1;
             Round = Rules.Levels[Level].Rounds[0];
         }
         else
         {
-            LessonNum++;
+            RoundNum++;
         }
 
-        Round = rules.Rounds[LessonNum - 1];
+        Round = rules.Rounds[RoundNum - 1];
     }
 }
