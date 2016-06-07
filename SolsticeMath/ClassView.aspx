@@ -52,6 +52,11 @@
                 <asp:BoundField DataField="UserID" HeaderText="UserID" SortExpression="UserID" />
             </Columns>
         </asp:GridView>
+        <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [Users] WHERE ([UserType] = @UserType)">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="0" Name="UserType" Type="Int32" />
+            </SelectParameters>
+        </asp:SqlDataSource>
         <br />
         
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="SELECT Users.FirstName, Users.LastName, ClassStudents.UserID FROM ClassStudents INNER JOIN Users ON ClassStudents.UserID = Users.UserID WHERE (ClassStudents.ClassID = @classID)">
