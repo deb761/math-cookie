@@ -169,6 +169,13 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), studentID, probTypeID);
 		return ((ISingleResult<GetMissedProblemsResult>)(result.ReturnValue));
 	}
+	
+	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.LastTimeRight")]
+	public ISingleResult<LastTimeRightResult> LastTimeRight([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> studentID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> problemID)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), studentID, problemID);
+		return ((ISingleResult<LastTimeRightResult>)(result.ReturnValue));
+	}
 }
 
 [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
@@ -1526,6 +1533,32 @@ public partial class GetMissedProblemsResult
 			if ((this._ProblemID != value))
 			{
 				this._ProblemID = value;
+			}
+		}
+	}
+}
+
+public partial class LastTimeRightResult
+{
+	
+	private System.Nullable<int> _Last;
+	
+	public LastTimeRightResult()
+	{
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Last", DbType="Int")]
+	public System.Nullable<int> Last
+	{
+		get
+		{
+			return this._Last;
+		}
+		set
+		{
+			if ((this._Last != value))
+			{
+				this._Last = value;
 			}
 		}
 	}

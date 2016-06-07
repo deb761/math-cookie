@@ -10,7 +10,6 @@
             display: inline-block;
             margin: 20px;
             vertical-align: top;
-            /*width: 372px;*/
         }
     </style>
 </head>
@@ -18,8 +17,7 @@
     <nav>
         <ul>
             <li><a href="AdminHome.aspx">Users</a></li>
-            <li><a href="ClassView.aspx">Class View</a></li>
-            
+            <li><a href="ClassView.aspx">Classes</a></li>
         </ul>
     </nav>
     <form id="form1" runat="server">

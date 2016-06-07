@@ -42,6 +42,27 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
         }
     }
     /// <summary>
+    /// Get the problems of a particular type that a student needs to be retested on
+    /// </summary>
+    /// <param name="studentID">student ID</param>
+    /// <param name="probType">Problem Type</param>
+    /// <returns>List of problem IDs to retest</returns>
+    public List<int> GetRetestProblems(int studentID, ProblemTypeEnum probType)
+    {
+        List<int> missed = new List<int>();
+        var missedProbs = GetMissedProblems(studentID, (int)probType);
+        foreach (GetMissedProblemsResult result in missedProbs)
+        {
+            var lastRightResult = LastTimeRight(studentID: studentID, problemID: result.ProblemID);
+            foreach (LastTimeRightResult last in lastRightResult)
+            {
+                if (last.Last < result.Last)
+                    missed.Add(result.ProblemID);
+            }
+        }
+        return missed;
+    }
+    /// <summary>
     /// Find out what level and round a student should start at when starting a game.
     /// </summary>
     /// <param name="studentID"></param>
