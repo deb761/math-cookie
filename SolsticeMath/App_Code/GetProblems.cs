@@ -116,7 +116,7 @@ public class CurrentRound
         Complete = false;
     }
     /// <summary>
-    /// Initialze current lesson using values from GetLastRoundResult
+    /// Initialize current lesson using values from GetLastRoundResult
     /// </summary>
     /// <param name="roundResult">Results of last round the student worked</param>
     public CurrentRound(GetLastRoundResult roundResult)
@@ -172,7 +172,6 @@ public class CurrentRound
         {
             RoundNum++;
         }
-
         Round = rules.Rounds[RoundNum - 1];
     }
 }
