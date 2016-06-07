@@ -1,0 +1,32 @@
+{
+  "siteName": {
+    "value": "SolsticeAPI"
+  },
+  "hostingPlanName": {
+    "value": "Basic"
+  },
+  "siteLocation": {
+    "value": "West US"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "serverName": {
+    "value": "solstice-server"
+  },
+  "serverLocation": {
+    "value": "West US"
+  },
+  "administratorLogin": {
+    "value": "solstice"
+  },
+  "administratorLoginPassword": {
+    "value": "Sun4you!"
+  },
+  "databaseName": {
+    "value": "SolsticeAPI_db"
+  }
+}
