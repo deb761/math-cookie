@@ -21,15 +21,6 @@
       <Column Name="Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.Classes" Member="Classes">
-    <Type Name="Class">
-      <Column Name="ClassID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TeacherID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ClassName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="Class_ClassStudent" Member="ClassStudents" ThisKey="ClassID" OtherKey="ClassID" Type="ClassStudent" />
-    </Type>
-  </Table>
   <Table Name="dbo.SchoolYears" Member="SchoolYears">
     <Type Name="SchoolYear">
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -42,8 +33,8 @@
     <Type Name="ClassStudent">
       <Column Name="ClassID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Class_ClassStudent" Member="Class" ThisKey="ClassID" OtherKey="ClassID" Type="Class" IsForeignKey="true" />
       <Association Name="User_ClassStudent" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Class_ClassStudent" Member="Class" ThisKey="ClassID" OtherKey="ClassID" Type="Class" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserTypes" Member="UserTypes">
@@ -66,6 +57,16 @@
       <Column Name="Operator2" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Result" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProblemType" Type="global::ProblemTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Classes" Member="Classes">
+    <Type Name="Class">
+      <Column Name="ClassID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeacherID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ClassName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="RoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Class_ClassStudent" Member="ClassStudents" ThisKey="ClassID" OtherKey="ClassID" Type="ClassStudent" />
     </Type>
   </Table>
   <Function Name="dbo.GetProblemIDs" Method="GetProblemIDs">
