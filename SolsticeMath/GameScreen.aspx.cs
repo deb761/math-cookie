@@ -52,6 +52,7 @@ namespace Solstice
             // one problem type
             ProblemTypeEnum probType = round.Round.ProbTypes[0];
             ProblemSet probSet = new ProblemSet(studentID, round.Level, round.Round);
+            Session["CurProbType"] = probType;
             Session["CurProbSet"] = probSet;
             Session["ProblemIdx"] = 0;
             Session["GameOver"] = false;
@@ -125,6 +126,9 @@ namespace Solstice
                 lblAnswerResult.Text = "Correct!";
                 lblAnswerResult.CssClass = "correct";
 
+                // Make sure that correctanswer is not visible
+                lblCorrectAnswer.Visible = false;
+
                 // increment right answers
                 int x = (int)Session["RightAnswerCount"];
                 Session["RightAnswerCount"] = ++x;
@@ -137,8 +141,20 @@ namespace Solstice
                 imgCookie.AlternateText = "Sad Cookie";
 
                 //change the label text and color
-                lblAnswerResult.Text = "Incorrect!";
+                lblAnswerResult.Text = "Oops!";
                 lblAnswerResult.CssClass = "incorrect";
+
+                // Determine the correct answer
+                int answer;
+                ProblemTypeEnum probType = (ProblemTypeEnum)Session["CurProbType"];
+                if (probType == ProblemTypeEnum.Addition)
+                    answer = curProb.Problem.Operator1 + curProb.Problem.Operator2;
+                else // Subtraction
+                    answer = curProb.Problem.Operator1 - curProb.Problem.Operator2;
+
+                // Show correct answer
+                lblCorrectAnswer.Text = "The right answer was " + answer;
+                lblCorrectAnswer.Visible = true;
 
                 // increment wrong answers
                 int x = (int)Session["WrongAnswerCount"];
@@ -192,7 +208,7 @@ namespace Solstice
 
                 // switch panels to display
                 setFinal();
-                goToFinal();
+                //goToFinal();
             }
             else
             {
@@ -227,10 +243,21 @@ namespace Solstice
 			Session["CurAnswer"] = prob.Result;
 			string ord1 = prob.Operator1.ToString();
 			string ord2 = prob.Operator2.ToString();
-            string opSign =
-                prob.ProblemType == ProblemTypeEnum.Addition ? "+" : "-";
+            string opSign;
+            string pageTitle;
+            if (prob.ProblemType == ProblemTypeEnum.Addition)
+            {
+                opSign = "+";
+                pageTitle = "Addition";
+            }
+            else
+            {
+                opSign = "-";
+                pageTitle = "Subtraction";
+            }
 
             // set text
+            lblScreenTitle.Text = pageTitle;
 			lblOpSign.Text = opSign;
 			lblOrd1.Text = ord1;
 			lblOrd2.Text = ord2;
@@ -245,7 +272,7 @@ namespace Solstice
             CurrentRound curRound = (CurrentRound)Session["CurRound"];
 
             // Pass variables to strings for displaying in Panel
-			string name = (string)Session["FirstName"];
+			string name = (string)Session["UserName"];
 
 			// Set the label text
 			lblWelcomeName.Text = "Welcome, " + name;
@@ -303,7 +330,9 @@ namespace Solstice
             pnlGame.Visible = true;
             Page.SetFocus(txtStudentInput);
 
-            if (lblGameOver.Text == "true")
+            bool isGameOver = (bool)Session["GameOver"];
+
+            if (isGameOver)
             {
                 goToFinal();
             }
