@@ -88,8 +88,6 @@
     <form id="form1" runat="server">
     <div id="pageTitle">
         <h2><asp:Label runat="server" ID="lblScreenTitle" Text="Addition"/></h2> 
-        <h3><asp:Label runat="server" ID="lblProbIdx" Visible="false" /></h3>  
-        <h3><asp:Label runat="server" ID="lblGameOver" Visible="false" /></h3>
     </div>
     <div id="main">
         <asp:Panel CssClass="pnlPopups" runat="server" ID="pnlWelcome" Visible="true" Height="50%" Width="75%">
@@ -110,7 +108,7 @@
             <asp:Label runat="server" ID="lblOpSign" Text="+"/>
             <asp:Label runat="server" CssClass="lblNums" ID="lblOrd2" Text="2" />
         </span>
-        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtStudentInput" MaxLength="3" /><br />
+        <asp:TextBox runat="server" ID="txtStudentInput" MaxLength="3" /><br />
         <asp:Button runat="server" ID="btnSubmit" Text="Submit" OnClick="btnSubmit_Click" />
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlFinal" Visible="false" Height="50%" Width="75%">

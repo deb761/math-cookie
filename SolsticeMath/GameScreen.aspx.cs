@@ -243,10 +243,21 @@ namespace Solstice
 			Session["CurAnswer"] = prob.Result;
 			string ord1 = prob.Operator1.ToString();
 			string ord2 = prob.Operator2.ToString();
-            string opSign =
-                prob.ProblemType == ProblemTypeEnum.Addition ? "+" : "-";
+            string opSign;
+            string pageTitle;
+            if (prob.ProblemType == ProblemTypeEnum.Addition)
+            {
+                opSign = "+";
+                pageTitle = "Addition";
+            }
+            else
+            {
+                opSign = "-";
+                pageTitle = "Subtraction";
+            }
 
             // set text
+            lblScreenTitle.Text = pageTitle;
 			lblOpSign.Text = opSign;
 			lblOrd1.Text = ord1;
 			lblOrd2.Text = ord2;
