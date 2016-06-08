@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Solstice Math Game</title>
+    <title>Solstice Math Game Screen</title>
     <style>
         #form1 {
             border: thick black solid;
@@ -72,6 +72,10 @@
         #lblAnswerResult {
             font-size: 64pt;
         }
+        #lblCorrectAnswer {
+            font-size: 36pt;
+            color: #9BFF3A;
+        }
         .correct {
             color: #9BFF3A;
         }
@@ -96,6 +100,7 @@
         </asp:Panel>
         <asp:Panel CssClass="pnlPopups" runat="server" ID="pnlResults" Visible="false" Height="50%" Width="75%">
             <asp:Label runat="server" ID="lblAnswerResult" /><br />
+            <asp:Label runat="server" ID="lblCorrectAnswer" Visible="false" /><br />
             <asp:Image runat="server" ID="imgCookie" /><br />
             <asp:Button runat="server" CssClass="btnPopups" ID="btnContinue" Text="Continue" OnClick="btnContinue_Click" />
         </asp:Panel>
@@ -105,7 +110,7 @@
             <asp:Label runat="server" ID="lblOpSign" Text="+"/>
             <asp:Label runat="server" CssClass="lblNums" ID="lblOrd2" Text="2" />
         </span>
-        <asp:TextBox runat="server" ID="txtStudentInput" MaxLength="3" /><br />
+        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtStudentInput" MaxLength="3" /><br />
         <asp:Button runat="server" ID="btnSubmit" Text="Submit" OnClick="btnSubmit_Click" />
         </asp:Panel>
         <asp:Panel runat="server" ID="pnlFinal" Visible="false" Height="50%" Width="75%">

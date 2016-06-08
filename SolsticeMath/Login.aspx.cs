@@ -76,6 +76,7 @@ namespace Solstice
                     if (hash == crypted)
                     {
                         Session["UserType"] = user.UserType;
+                        Session["UserName"] = user.FirstName;
                         userID = user.UserID;
                     }
                     if (userID == 0)
