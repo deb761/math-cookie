@@ -90,7 +90,7 @@
                 <asp:TemplateField HeaderText="Teacher" SortExpression="Teacher">
                     <EditItemTemplate>
                        <asp:DropDownList ID="ddlTeacher" runat="server" DataSourceID="UserDataSource" DataTextField="Name"
-                            DataValueField="UserID" AppendDataBoundItems="true">
+                                 AppendDataBoundItems="true">
                             <asp:ListItem Text="---Select---" Value="0" />
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
@@ -154,11 +154,12 @@
         </asp:SqlDataSource>
         <h2><asp:Label ID="lblClass" runat="server" Text="No Class Selected"></asp:Label></h2>
         
-        <asp:ListView ID="classListView" runat="server" DataSourceID="classStudentsDataSource" InsertItemPosition="LastItem">
+        <asp:ListView ID="classListView" runat="server" DataSourceID="classStudentsDataSource" InsertItemPosition="LastItem"
+            DataKeyNames="UserID" OnItemInserting="classListView_ItemInserting">
             <AlternatingItemTemplate>
-                <tr style="background-color:#FFF8DC;">
+                <tr class="gridalt">
                     <td>
-                        <asp:LinkButton ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
+                        <asp:LinkButton ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');" />
                     </td>
                     <td>
                         <asp:Label ID="LoginLabel" runat="server" Text='<%# Eval("Login") %>' />
@@ -168,45 +169,42 @@
                     </td>
                 </tr>
             </AlternatingItemTemplate>
-            <EditItemTemplate>
-                <tr style="background-color:#008A8C;color: #FFFFFF;">
-                    <td>
-                        <asp:LinkButton ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />
-                        <asp:LinkButton ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td>
-                        <asp:TextBox ID="StudentTextBox" runat="server" Text='<%# Bind("Student") %>' />
-                    </td>
-                </tr>
-            </EditItemTemplate>
             <EmptyDataTemplate>
-                <table runat="server" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;">
+                <table>
                     <tr>
                         <td>No data was returned.</td>
                     </tr>
                 </table>
             </EmptyDataTemplate>
             <InsertItemTemplate>
-                <tr style="">
+                <tr class="gridrow">
                     <td>
                         <asp:LinkButton ID="InsertButton" runat="server" CommandName="Insert" Text="Insert" />
                         <asp:LinkButton ID="CancelButton" runat="server" CommandName="Cancel" Text="Clear" />
                     </td>
                     <td>
-                        <asp:TextBox ID="LoginTextBox" runat="server" Text='<%# Bind("Login") %>' />
+                        &nbsp;
                     </td>
                     <td>
-                        <asp:TextBox ID="StudentTextBox" runat="server" Text='<%# Bind("Student") %>' />
+                        <asp:DropDownList ID="ddlStudent" runat="server" DataSourceID="UserDataSource" DataTextField="Name" DataValueField="UserID" AppendDataBoundItems="true" >
+                            <asp:ListItem Text="---Select---" Value="0" />
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
+                            SelectCommand="SELECT Users.UserID, Users.FirstName + ' ' + Users.LastName AS Name
+                            FROM Users
+                            INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID
+                            WHERE (ClassStudents.ClassID &lt;&gt; @classID) ORDER BY Name">
+                            <SelectParameters>
+                                <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
                     </td>
                 </tr>
             </InsertItemTemplate>
             <ItemTemplate>
-                <tr style="background-color:#DCDCDC;color: #000000;">
+                <tr class="gridrow">
                     <td>
-                        <asp:LinkButton ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
+                        <asp:LinkButton ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');"/>
                     </td>
                     <td>
                         <asp:Label ID="LoginLabel" runat="server" Text='<%# Eval("Login") %>' />
@@ -219,9 +217,9 @@
             <LayoutTemplate>
                 <table runat="server">
                     <tr runat="server">
-                        <td runat="server">
-                            <table id="itemPlaceholderContainer" runat="server" border="1" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;font-family: Verdana, Arial, Helvetica, sans-serif;">
-                                <tr runat="server" style="background-color:#DCDCDC;color: #000000;">
+                        <td runat="server" class="placeholder">
+                            <table id="itemPlaceholderContainer" runat="server" >
+                                <tr runat="server" class="gridheader">
                                     <th runat="server"></th>
                                     <th runat="server">Login</th>
                                     <th runat="server">Student</th>
@@ -231,13 +229,10 @@
                             </table>
                         </td>
                     </tr>
-                    <tr runat="server">
-                        <td runat="server" style="text-align: center;background-color: #CCCCCC;font-family: Verdana, Arial, Helvetica, sans-serif;color: #000000;"></td>
-                    </tr>
                 </table>
             </LayoutTemplate>
             <SelectedItemTemplate>
-                <tr style="background-color:#008A8C;font-weight: bold;color: #FFFFFF;">
+                <tr>
                     <td>
                         <asp:LinkButton ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     </td>
@@ -251,19 +246,11 @@
             </SelectedItemTemplate>
         </asp:ListView>
         
-        <asp:GridView ID="classStudentsGridView" runat="server" AllowSorting="True" AutoGenerateColumns="False"
-            DataSourceID="classStudentsDataSource" showfooter="True" ShowHeaderWhenEmpty="True">
-            <Columns>
-                <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
-                <asp:BoundField DataField="Student" HeaderText="Student" ReadOnly="True" SortExpression="Student" />
-                <asp:BoundField DataField="UserID" HeaderText="UserID" SortExpression="UserID" />
-            </Columns>
-        </asp:GridView>
         <asp:SqlDataSource ID="studentDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>" SelectCommand="SELECT Users.FirstName + ' ' + Users.LastName AS Name
- FROM Users 
-INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID
- INNER JOIN Classes ON ClassStudents.ClassID = Classes.ClassID
- WHERE (Users.UserType = 0) AND (Classes.ClassID &lt;&gt; @classID)">
+            FROM Users 
+            INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID
+            INNER JOIN Classes ON ClassStudents.ClassID = Classes.ClassID
+            WHERE (Users.UserType = 0) AND (Classes.ClassID &lt;&gt; @classID)">
             <SelectParameters>
                 <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" />
             </SelectParameters>
@@ -282,13 +269,16 @@ INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID
             </SelectParameters>
             <DeleteParameters>
                 <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" />
-                <asp:ControlParameter ControlID="classStudentsGridView" DefaultValue="1" Name="userID" PropertyName="SelectedValue" Type="Int32" />
+                <asp:ControlParameter ControlID="classListView" DefaultValue="1" Name="userID" PropertyName="SelectedValue" Type="Int32" />
             </DeleteParameters>
             <InsertParameters>
                 <asp:Parameter Name="userID" />
                 <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" />
             </InsertParameters>
         </asp:SqlDataSource>
+        <div class="gridheader">
+            <asp:Button ID="btnLogoff" runat="server" OnClick="btnLogoff_Click" Text="Logoff" />
+        </div>
     </form>
 </body>
 </html>

@@ -31,10 +31,22 @@ h1, h2, h3 {
 td, th {
     padding: 4px;
 }
-.gridheader {
+/* define the td borders for the ListViews */
+.gridrow td, .gridalt td {
+    border: solid 1px black;
+}
+table {
+    border-collapse: collapse;
+}
+/* Remove the border in the item template*/
+td.placeholder {
+    border: none;
+}
+.gridheader, th {
     background-color: maroon;
     color: ivory;
     font-weight: bold;
+    border: solid 1px ivory;
 }
 .gridrow {
     background-color: ghostwhite;
@@ -56,7 +68,6 @@ td, th {
 }
 .gridheader a {
     color:ivory;
-    /*text-decoration: none;*/
 }
 a {
     color:maroon;

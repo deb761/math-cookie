@@ -46,11 +46,11 @@ namespace Solstice
         /// <param name="e"></param>
         protected void btnAddStudent_Click(object sender, EventArgs e)
         {
-            using (DataClassesDataContext dc = new DataClassesDataContext())
+/*            using (DataClassesDataContext dc = new DataClassesDataContext())
             {
                 // Get the controls that contain the updated values. Because they are in a TemplateField 
                 // they are not defined as fields, so we need to FindControl.
-                DropDownList ddlStudent = (DropDownList)classStudentsGridView.FooterRow.FindControl("ddlStudent");
+                DropDownList ddlStudent = (DropDownList)classStudentsListView.FooterRow.FindControl("ddlStudent");
 
                 ClassStudent cs = new ClassStudent();
                 cs.ClassID = (int)(classesGridView.SelectedValue);
@@ -64,7 +64,7 @@ namespace Solstice
                     classStudentsGridView.DataBind();
                 }
                 catch { }
-            }
+            }*/
         }
         /// <summary>
         /// Add a new class to the table when the user selects Add
@@ -98,6 +98,26 @@ namespace Solstice
                 }
                 catch { }
             }
+        }
+        /// <summary>
+        /// Set the values for the insert command.
+        /// </summary>
+        /// <param name="sender">ListView Control doing the updating</param>
+        /// <param name="e">Event arguements</param>
+        protected void classListView_ItemInserting(object sender, ListViewInsertEventArgs e)
+        {
+            e.Values["UserID"] = int.Parse(((DropDownList)e.Item.FindControl(id: "ddlStudent")).SelectedValue);
+            e.Values["ClassID"] = classesGridView.SelectedValue;
+        }
+        /// <summary>
+        /// Take the user to the logout page
+        /// </summary>
+        /// <param name="sender">not used</param>
+        /// <param name="e">not used</param>
+        protected void btnLogoff_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
         }
     }
 }

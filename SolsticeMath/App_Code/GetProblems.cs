@@ -29,10 +29,16 @@ public partial class DataClassesDataContext : System.Data.Linq.DataContext
             SqlCommand cmd = new SqlCommand("GetProblems", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            SqlParameter p = cmd.Parameters.AddWithValue("@probids", idsTable);
-            p.SqlDbType = SqlDbType.Structured;
-            p.TypeName = "integer_list_tbltype";
-
+            try
+            {
+                SqlParameter p = cmd.Parameters.AddWithValue("@probids", idsTable);
+                p.SqlDbType = SqlDbType.Structured;
+                p.TypeName = "integer_list_tbltype";
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
             conn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
 
