@@ -68,7 +68,7 @@
                 <asp:TemplateField HeaderText="Room" SortExpression="Room">
                     <EditItemTemplate>
                        <asp:DropDownList ID="ddlRoom" runat="server" DataSourceID="RoomDataSource" DataTextField="RoomName"
-                            DataValueField="RoomID" AppendDataBoundItems="true">
+                            DataValueField="RoomID" SelectedValue='<%# Bind("RoomID") %>'>
                             <asp:ListItem Text="---Select---" Value="0" />
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="RoomDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
@@ -76,8 +76,8 @@
                         </asp:SqlDataSource>
                     </EditItemTemplate>
                     <footerTemplate>
-                       <asp:DropDownList ID="ddlRoom" runat="server" DataSourceID="RoomDataSource" DataTextField="RoomName"
-                            DataValueField="RoomID" SelectedValue='<%# Bind("RoomID") %>'>
+                        <asp:DropDownList ID="ddlRoom" runat="server" DataSourceID="RoomDataSource" DataTextField="RoomName"
+                            DataValueField="RoomID">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="RoomDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                             SelectCommand="SELECT RoomID, RoomName FROM Rooms ORDER BY RoomName">
@@ -89,9 +89,8 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Teacher" SortExpression="Teacher">
                     <EditItemTemplate>
-                       <asp:DropDownList ID="ddlTeacher" runat="server" DataSourceID="UserDataSource" DataTextField="Name"
-                                 AppendDataBoundItems="true">
-                            <asp:ListItem Text="---Select---" Value="0" />
+                        <asp:DropDownList ID="ddlTeacher" runat="server" DataSourceID="UserDataSource" DataTextField="Name"
+                            DataValueField="UserID" SelectedValue='<%# Bind("TeacherID") %>'>
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                             SelectCommand="SELECT Users.UserID, Users.FirstName + ' ' + Users.LastName AS Name FROM Users WHERE (UserType = 1) ORDER BY LastName">
@@ -137,7 +136,7 @@
             INNER JOIN Rooms ON Classes.RoomID = Rooms.RoomID"
             DeleteCommand="DELETE FROM Classes WHERE (ClassID = @classID)"
             InsertCommand="INSERT INTO ClassStudents(UserID, ClassID) VALUES (@userID, @classID)"
-            UpdateCommand="UPDATE Classes SET Year=@yearID, TeacherID=@teacherID, RoomID=@roomID WHERE ClassID = @classID">
+            UpdateCommand="UPDATE Classes SET YearID=@yearID, TeacherID=@teacherID, ClassName=@className, RoomID=@roomID WHERE ClassID = @classID">
             <DeleteParameters>
                 <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" Type="Int32"/>
             </DeleteParameters>
@@ -148,6 +147,7 @@
             <UpdateParameters>
                 <asp:Parameter Name="yearID" Type="Int32"/>
                 <asp:Parameter Name="teacherID" Type="Int32"/>
+                <asp:Parameter Name="className" Type="String" />
                 <asp:Parameter Name="roomID" Type="Int32"/>
                 <asp:Parameter Name="classID" Type="Int32"/>
             </UpdateParameters>
@@ -192,8 +192,10 @@
                         <asp:SqlDataSource ID="UserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                             SelectCommand="SELECT Users.UserID, Users.FirstName + ' ' + Users.LastName AS Name
                             FROM Users
-                            INNER JOIN ClassStudents ON Users.UserID = ClassStudents.UserID
-                            WHERE (ClassStudents.ClassID &lt;&gt; @classID) ORDER BY Name">
+                            WHERE @classID NOT IN (SELECT ClassID
+								FROM ClassStudents
+								WHERE UserID = Users.UserID) AND Users.UserType = 0
+							ORDER BY Name">
                             <SelectParameters>
                                 <asp:ControlParameter ControlID="classesGridView" Name="classID" PropertyName="SelectedValue" />
                             </SelectParameters>
