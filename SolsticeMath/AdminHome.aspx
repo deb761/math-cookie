@@ -27,13 +27,22 @@
         <asp:gridview runat="server" AllowSorting="True" 
             DataSourceID="TeacherDataSource" 
             AutoGenerateColumns="False" ID="teacherGridView" DataKeyNames="UserID" 
-            OnRowCommand="ShowUserDetails" AllowPaging="True" OnSelectedIndexChanged="userGridView_SelectedIndexChanged" Width="372px">
+            OnRowCommand="ShowUserDetails" AllowPaging="True" OnSelectedIndexChanged="userGridView_SelectedIndexChanged">
             <Columns>
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                <asp:CommandField ButtonType="Link" showeditbutton="true" 
-                    ShowDeleteButton="True" />
+                <asp:TemplateField ShowHeader="False">
+                    <EditItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"
+                            OnClientClick="return confirm('Are you sure?');"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:CommandField ShowSelectButton="True" />
             </Columns>
         </asp:gridview>  
@@ -197,8 +206,17 @@
                 <asp:BoundField DataField="Login" HeaderText="Login" SortExpression="Login" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                <asp:CommandField ButtonType="Link" showeditbutton="true" showdeletebutton="true" />
-                <asp:CommandField ShowSelectButton="True" />
+                <asp:TemplateField ShowHeader="False">
+                    <EditItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="btnDelStudent" runat="server" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');" ></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:CommandField ButtonType="Link" ShowSelectButton="True" />
             </Columns>
         </asp:gridview>    
         <asp:SqlDataSource ID="StudentDataSource" runat="server"

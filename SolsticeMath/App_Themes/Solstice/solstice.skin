@@ -26,6 +26,12 @@ Default skin template. The following skins are provided as examples only.
     <SortedDescendingHeaderStyle CssClass="grid-descending-header" />
 </asp:GridView>
 
+<asp:ListView runat="server" CssClass="gridview" InsertItemPosition="LastItem">
+    <AlternatingItemTemplate>
+        <tr CssClass="gridalt />
+    </AlternatingItemTemplate>
+</asp:ListView>
+
 <asp:DetailsView runat="server" CssClass="detailview" >
     <AlternatingRowStyle CssClass="gridalt" />
     <CommandRowStyle CssClass="gridheader" />
@@ -38,3 +44,5 @@ Default skin template. The following skins are provided as examples only.
 </asp:DetailsView>
 
 <asp:Button runat="server" CssClass="button" />
+
+<asp:DropDownList runat="server" CssClass="drop-down" />

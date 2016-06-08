@@ -75,3 +75,7 @@ a {
     font-family: 'Comic Sans MS', sans-serif;
     color:maroon;
 }
+/* Drop-down formatting*/
+h2 .drop-down {
+    font-size: large;
+}
