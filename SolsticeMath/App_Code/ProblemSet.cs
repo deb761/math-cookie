@@ -131,15 +131,13 @@ namespace Solstice
 
                 foreach (ProblemTypeEnum probType in round.ProbTypes)
                 {
-                    var missedProbs = dc.GetMissedProblems(sid, (int)probType);
-                    foreach (GetMissedProblemsResult m in missedProbs)
-                        missedProbIds.Add(m.ProblemID);
+                    missedProbIds = dc.GetRetestProblems(sid, probType);
 
                     // Now get a list of *new* problem IDs for this level and problem type
                     var problemQuery = dc.GetProblemIDs((int)probType, level);
 
-                    foreach (GetProblemIDsResult i in problemQuery)
-                        newProbIds.Add(i.AddSubProblemID);
+                    foreach (GetProblemIDsResult result in problemQuery)
+                        newProbIds.Add(result.AddSubProblemID);
                 }
 
                 // Finally, combine the lists.
