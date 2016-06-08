@@ -145,7 +145,7 @@
                             </asp:RequiredFieldValidator>
                         </InsertItemTemplate>
 
-<HeaderStyle VerticalAlign="Top"></HeaderStyle>
+                        <HeaderStyle VerticalAlign="Top"></HeaderStyle>
                     </asp:TemplateField>
                     <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowInsertButton="True" />
                 </Fields>
@@ -160,10 +160,10 @@
                 ConnectionString="<%$ ConnectionStrings:SolsticeAPI_dbConnectionString %>"
                 SelectCommand="SELECT [Users].*, UserTypeName FROM [Users] JOIN [UserTypes] ON UserTypeID = [Users].UserType WHERE ([UserID] = @UserID)"
                 ConflictDetection="CompareAllValues"
-                DeleteCommand="DELETE FROM [Users] WHERE [UserID] = @original_UserID AND [UserType] = @original_UserType AND (([Login] = @original_Login) OR ([Login] IS NULL AND @original_Login IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL)) AND (([Password] = @original_Password) OR ([Password] IS NULL AND @original_Password IS NULL))"
+                DeleteCommand="DELETE FROM [Users] WHERE [UserID] = @original_UserID AND [UserType] = @original_UserType AND (([Login] = @original_Login) OR ([Login] IS NULL AND @original_Login IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL))"
                 InsertCommand="INSERT INTO [Users] ([UserType], [Login], [FirstName], [LastName], [Password]) VALUES (@UserType, @Login, @FirstName, @LastName, @Password)"
                 OldValuesParameterFormatString="original_{0}"
-                UpdateCommand="UPDATE [Users] SET [UserType] = @UserType, [Login] = @Login, [FirstName] = @FirstName, [LastName] = @LastName, [Password] = @Password WHERE [UserID] = @original_UserID AND [UserType] = @original_UserType AND (([Login] = @original_Login) OR ([Login] IS NULL AND @original_Login IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL)) AND (([Password] = @original_Password) OR ([Password] IS NULL AND @original_Password IS NULL))">
+                UpdateCommand="UPDATE [Users] SET [UserType] = @UserType, [Login] = @Login, [FirstName] = @FirstName, [LastName] = @LastName, [Password] = @Password WHERE [UserID] = @original_UserID">
                 <DeleteParameters>
                     <asp:Parameter Name="original_UserID" Type="Int32" />
                     <asp:Parameter Name="original_UserType" Type="Int32" />

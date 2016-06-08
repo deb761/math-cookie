@@ -109,7 +109,47 @@
     "MaxVal2": 100,
     "MaxResult": 100,
     "PlaceVal": 1,
-    "NumRounds": 3,
-    "ProbsPerRound": 10
+    "Rounds": [
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      },
+      {
+        "ProbTypes": [ "Addition", "Subtraction" ],
+        "NumProblems": 10
+      }
+    ]
   }
 ]
