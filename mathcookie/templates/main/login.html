@@ -1,0 +1,30 @@
+﻿{% extends 'base.html' %}
+{% from "base.html" import render_field %}
+
+{% block title %}Login | {{ super() }}{% endblock title %}
+
+{% block style %}
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .form-signin .form-signin-heading, .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <form method='post' class="form-signin col-xs-12 col-sm-6">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        {{ render_field(form.username, autofocus=True) }}
+        {{ render_field(form.password) }}
+        {{ form.csrf_token }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+    <div class="col-xs-12 col-sm-6">
+        <img alt="Cookie" class="cookie" src="{{ url_for('static', filename='images/cookie-happy.png') }}" />
+    </div>
+</div>
+{% endblock body %}
