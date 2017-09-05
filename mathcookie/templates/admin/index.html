@@ -1,0 +1,28 @@
+﻿{% extends 'admin/master.html' %}
+{% from "base.html" import render_field %}
+
+{% block title %}Login | {{ super() }}{% endblock title %}
+
+{% block head_css %}
+{{ super() }}
+<style>
+    img {
+        width : 80px;
+    }
+</style>
+{% endblock head_css %}
+
+{% block brand %}
+    <img alt="Cookie" class="cookie" src="{{ url_for('static', filename='images/cookie-face.png') }}" />
+{% endblock brand %}
+
+{% block access_control %}
+    <a href="/logout">Logout</a>
+{% endblock access_control %}
+
+{% block body %}
+<ul>
+    <li><a href="{{ url_for('customview.seed_db') }}">Seed Database</a></li>
+    
+</ul>
+{% endblock body %}

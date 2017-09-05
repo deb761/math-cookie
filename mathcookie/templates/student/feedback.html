@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Game | {{ super() }}{% endblock title %}
+
+{% block style %}
+<style>
+    h2 {
+        padding: 2em 0;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        {% if grade == 'right' %}
+        <h1>Good job {{ current_user.first_name }}!</h1>
+        {% elif grade == 'wrong' %}
+        <h1>Oops {{ current_user.first_name }}!  The answer is {{ problem.answer }}</h1>
+        {% elif grade == 'summary' %}
+        <h1>Good job {{ current_user.first_name }}!</h1>
+        {% endif %}
+        {% if grade != 'summary' %}
+        <h2>{{ problem.operand1 }} {{ '+' if problem.problemtype.name == 'Addition' else '=' }}
+        {{ problem.operand2 }} = {{ problem.result }}</h2>
+        {% else %}
+        <h2>You got {{ session['num_right'] }} right and {{ session['num_wrong']|string + ' wrong' if session['num_wrong'] }}</h2>
+        {% endif %}
+        {% if grade != 'summary' %}
+        <a class="btn btn-lg btn-primary" href={{ "/student/" + "play" if not finished else 'summary' }}>Next</a>
+        {% else %}
+        <a class="btn btn-lg btn-primary" href="/logout">Done</a>
+        {% endif %}
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        {% if grade != 'wrong' %}
+        <img alt="Cookie" class="cookie" src="{{ url_for('static', filename='images/cookie-happy.png') }}" />
+        {% else %}
+        <img alt="Cookie" class="cookie" src="{{ url_for('static', filename='images/cookie-sad.png') }}" />
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

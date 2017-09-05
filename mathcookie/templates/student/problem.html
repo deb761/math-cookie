@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Game | {{ super() }}{% endblock title %}
+
+{% block style %}
+<style>
+    h2 {
+        text-align: center;
+    }
+    .number {
+        font-size: 8em;
+        color: #48731e;
+    }
+    #answer {
+        max-width: 1.75em;
+        background-color: #e7cb7e;
+    }
+    .row {
+        margin: 15px -15px;
+    }
+</style>
+{% endblock style %}
+{% block body %}
+<h2>Try this {{ problem.problemtype.name }} problem, {{ current_user.first_name }}!</h2>
+<form method="post">
+    <div class="row">
+        <label class="number" id="operand1">{{ problem.operand1 }}</label>
+        <label class="number" id="operator">{{ '+' if problem.problemtype.name == 'Addition' else '-' }}</label>
+        <label class="number" id="operand2">{{ problem.operand2 }}</label>
+        {{ form.answer.label(class_="number") }}
+        {{ form.answer(class_="number", autofocus=True) }}
+        {{ form.csrf_token }}
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <button id="submit" type="submit" class="btn btn-lg btn-primary col-sm-6">Submit</button>
+    </div>
+</form>
+{% endblock body %}

@@ -7,3 +7,4 @@ class DevConfig(object):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     RULES_PATH = os.path.join(os.path.realpath(os.path.dirname(__file__)), "static/data")
+    # EXPLAIN_TEMPLATE_LOADING = True

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, IntegerField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, NumberRange
 
 from .models import User
 
@@ -25,3 +25,6 @@ class LoginForm(FlaskForm):
 
         print(self.errors)
         return False
+
+class AnswerForm(FlaskForm):
+    answer = IntegerField("=", validators=[NumberRange(min=0, max=999), InputRequired()])

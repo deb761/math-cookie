@@ -2,6 +2,7 @@
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_principal import Principal, Permission, RoleNeed
+from flask_admin import Admin
 
 bcrypt = Bcrypt()
 
@@ -15,6 +16,8 @@ principals = Principal()
 admin_permission = Permission(RoleNeed('admin'))
 teacher_permission = Permission(RoleNeed('teacher'))
 student_permission = Permission(RoleNeed('student'))
+
+cookie_admin = Admin()
 
 @login_manager.user_loader
 def load_user(userid):
