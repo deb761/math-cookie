@@ -1,17 +1,4 @@
-# Ignore build directories
-bin
-obj
-# Ignore build directiories in sub projects
-/*/bin
-/*/obj
-# Ignore user settings
-/*.suo
-packages
-/Login/App_Data/solstice.ldf
-/Login/App_Data/solstice.mdf
-/Login/SQLQuery1.sql
-/.vs/SolsticeMath/v14/.suo
-
+# Ignore env file
 env/
 
 *.pyc

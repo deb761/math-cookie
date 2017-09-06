@@ -43,7 +43,8 @@ class Lesson:
             self.level = last_result.level
             self.round_num = last_result.round
             level_rules = levels[self.level]
-            round_result = student.results.filter_by(level=last_result.level, round=last_result.round)
+            round_result = student.results.filter_by(
+                level=last_result.level, round=last_result.round)
 
             # If the student has for some reason completed more rounds
             # than exist for the level, increment the level
@@ -52,8 +53,8 @@ class Lesson:
 
             # See if the student has completed the round
             else:
-                self.round_rules = level_rules.rounds[round_result.round - 1]
-                if len(round_result) >= self.round_rules.numproblems:
+                self.round_rules = level_rules.rounds[last_result.round - 1]
+                if round_result.count() >= self.round_rules.numproblems:
                     self.next_round()
 
         else:
@@ -145,15 +146,15 @@ class Lesson:
         """Get any problems that should be retested"""
         retest = {}
         results = db.session.query(Result).filter(Result.studentid == student.id).join(
-            Result.problem).filter(Problem.problemtypeid == 1)
-        missed_problems = results.filter(Result.answer != Problem.result)
+            Result.problem).filter(ProblemType.name == problem_type)
+        missed_problems = results.filter(Result.answer != Problem.result).all()
         for missed in missed_problems:
-            last_right = results.filter_by(problemid=missed.problemid).filter(
+            last_right = results.filter(Result.problemid == missed.id).filter(
                 Result.answer == Problem.result).order_by(desc(Result.id)).first()
             if not last_right or last_right.id <= missed.id:
                 retest[missed.problemid] = missed.problem
 
-        return retest
+        return retest.values()
 
 
     def get_problem_ids(self, problem_type, level):
