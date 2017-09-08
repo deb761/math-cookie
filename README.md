@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Team Solstice Math Game
 
 ## Description
@@ -10,44 +9,21 @@ This application will present 3 tasks for the students:  addition, subtraction, 
 This section mainly contains wireframes of the various user screens.
 
 ## Login Screen
-=======
-#Team Solstice Math Game
-
-##Description
-
-This application will present 3 tasks for the students:  addition, subtraction, and place value.  It will also provide the teacher with the game results and flag areas that individual students are having trouble with. The game will feature cute pictures of the dog Cookie as incentive for the students playing the game.
-
-##Diagrams
-
-This section mainly contains wireframes of the various user screens.
-
-##Login Screen
->>>>>>> Stashed changes
 
 The same login screen will be used for all users, and will feature a login prompt and a photo of an expectant Cookie.
 
 ![alt text](images/login.png "Login screen")
 ![alt text](images/cookie.jpeg "Expectant Cookie")
 
-<<<<<<< Updated upstream
 ## Student Screens
 
 ### Welcome
-=======
-##Student Screens
-
-###Welcome
->>>>>>> Stashed changes
 
 The students will be presented with a welcome screen that summarizes their progress and provides a button to press when they are ready to continue.
 
 ![alt text](images/student-welcome.png "Student Welcome Screen")
 
-<<<<<<< Updated upstream
 ### Addition
-=======
-###Addition
->>>>>>> Stashed changes
 
 The students will be presented with similar screens for addition and subtraction exercises.
 
