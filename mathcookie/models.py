@@ -1,5 +1,7 @@
 """Data models for the Math with Cookie app"""
 import os
+import math
+from enum import Enum
 from flask_sqlalchemy import SQLAlchemy
 
 from mathcookie.extensions import bcrypt
@@ -84,7 +86,7 @@ class Role(db.Model):
 class Result(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     studentid = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    problemid = db.Column(db.Integer(), db.ForeignKey('problem.id'))
+    problemid = db.Column(db.Integer())
     answer = db.Column(db.Integer())
     level = db.Column(db.Integer())
     round = db.Column(db.Integer())
@@ -104,31 +106,6 @@ class SchoolYear(db.Model):
 
     def __repr__(self):
         return "<SchoolYear '{}'>".format(self.name)
-
-
-class ProblemType(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(20))
-    problems = db.relationship('Problem', backref='problemtype', lazy='dynamic')
-
-
-    def __repr__(self):
-        return "<ProblemType '{}'>".format(self.name)
-
-
-class Problem(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    level = db.Column(db.Integer())
-    operand1 = db.Column(db.Integer())
-    operand2 = db.Column(db.Integer())
-    result = db.Column(db.Integer())
-    problemtypeid = db.Column(db.Integer(), db.ForeignKey('problem_type.id'))
-    results = db.relationship('Result', backref='problem', lazy='dynamic')
-
-
-    def __repr__(self):
-        return "<Problem 'level={}, {} {} {} = {}'>".format(
-            self.level, self.operand1, self.problemtype.name, self.operand2, self.result)
   
   
 class Class(db.Model):

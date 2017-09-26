@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Game | {{ super() }}{% endblock title %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <h1>Welcome {{ current_user.first_name }}</h1>
+        <h2>You made it to level {{ lesson.level }} round {{ lesson.round_num }}</h2>
+        <h2>This time you work on {{ lesson.description }}</h2>
+        <a class="btn btn-lg btn-primary btn-block" href="/student/play">Ready</a>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <img alt="Cookie" class="cookie" src="{{ url_for('static', filename='images/cookie-happy.png') }}" />
+    </div>
+</div>
+{% endblock body %}

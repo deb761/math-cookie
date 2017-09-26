@@ -20,7 +20,7 @@
 <div class="row">
     <form method='post' class="form-signin col-xs-12 col-sm-6">
         <h2 class="form-signin-heading">Please sign in</h2>
-        {{ render_field(form.username, autofocus=True) }}
+        {{ render_field(form.username, autofocus=True, autocorrect="off", autocapitalize="none") }}
         {{ render_field(form.password) }}
         {{ form.csrf_token }}
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>

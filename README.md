@@ -142,3 +142,91 @@ The teacher also administers the class roster and the student passwords within t
 ### Administrators
 
 Administrators add and remove teachers and students, assign teachers and students to classes, and reset passwords.
+
+## Problems
+
+There are several sets of possible problems:
+
+### Level 1
+
+#### Addition
+
+Addition of values between 0 .. 9 that are less than 10:
+
+- 10 problems with 0 as the first operand,
+- 9 problems with 1 as the first operand,
+- 8 problems with 2 as the first operand,
+- ...
+- 1 problem with 9 as the first operand
+
+n = 10
+
+(n * (n + 1)) / 2 ; 55 problems
+
+#### Subtraction
+
+- 1 problem with 0 as the first operand
+- 2 problems with 1 as the first operand
+- ...
+- 10 problems with 9 as the first operand
+
+55 problems
+
+### Level 2
+
+#### Addition
+
+Addition of one 1 digit number and one 2 digit number with sum less than 100
+
+- 90 problems with 0 as the first operand
+- 89 problemn with 1 as the first operand
+- ...
+- 80 problems with 9 as the first operand
+
+- 10 problems with 10 ... 90 as the first operand
+- 9 problems with 91 as the first operand
+- ...
+- 1 problem with 99 as the first operand
+
+#### Subtraction
+
+Subtraction of a 1 digit number from a two digit number
+
+- 10 problems with 10 ... 99 as the first number
+
+#### Place Value
+
+Ask which position a digit is in, or ask which digit is in a position.  Two digit numbers where
+tens and ones place values are different.
+
+- 9 problems each with 1 ... 9 in the ten's place
+- 9 problems each with 0 ... 9 in the one's place
+
+### Level 3
+
+#### Addition
+
+Addition of two 2-digit numbers with sum less than 100
+
+- 80 problems with 10 as the first operand
+- 79 problems with 11 as the first operand
+- ...
+- 1 problem with 89 as the first operand
+
+#### Subtraction
+
+Subtraction of two 2-digit numbers with positive result
+
+- 1 problem with 10 as the first operand
+- 2 problems with 11 as the first operand
+- ...
+- 90 problems with 99 as the first operand
+
+#### Place Value
+
+Ask which position a digit is in, or ask which digit is in a position.  Three digit numbers where
+hundreds, tens and ones place values are different.
+
+- 81 problems each with 1 ... 9 in the hundreds place
+- 81 problems each with 0 ... 9 in the tens place
+- 81 problems each with 0 ... 9 in the ones place

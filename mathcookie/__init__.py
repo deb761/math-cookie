@@ -6,7 +6,7 @@ from flask_login import current_user
 from flask_principal import identity_loaded, UserNeed, RoleNeed
 
 from .extensions import bcrypt, login_manager, principals, cookie_admin
-from .models import db, User, Class, Problem, ProblemType, Result, Role, SchoolYear
+from .models import db, User, Class, Result, Role, SchoolYear
 from .controllers.main import main_blueprint
 from .controllers.student import student_blueprint
 from .controllers.admin import CustomView, CustomModelView, CustomFileAdmin
@@ -50,7 +50,7 @@ def create_app(object_name):
     app.register_blueprint(main_blueprint)
     
     cookie_admin.add_view(CustomView(name='Custom'))
-    models = [User, Role, ProblemType, Problem, Result, SchoolYear, Class]
+    models = [User, Role, Result, SchoolYear, Class]
     for model in models:
         cookie_admin.add_view(CustomModelView(model, db.session, category='Models'))
     cookie_admin.add_view(CustomFileAdmin(os.path.join(os.path.dirname(__file__), 'static'),

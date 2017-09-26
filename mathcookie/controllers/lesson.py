@@ -4,7 +4,8 @@ from sqlalchemy import desc
 from sqlalchemy.sql.expression import func
 
 from mathcookie.rules import levels, Round
-from mathcookie.models import db, User, Result, Problem, ProblemType
+from mathcookie.models import db, User, Result
+from mathcookie.problems import Problem, ProblemType
 
 
 class Lesson:

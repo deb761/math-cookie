@@ -6,7 +6,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import login_required, current_user
 
 from mathcookie.extensions import admin_permission
-from .init_database import fill_in_problems, load_users
+from .init_database import load_users
 
 class CustomView(BaseView):
     @expose('/')
@@ -19,10 +19,9 @@ class CustomView(BaseView):
     @login_required
     @admin_permission.require(http_exception=403)
     def seed_db(self):
-        fill_in_problems()
         load_users('teachers.json')
         load_users('students.json')
-        flash("Seeded database with problems, teachers, and students")
+        flash("Seeded database with teachers and students")
         return self.render('admin/index.html')
 
 

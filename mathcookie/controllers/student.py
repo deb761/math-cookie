@@ -3,7 +3,8 @@ from flask import render_template, Blueprint, session, redirect, url_for, abort
 from flask_login import login_required, current_user
 
 from mathcookie.extensions import student_permission
-from mathcookie.models import db, User, Class, Problem, Result
+from mathcookie.models import db, User, Class, Result
+from mathcookie.problems import Problem
 from mathcookie.rules import levels
 from mathcookie.forms import AnswerForm
 
@@ -29,7 +30,7 @@ def index():
     session["game_over"] = False
     session["num_right"] = 0
     session["num_wrong"] = 0
-    
+
     return render_template('index.html', lesson=lesson)
 
 
@@ -42,7 +43,7 @@ def play():
     know if he got it right"""
     form = AnswerForm()
     lesson = Lesson(session['lesson'])
-    problem = Problem.query.get(lesson.problems[session['problem_num']])
+    problem = Problem(id=lesson.problems[session['problem_num']])
 
     if form.validate_on_submit():
         result = Result(studentid=current_user.id, problemid=problem.id,
@@ -73,7 +74,7 @@ def feedback(grade):
     finished = False
     if grade != 'summary':
         lesson = Lesson(session['lesson'])
-        problem = Problem.query.get(lesson.problems[session['problem_num']])
+        problem = Problem(id=lesson.problems[session['problem_num']])
         session['problem_num'] += 1
         if session['problem_num'] >= len(lesson.problems):
             # finished round
