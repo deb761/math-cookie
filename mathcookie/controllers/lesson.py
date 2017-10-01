@@ -1,16 +1,16 @@
 """Track the problems and answers for a round"""
+import random
 import werkzeug
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import func
 
 from mathcookie.rules import levels, Round
 from mathcookie.models import db, User, Result
-from mathcookie.problems import Problem, ProblemType
+from mathcookie.problems import Problem, ProblemType, ProblemFactory
 
 
 class Lesson:
-    """
-    Put the data related to a students current lesson in a class
+    """Put the data related to a student's current lesson in a class
     """
 
     #: Level the student is on
@@ -31,7 +31,7 @@ class Lesson:
     def __init__(self, student):
         """Initialize lesson based on inputs
         """
-        if isinstance(student, werkzeug.local.LocalProxy):
+        if not isinstance(student, dict):
             self._init_from_user(student)
         else:
             self._init_from_dict(student)
@@ -61,8 +61,12 @@ class Lesson:
         else:
             self.level = 1
             self.round_num = 1
-            self.round_rules = levels[self.level - 1].rounds[0]
-            complete = False
+            self.round_rules = levels[self.level].rounds[0]
+            self.complete = False
+
+        if self.complete:
+            self.description = 'Good job! You are done!'
+            return
 
         self.description = ' and '.join(self.round_rules.probtypes)
         self.problems = [x.id for x in self.get_problems(student)]
@@ -93,17 +97,15 @@ class Lesson:
 
             self.level += 1
             self.round_num = 1
-            self.round_rules = levels[self.level].rounds[0]
 
         else:
             self.round_num += 1
 
-        self.round_rules = level_rules.rounds[self.round_num - 1]
+        self.round_rules = levels[self.level].rounds[self.round_num - 1]
 
 
     def get_problems(self, student):
-        """
-        Randomly fill problem list with problems from the appropriate level and problem type
+        """Randomly fill problem list with problems from the appropriate level and problem type
         Query the Results table for id = StudentID, level = Level, and problem type = ProbType for
         failed problems.
         This should return a list of the missed problems of this type in this level.
@@ -115,11 +117,12 @@ class Lesson:
         missed_problems = []
         new_problems = []
 
-        for problem_type in self.round_rules.probtypes:
+        for pt_name in self.round_rules.probtypes:
+            problem_type = ProblemType[pt_name.upper()]
             missed_problems += self.get_retest_problems(student, problem_type)
 
             # Now get a list of *new* problem IDs for this level and problem type
-            new_problems += self.get_problem_ids(problem_type, self.level)
+            new_problems += self.get_new_problems(problem_type, self.level)
 
         # Finally, combine the lists.
         # For now, we will start with missed problem ids, 
@@ -145,21 +148,21 @@ class Lesson:
 
     def get_retest_problems(self, student, problem_type):
         """Get any problems that should be retested"""
-        retest = {}
-        results = db.session.query(Result).filter(Result.studentid == student.id).join(
-            Result.problem).filter(ProblemType.name == problem_type)
-        missed_problems = results.filter(Result.answer != Problem.result).all()
+        retest = set()
+        results = db.session.query(Result).filter(Result.studentid == student.id).filter(
+            Result.problemid.op('&')(0x0f000000) == (problem_type.value << 24))
+        missed_problems = results.filter(Result.problemid.op('&')(0xff) != Result.answer).all()
         for missed in missed_problems:
-            last_right = results.filter(Result.problemid == missed.id).filter(
-                Result.answer == Problem.result).order_by(desc(Result.id)).first()
+            last_right = results.filter(Result.problemid == missed.problemid).filter(
+                Result.answer == Result.problemid.op('&')(0xff)).order_by(desc(Result.id)).first()
             if not last_right or last_right.id <= missed.id:
-                retest[missed.problemid] = missed.problem
+                retest.add(missed.problemid)
 
-        return retest.values()
+        return [Problem(x) for x in retest]
 
 
-    def get_problem_ids(self, problem_type, level):
-        problemtype = ProblemType.query.filter_by(name=problem_type).one()
-        problems = Problem.query.filter_by(level=level, problemtypeid=problemtype.id).order_by(
-            func.random()).limit(10).all()
+    def get_new_problems(self, problem_type, level):
+        nums = random.sample(range(1, ProblemFactory.count(level, problem_type) + 1),
+                             k=self.round_rules.numproblems)
+        problems = [ProblemFactory.create(level, problem_type, x) for x in nums]
         return problems

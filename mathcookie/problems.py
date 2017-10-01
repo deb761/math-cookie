@@ -90,24 +90,6 @@ class Problem(object):
     PYRAMID_COUNT_80 = pyramid_count(80)
     PYRAMID_COUNT_90 = pyramid_count(90)
 
-    COUNTS = {
-        1 : {
-            ProblemType.ADDITION : PYRAMID_COUNT_10,
-            ProblemType.SUBTRACTION : PYRAMID_COUNT_10
-        },
-        2 : {
-            ProblemType.ADDITION : 0,
-            ProblemType.SUBTRACTION : 0,
-            ProblemType.PLACE : 81 + 90,
-            ProblemType.POSITION : 81 + 90
-        },
-        3 : {
-            ProblemType.ADDITION : 0,
-            ProblemType.SUBTRACTION : 0,
-            ProblemType.PLACE : 81 * 29,
-            ProblemType.POSITION : 81 * 29
-        }
-    }
     @staticmethod
     def possible(level, problem_type):
         return Problem.COUNTS[level][problem_type]
@@ -168,8 +150,6 @@ class Level2Addition(Problem):
     SECTION2_COUNT = (90 - 11 + 1) * Problem.DECADE
     SECTION3_COUNT = Problem.PYRAMID_COUNT_90 - Problem.PYRAMID_COUNT_80
     COUNT = SECTION1_COUNT + SECTION2_COUNT + SECTION3_COUNT
-
-    Problem.COUNTS[2][ProblemType.ADDITION] = COUNT
 
     def __init__(self, num):
         if num <= Level2Addition.SECTION1_COUNT:
@@ -357,3 +337,49 @@ class Level3Position(Level3Place):
         self.operand2 = pos
         self.problem_type = ProblemType.POSITION
         self.set_id()
+
+
+class ProblemFactory(object):
+    """A problem factory class"""
+    
+    COUNTS = {
+        1 : {
+            ProblemType.ADDITION : Level1Addition.COUNT,
+            ProblemType.SUBTRACTION : Level1Subtraction.COUNT
+        },
+        2: {
+            ProblemType.ADDITION : Level2Addition.COUNT,
+            ProblemType.SUBTRACTION : Level2Subtraction.COUNT,
+            ProblemType.PLACE : Level2Place.COUNT,
+            ProblemType.POSITION : Level2Position.COUNT
+        },
+        3: {
+            ProblemType.ADDITION : Level3Addition.COUNT,
+            ProblemType.SUBTRACTION : Level3Subtraction.COUNT,
+            ProblemType.PLACE : Level3Place.COUNT,
+            ProblemType.POSITION : Level3Position.COUNT
+        }
+    }
+    def count(level, problem_type):
+        return ProblemFactory.COUNTS[level][problem_type]
+    
+    PROBLEMS = {
+        1 : {
+            ProblemType.ADDITION : Level1Addition,
+            ProblemType.SUBTRACTION : Level1Subtraction
+        },
+        2: {
+            ProblemType.ADDITION : Level2Addition,
+            ProblemType.SUBTRACTION : Level2Subtraction,
+            ProblemType.PLACE : Level2Place,
+            ProblemType.POSITION : Level2Position
+        },
+        3: {
+            ProblemType.ADDITION : Level3Addition,
+            ProblemType.SUBTRACTION : Level3Subtraction,
+            ProblemType.PLACE : Level3Place,
+            ProblemType.POSITION : Level3Position
+        }
+    }
+    def create(level, problem_type, num):
+        return ProblemFactory.PROBLEMS[level][problem_type](num)

@@ -11,7 +11,6 @@ def test_pyramid_count(n, expected):
     assert result == expected
 
 
-
 @pytest.mark.parametrize("n, expected", [
     (1, (1, 0)), (2, (2, 0)), (3, (2, 1)), (10, (4, 3))
     ])

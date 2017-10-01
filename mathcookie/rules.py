@@ -20,3 +20,4 @@ class Round(object):
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 json_path = os.path.join(SITE_ROOT, "static/data", "rules.json")
 levels = [Level(x) for x in json.load(open(json_path))]
+levels = {x.level : x for x in levels}
